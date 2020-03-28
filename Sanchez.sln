@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Console", "Sanchez.Console\Sanchez.Console.fsproj", "{2811968E-C269-47CE-9B97-0F7A41C2B7BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OOS", "OOS", "{3A68249C-B347-4F21-8266-0C60E79C1CE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serializer", "Serializer", "{E55DDCCB-A949-43D6-9C0B-F2A33B6E3A54}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Serializer", "Sanchez.Serializer\Sanchez.Serializer.fsproj", "{94A49300-4A0D-49C2-940B-72172F7CFA83}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Serializer.Tests", "Sanchez.Serializer.Tests\Sanchez.Serializer.Tests.fsproj", "{EC79FDFF-32AA-4716-A4CB-3445F69365B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2811968E-C269-47CE-9B97-0F7A41C2B7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2811968E-C269-47CE-9B97-0F7A41C2B7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2811968E-C269-47CE-9B97-0F7A41C2B7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2811968E-C269-47CE-9B97-0F7A41C2B7BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A49300-4A0D-49C2-940B-72172F7CFA83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A49300-4A0D-49C2-940B-72172F7CFA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A49300-4A0D-49C2-940B-72172F7CFA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A49300-4A0D-49C2-940B-72172F7CFA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC79FDFF-32AA-4716-A4CB-3445F69365B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC79FDFF-32AA-4716-A4CB-3445F69365B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC79FDFF-32AA-4716-A4CB-3445F69365B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC79FDFF-32AA-4716-A4CB-3445F69365B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94A49300-4A0D-49C2-940B-72172F7CFA83} = {E55DDCCB-A949-43D6-9C0B-F2A33B6E3A54}
+		{EC79FDFF-32AA-4716-A4CB-3445F69365B6} = {E55DDCCB-A949-43D6-9C0B-F2A33B6E3A54}
+	EndGlobalSection
+EndGlobal
