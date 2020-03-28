@@ -25,6 +25,7 @@ type SerializationErrors =
     | UnsupportedType of string
     | MismatchedTypes of string*string // (provided type, symbol type)
     | MissingObjectKey of string*string // (key, name of type)
+    | MissingUnionCase of string*string // (case, name of type)
     
 type ConverterResult = Result<Symbol, SerializationErrors>
 type ObjectConverterResult = Result<obj, SerializationErrors>

@@ -122,12 +122,54 @@ let (|StringType|_|) (sym: Symbol) (t: Type) =
     | StringSymbol s -> s :> obj |> Ok |> Some
     | _ -> None
     
-let (|UnionType|_|) (sym: Symbol) (t: Type) =
-    None
+let (|UnionType|_|) (converter: Type -> Symbol -> ObjectConverterResult) (sym: Symbol) (t: Type) =
+    match sym with
+    | UnionSymbol (caseName, unionSym) ->
+        if FSharpType.IsUnion t then
+            let case =
+                FSharpType.GetUnionCases t
+                |> Array.tryFind (fun x -> x.Name = caseName)
+                |> function
+                    | Some s -> Ok s
+                    | None -> (caseName, t.Name) |> MissingUnionCase |> Error
+            let fields =
+                case
+                |> Result.bind (fun x ->
+                    let fields = x.GetFields()
+                    if Array.length fields = 0 then
+                        [] |> Ok
+                    elif Array.length fields = 1 then
+                        converter (Array.head fields).DeclaringType unionSym
+                        |> Result.map (fun x -> [x])
+                    else
+                        match unionSym with
+                        | ArraySymbol syms ->
+                            Seq.zip fields syms
+                            |> Seq.map (fun (fType, fSym) -> converter fType.DeclaringType fSym)
+                            |> Seq.fold (fun acc x ->
+                                match (acc, x) with
+                                | (Ok p, Ok c) -> c::p |> Ok
+                                | (Error err, _) -> Error err
+                                | (_, Error err) -> Error err) (Ok [])
+                        | sType -> (x.DeclaringType.Name, sType.GetType().Name) |> MismatchedTypes |> Error
+                    |> Result.map (fun y -> (x, y))
+                    )
+                
+            fields |> Result.map (fun (uCase, values) -> FSharpValue.MakeUnion(uCase, values |> List.toArray))
+        else t.Name |> UnsupportedType |> Error
+        |> Some
+    | _ -> None
+    
+let (|EmptyType|_|) (sym: Symbol) (t: Type) =
+    match sym with
+    | EmptySymbol _ -> None
+    | _ -> None
     
 let rec convertToType (t: Type) (sym: Symbol) =
     match t with
     | RecordType convertToType sym r -> r
+    | UnionType convertToType sym u -> u
     | NumberType sym n -> n
     | StringType sym s -> s
+    | EmptyType sym e -> e
     | _ -> t.Name |> UnsupportedType |> Error
