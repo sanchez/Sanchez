@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Assets\Assets.fs" />
         <Compile Include="Keys.fs" />
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />

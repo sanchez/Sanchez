@@ -23,6 +23,9 @@
         <e p="Sanchez.Console.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.OOS.Client" t="IncludeRecursive">
+        <e p="Assets" t="Include">
+          <e p="Assets.fs" t="Include" />
+        </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Game.fs" t="Include" />
         <e p="Keys.fs" t="Include" />
