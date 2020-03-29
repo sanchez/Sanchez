@@ -41,9 +41,9 @@
             2,
             3,
             4,
-            -1,
-            -1,
-            -1,
+            5,
+            6,
+            7,
             -1,
             -1,
             -1,
@@ -148,11 +148,11 @@
         "uiState": {
             "colourPanelExpanded": true,
             "firstPane": {
-                "offsetX": 311,
-                "offsetY": 224,
+                "offsetX": -333,
+                "offsetY": 311,
                 "sceneCentered": false,
                 "size": 1,
-                "zoomLevel": 24
+                "zoomLevel": 23
             },
             "guidesLocked": true,
             "guidesVisible": false,
