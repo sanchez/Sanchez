@@ -1,0 +1,106 @@
+{
+    "project": {
+        "animationPlayback": {
+            "fps": 7,
+            "frameCount": 7,
+            "frameHeight": 12,
+            "frameWidth": 24,
+            "frameX": 0,
+            "frameY": 0,
+            "loop": false,
+            "scale": 10
+        },
+        "creationVersion": "0.9.0",
+        "currentLayerIndex": 1,
+        "guides": [
+            {
+                "orientation": 2,
+                "position": 6
+            },
+            {
+                "orientation": 1,
+                "position": 1
+            },
+            {
+                "orientation": 1,
+                "position": 6
+            },
+            {
+                "orientation": 2,
+                "position": 12
+            },
+            {
+                "orientation": 2,
+                "position": 24
+            },
+            {
+                "orientation": 2,
+                "position": 36
+            },
+            {
+                "orientation": 2,
+                "position": 48
+            },
+            {
+                "orientation": 2,
+                "position": 60
+            },
+            {
+                "orientation": 2,
+                "position": 72
+            },
+            {
+                "orientation": 2,
+                "position": 84
+            }
+        ],
+        "hasUsedAnimation": true,
+        "layers": [
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAFQAAAAMCAYAAAD8tppbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAtElEQVRIie2Tyw2DMBAFBykWZXBJDRRBFdSRAxGuhCpShLvgmg6QD+RkiU8wRjIxinaO1vOTd7QGQRAEQRD+k2x5kNf9aI0GQJUNQ1esMr484L1zdj41txglqmywRuMGz+t+9A3txEzzsC3qaH9Kogi1Rs8kWaO9Qy83bk/U0f6URBEKa0mhww5dkbkNPaP/13wV6h4dyjT/eN8BeAbmZ3dedvPLH+m/HG2lxrZSu1tz1XxKPtuLfJjexXSyAAAAAElFTkSuQmCC",
+                "name": "Legs",
+                "opacity": 1,
+                "visible": true
+            },
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAFQAAAAMCAYAAAD8tppbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAWklEQVRIiWNkQANuTSz/kfm76v4woqsZBbgBE7qAuCYjVvYoIA5gBCg6QE+xowA/IBigo4A0MBqgVAYs2ARHy04qg6urs/9fXZ09WnaOglEwCkbBKBgFQxkAAOhoDHC1Ic8+AAAAAElFTkSuQmCC",
+                "name": "Arms",
+                "opacity": 1,
+                "visible": false
+            }
+        ],
+        "modificationVersion": "0.9.0",
+        "notes": [
+        ],
+        "swatch": {
+            "colours": [
+            ]
+        },
+        "uiState": {
+            "animationPanelExpanded": true,
+            "colourPanelExpanded": true,
+            "firstPane": {
+                "offsetX": -545.6000000000004,
+                "offsetY": 259.09999999999997,
+                "sceneCentered": false,
+                "size": 1,
+                "zoomLevel": 39
+            },
+            "guidesLocked": true,
+            "lastFillToolUsed": "FillTool",
+            "layerListViewContentY": 0,
+            "layerPanelExpanded": true,
+            "mainSplitViewState": "gqJlaW5kZXgAbnByZWZlcnJlZFdpZHRo+0CBfVVVVVVVomVpbmRleAFucHJlZmVycmVkV2lkdGj7QG4AAAAAAAA=",
+            "panelSplitViewState": "g6JlaW5kZXgAb3ByZWZlcnJlZEhlaWdodPtAcVLQAAAAAKJlaW5kZXgBb3ByZWZlcnJlZEhlaWdodPtAWR8AAAAAAKJlaW5kZXgEb3ByZWZlcnJlZEhlaWdodPtAcu6wAAAAAA==",
+            "secondPane": {
+                "offsetX": -42,
+                "offsetY": 422,
+                "sceneCentered": true,
+                "size": 0,
+                "zoomLevel": 1
+            },
+            "swatchPanelExpanded": true
+        },
+        "usingAnimation": true
+    }
+}
