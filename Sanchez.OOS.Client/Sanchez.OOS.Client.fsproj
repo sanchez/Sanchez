@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Connection\Server.fs" />
         <Compile Include="Assets\Assets.fs" />
         <Compile Include="Keys.fs" />
         <Compile Include="World\Blocks\Block.fs" />
@@ -15,8 +16,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.FSharpLu.Json" Version="0.11.6" />
       <PackageReference Include="OpenTK" Version="4.0.0-pre3" />
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj" />
     </ItemGroup>
 
 </Project>

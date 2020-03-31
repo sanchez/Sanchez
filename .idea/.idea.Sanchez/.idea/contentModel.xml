@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\dfitz\.nuget\packages\microsoft.testplatform.testhost\16.4.0\build\netcoreapp2.1\x64\testhost.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\microsoft.testplatform.testhost\16.4.0\build\netcoreapp2.1\x64\testhost.exe" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\nunit.engine.api.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\nunit.engine.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.pdb" t="Include" />
     <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\linux-x64\native\libglfw.so.3.3" t="Include" />
     <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x64\native\glfw3-x64.dll" t="Include" />
     <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x86\native\glfw3-x86.dll" t="Include" />
@@ -17,9 +11,6 @@
       <e p="OOS" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Sanchez.Console" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Program.fs" t="Include" />
         <e p="Sanchez.Console.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.OOS.Client" t="IncludeRecursive">
@@ -27,6 +18,9 @@
           <e p="Assets.fs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Connection" t="Include">
+          <e p="Server.fs" t="Include" />
+        </e>
         <e p="Game.fs" t="Include" />
         <e p="Keys.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
@@ -40,33 +34,28 @@
         </e>
       </e>
       <e p="Sanchez.OOS.Core" t="IncludeRecursive">
+        <e p="Action.fs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Connection.fs" t="Include" />
         <e p="Library.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
+        <e p="UDPHandler.fs" t="Include" />
       </e>
       <e p="Sanchez.OOS.Server" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
+        <e p="Parts" t="Include">
+          <e p="Register.fs" t="Include" />
+        </e>
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.OOS.Server.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.Serializer" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="Converter.fs" t="Include" />
-        <e p="Library.fs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.Serializer.fsproj" t="IncludeRecursive" />
-        <e p="Serializer.fs" t="Include" />
-        <e p="Types.fs" t="Include" />
       </e>
       <e p="Sanchez.Serializer.Tests" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="ConverterTest.fs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Program.fs" t="Include" />
         <e p="Sanchez.Serializer.Tests.fsproj" t="IncludeRecursive" />
-        <e p="UnitTest1.fs" t="Include" />
       </e>
       <e p="Sanchez.sln" t="IncludeFlat" />
       <e p="Serializer" t="Include" />
