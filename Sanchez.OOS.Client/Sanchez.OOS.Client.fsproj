@@ -7,6 +7,7 @@
 
     <ItemGroup>
         <Compile Include="Connection\Server.fs" />
+        <Compile Include="Connection\Register.fs" />
         <Compile Include="Assets\Assets.fs" />
         <Compile Include="Keys.fs" />
         <Compile Include="World\Blocks\Block.fs" />

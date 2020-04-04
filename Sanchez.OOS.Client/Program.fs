@@ -9,7 +9,23 @@ let main argv =
     
     Thread.Sleep 1000
     
-    let test = Server.loadServers port serverPort
+    let (actioner, sender, broadcaster) =
+        async {
+            let! (actioner, serverList) = Server.startClientCommunication port serverPort
+            
+            let firstServer = // TODO: Fix all this and the server searcher up
+                serverList
+                |> List.tryHead
+                |> function
+                    | Some s -> s
+                    | None -> failwith "Failed to find any servers, this needs to be all reworked at some point!"
+            
+            let broadcaster = Server.broadcastData firstServer.Port
+            let sender = Server.sendData firstServer
+            
+            return (actioner, sender, broadcaster)
+        }
+        |> Async.RunSynchronously
     
 //    use game = new Game(800, 600)
 //    game.Run()
