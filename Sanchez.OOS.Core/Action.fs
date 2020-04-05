@@ -1,26 +1,35 @@
 ﻿namespace Sanchez.OOS.Core
 
 open System.Net
+open System.Text
 
 module Action =
     let staticVersion = "0.0.1"
     
-type ServerStats =
-    {
-        Port: int
-        Version: string
-    }
-type FullConnection =
-    {
-        IP: IPAddress
-        Port: int
-        Version: string
-    }
-
 type ServerAction =
-    | Announcement of ServerStats
-    | NewPlayer of string
+    | Players of string[]
+    
+module ServerAction =
+    let encode (a: ServerAction) =
+        Microsoft.FSharpLu.Json.Compact.serialize a
+        |> Encoding.ASCII.GetBytes
+    let decode (a: byte array) =
+        Encoding.ASCII.GetString a
+        |> Microsoft.FSharpLu.Json.Compact.tryDeserialize<ServerAction>
+        |> function
+            | Choice1Of2 res -> Some res
+            | Choice2Of2 err -> None
     
 type ClientAction =
-    | ServerRequest of int
     | Register of string
+    
+module ClientAction =
+    let encode (a: ClientAction) =
+        Microsoft.FSharpLu.Json.Compact.serialize a
+        |> Encoding.ASCII.GetBytes
+    let decode (a: byte array) =
+        Encoding.ASCII.GetString a
+        |> Microsoft.FSharpLu.Json.Compact.tryDeserialize<ClientAction>
+        |> function
+            | Choice1Of2 res -> Some res
+            | Choice2Of2 err -> None

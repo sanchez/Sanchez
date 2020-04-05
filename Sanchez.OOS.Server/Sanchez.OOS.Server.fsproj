@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Parts\Register.fs" />
+        <Compile Include="Parts\Users.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

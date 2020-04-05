@@ -2,11 +2,11 @@
 
 open System.Net
 
-type ConnectionAction<'T> = IPAddress -> 'T -> unit option
+type ConnectionAction<'T> = string -> 'T -> unit option
 type Actioner<'T> () =
     let mutable actioners = []
     
-    member this.ExecuteAction (serverAddr: IPAddress) (a: 'T) =
+    member this.ExecuteAction (serverAddr: string) (a: 'T) =
         actioners
         |> Seq.map (snd >> (fun x -> x serverAddr a))
         |> Seq.choose id

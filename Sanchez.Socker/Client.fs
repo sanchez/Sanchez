@@ -3,24 +3,6 @@
 open System.Net
 open System.Net.Sockets
 open System.Threading
-
-let private createPoster<'TInput> (encoder: 'TInput -> byte array) (cToken: CancellationToken) (client: Socket) =
-    MailboxProcessor<'TInput>.Start((fun inbox ->
-        let rec messageLoop () =
-            async {
-                let! incoming = inbox.Receive()
-                
-                let bytes = Array.append (incoming |> encoder) ([| 0 |> byte |])
-                
-                let sentBytes = client.Send(bytes, SocketFlags.None)
-                
-                if sentBytes <> (bytes |> Array.length) then
-                    ()
-                
-                return! messageLoop()
-            }
-            
-        messageLoop()))
     
 let private openConnection (serverAddr: string) (port: int) (cToken: CancellationToken) =
     async {
@@ -41,7 +23,8 @@ let connectToServer<'TResult, 'TInput> (decoder: byte array -> 'TResult option) 
     async {
         let! client = openConnection serverAddr port cToken
         
-        let poster = createPoster encoder cToken client
+        let poster = Common.createPoster encoder cToken client
+        Common.handleSocketConnection decoder client actioner cToken
         
         return (poster.Post, actioner)
     }

@@ -8,7 +8,6 @@
         <Compile Include="Library.fs" />
         <Compile Include="Connection.fs" />
         <Compile Include="Action.fs" />
-        <Compile Include="UDPHandler.fs" />
     </ItemGroup>
 
     <ItemGroup>

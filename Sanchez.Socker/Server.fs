@@ -3,42 +3,42 @@
 open System.Net
 open System.Net.Sockets
 open System.Threading
-
-let private handleSocketConnection<'T> (decoder: byte array -> 'T option) (sock: Socket) (actioner: Actioner<'T>) (cToken: CancellationToken) =
-    let clientEP = sock.RemoteEndPoint :?> IPEndPoint
     
-    let mutable totalCollectedBytes = [||]
+type SenderAddress =
+    | Broadcast
+    | SingleSend of string
     
-    let thread =
+let createServer<'TResult, 'TInput> (decoder: byte array -> 'TResult option) (encoder: 'TInput -> byte array) (port: int) (cToken: CancellationToken) =
+    let actioner = Actioner<'TResult>()
+    
+    let mutable connections = Map.empty
+    
+    let handleNewConnection (sock: Socket) =
+        let ip = sock.RemoteEndPoint.ToString()
+        let poster = Common.createPoster encoder cToken sock
+        Common.handleSocketConnection decoder sock actioner cToken
+        
+        connections <- connections |> Map.add ip poster.Post
+        
+    let poster = MailboxProcessor<SenderAddress * 'TInput>.Start((fun inbox ->
         async {
-            do! Async.SwitchToNewThread()
-            
             while (true) do
-                let available = sock.Available
-                let bytes = Array.create available 0uy
-                
-                let readCount = sock.Receive(bytes)
-                let toppedBytes = bytes |> Array.take readCount
-                totalCollectedBytes <- Array.append totalCollectedBytes toppedBytes
-                
-                let test =
-                    totalCollectedBytes
-                    |> Array.tryFindIndex ((=) 0uy)
-                    |> Option.bind (fun x ->
-                        let cmdBytes = totalCollectedBytes.[0..(x - 1)]
-                        totalCollectedBytes <- totalCollectedBytes.[(x + 1)..]
-                        
-                        cmdBytes |> decoder)
-                    |> Option.map (actioner.ExecuteAction clientEP.Address)
+                match! inbox.Receive() with
+                | (Broadcast, a) ->
+                    connections
+                    |> Map.toSeq
+                    |> Seq.map snd
+                    |> Seq.iter ((|>) a)
+                | (SingleSend addr, a) ->
+                    connections
+                    |> Map.tryFind addr
+                    |> Option.map ((|>) a)
+                    |> ignore
                 
                 ()
             
             return ()
-        }
-    Async.Start(thread, cToken)
-    
-let createServer<'T> (decoder: byte array -> 'T option) (port: int) (cToken: CancellationToken) =
-    let actioner = Actioner<'T>()
+        }))
     
     let server =
         async {
@@ -55,7 +55,7 @@ let createServer<'T> (decoder: byte array -> 'T option) (port: int) (cToken: Can
                 
                 while (true) do
                     let sock = listener.Accept()
-                    handleSocketConnection decoder sock actioner cToken
+                    handleNewConnection sock
                     
                     ()
             with
@@ -66,4 +66,4 @@ let createServer<'T> (decoder: byte array -> 'T option) (port: int) (cToken: Can
         
     Async.Start(server, cToken)
         
-    actioner
+    (actioner, poster)
