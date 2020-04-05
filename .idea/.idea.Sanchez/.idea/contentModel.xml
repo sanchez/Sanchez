@@ -19,7 +19,7 @@
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Connection" t="Include">
-          <e p="Server.fs" t="Include" />
+          <e p="Register.fs" t="Include" />
         </e>
         <e p="Game.fs" t="Include" />
         <e p="Keys.fs" t="Include" />
@@ -58,7 +58,17 @@
         <e p="Sanchez.Serializer.Tests.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.sln" t="IncludeFlat" />
+      <e p="Sanchez.Socker" t="IncludeRecursive">
+        <e p="Actioner.fs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Client.fs" t="Include" />
+        <e p="Library.fs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Sanchez.Socker.fsproj" t="IncludeRecursive" />
+        <e p="Server.fs" t="Include" />
+      </e>
       <e p="Serializer" t="Include" />
+      <e p="Socker" t="Include" />
     </e>
   </component>
 </project>

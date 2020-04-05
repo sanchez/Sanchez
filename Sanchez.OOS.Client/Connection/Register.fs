@@ -3,4 +3,4 @@
 open Sanchez.OOS.Core
 
 let registerUser (a: ClientAction -> unit) (userName: string) =
-    ()
+    userName |> Register |> a
