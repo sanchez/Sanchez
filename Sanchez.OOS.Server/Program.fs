@@ -1,5 +1,6 @@
 ﻿open System.Threading
 open Sanchez.OOS.Core
+open Sanchez.OOS.Server
 open Sanchez.Socker
 
 [<EntryPoint>]
@@ -8,10 +9,11 @@ let main argv =
     
     let cToken = new CancellationToken()
     let (actioner, poster) = Server.createServer ClientAction.decode ServerAction.encode port cToken
-    actioner |> ignore
+    
+    Parts.Users.registerPart actioner (fun x -> poster(Server.Broadcast, x))
     
     actioner.AddActioner "test" (fun ip a -> None)
-        
+    
     while true do
         ()
     

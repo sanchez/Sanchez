@@ -6,8 +6,11 @@ open System
 open System.Collections.Generic
 open OpenToolkit.Windowing.Desktop
 open Sanchez.OOS.Client.Keys
+open Sanchez.OOS.Core.GameCore
+open FSharp.Data.UnitSystems.SI.UnitNames
+open Sanchez.OOS.Core
 
-type Game (width, height) =
+type Game (width, height, sender: ClientAction -> unit) =
     let windowSettings = GameWindowSettings.Default
     do windowSettings.RenderFrequency <- 60.0
     do windowSettings.UpdateFrequency <- 60.0
@@ -18,11 +21,18 @@ type Game (width, height) =
     
     let mutable keys = HashSet<Key>()
     let mutable keyActions = Map.empty
+    let mutable gamePosition = Position.create 0.<sq> 0.<sq>
     
     let gw = new GameWindow(windowSettings, nativeSettings)
     
     let onUpdate (args: FrameEventArgs) =
         gw.ProcessEvents() |> ignore
+        let timeSince = args.Time * (1.<second>)
+        
+        let newPosition = Player.processMovement (keys |> Seq.toList) gamePosition timeSince
+        if newPosition <> gamePosition then
+            newPosition |> Location |> sender
+            gamePosition <- newPosition
         
         ()
         

@@ -7,6 +7,8 @@ type Actioner<'T> () =
     let mutable actioners = []
     
     member this.ExecuteAction (serverAddr: string) (a: 'T) =
+        printfn "Executing action from %s: %A" serverAddr a
+        
         actioners
         |> Seq.map (snd >> (fun x -> x serverAddr a))
         |> Seq.choose id

@@ -9,7 +9,6 @@
         <Compile Include="Common.fs" />
         <Compile Include="Server.fs" />
         <Compile Include="Client.fs" />
-        <Compile Include="Library.fs" />
     </ItemGroup>
 
 </Project>

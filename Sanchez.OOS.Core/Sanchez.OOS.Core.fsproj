@@ -5,9 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs" />
+        <Compile Include="GameCore\Units.fs" />
+        <Compile Include="GameCore\Position.fs" />
         <Compile Include="Connection.fs" />
         <Compile Include="Action.fs" />
+        <Compile Include="User.fs" />
     </ItemGroup>
 
     <ItemGroup>

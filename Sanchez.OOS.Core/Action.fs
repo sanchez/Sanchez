@@ -1,5 +1,6 @@
 ﻿namespace Sanchez.OOS.Core
 
+open Sanchez.OOS.Core.GameCore
 open System.Net
 open System.Text
 
@@ -8,6 +9,7 @@ module Action =
     
 type ServerAction =
     | Players of string[]
+    | LocationUpdate of string*Position
     
 module ServerAction =
     let encode (a: ServerAction) =
@@ -22,6 +24,7 @@ module ServerAction =
     
 type ClientAction =
     | Register of string
+    | Location of Position
     
 module ClientAction =
     let encode (a: ClientAction) =

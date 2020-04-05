@@ -1,4 +1,6 @@
-﻿open Sanchez.OOS.Core
+﻿open Sanchez.OOS.Client
+open Sanchez.OOS.Client.Connection
+open Sanchez.OOS.Core
 open Sanchez.Socker
 open System.Threading
 
@@ -15,14 +17,12 @@ let main argv =
         Client.connectToServer ServerAction.decode ClientAction.encode "127.0.0.1" serverPort cToken
         |> Async.RunSynchronously
         
-    "daniel" |> Register |> poster
-        
-    actioner |> ignore
+    Users.registerUser poster "daniel"
     
-//    use game = new Game(800, 600)
-//    game.Run()
-
-    while true do
-        ()
+    actioner.AddActioner "missing" (fun ip -> printfn "Missing action binding: %A" >> Some)
+        
+    use game = new Game(800, 600, poster)
+    
+    game.Run()
     
     0

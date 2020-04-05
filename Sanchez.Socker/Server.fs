@@ -66,4 +66,4 @@ let createServer<'TResult, 'TInput> (decoder: byte array -> 'TResult option) (en
         
     Async.Start(server, cToken)
         
-    (actioner, poster)
+    (actioner, poster.Post)

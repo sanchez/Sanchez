@@ -6,11 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Connection\Register.fs" />
+        <Compile Include="Connection\Users.fs" />
         <Compile Include="Assets\Assets.fs" />
         <Compile Include="Keys.fs" />
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />
+        <Compile Include="Player.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
