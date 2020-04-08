@@ -10,7 +10,8 @@ type Actioner<'T> () =
         async {
             while (true) do
                 let! (addr, a) = inbox.Receive()
-                printfn "Executing action from %s: %A" addr a
+                
+                let t = actioners
                 
                 actioners
                 |> Seq.map (snd >> (fun x -> x addr a))

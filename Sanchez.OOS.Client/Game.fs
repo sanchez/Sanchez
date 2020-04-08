@@ -4,6 +4,7 @@ open OpenToolkit.Mathematics
 open OpenToolkit.Windowing.Common
 open System
 open System.Collections.Generic
+open System.Diagnostics
 open OpenToolkit.Windowing.Desktop
 open Sanchez.OOS.Client.Keys
 open Sanchez.OOS.Core.GameCore
@@ -23,6 +24,8 @@ type Game (width, height, sender: ClientAction -> unit) =
     let mutable keyActions = Map.empty
     let mutable gamePosition = Position.create 0.<sq> 0.<sq>
     
+    let frameTimer = new Stopwatch()
+    do frameTimer.Start()
     let scheduler = new Scheduler()
     
     do scheduler.AddSchedule (0.25<second>) (fun () ->
@@ -33,7 +36,10 @@ type Game (width, height, sender: ClientAction -> unit) =
     
     let onUpdate (args: FrameEventArgs) =
         gw.ProcessEvents() |> ignore
-        let timeSince = args.Time * (1.<second>)
+        let elapsed = frameTimer.ElapsedTicks
+        frameTimer.Restart()
+        let timeSince = ((elapsed |> float) / (Stopwatch.Frequency |> float)) * (1.<second>)
+        
         scheduler.Cycle timeSince
         
         let newPosition = Player.processMovement (keys |> Seq.toList) gamePosition timeSince
@@ -74,6 +80,9 @@ type Game (width, height, sender: ClientAction -> unit) =
     do gw.add_Resize(Action<ResizeEventArgs>(onResize))
     do gw.add_KeyDown(Action<KeyboardKeyEventArgs>(onKeyDown))
     do gw.add_KeyUp(Action<KeyboardKeyEventArgs>(onKeyUp))
+    
+    member this.AddSchedule (interval: float<second>) (cb: unit -> bool) =
+        scheduler.AddSchedule interval cb
     
     member this.Run() =
         gw.Run()
