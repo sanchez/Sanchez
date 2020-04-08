@@ -23,6 +23,8 @@ type Game (width, height, sender: ClientAction -> unit) =
     let mutable keyActions = Map.empty
     let mutable gamePosition = Position.create 0.<sq> 0.<sq>
     
+    let scheduler = new Scheduler()
+    
     let gw = new GameWindow(windowSettings, nativeSettings)
     
     let onUpdate (args: FrameEventArgs) =

@@ -1,5 +1,6 @@
 ﻿namespace Sanchez.OOS.Core
 
+open System
 open Sanchez.OOS.Core.GameCore
 open System.Net
 open System.Text
@@ -9,6 +10,7 @@ module Action =
     
 type ServerAction =
     | Players of string[]
+    | Pong of Guid
     | LocationUpdate of string*Position
     
 module ServerAction =
@@ -24,6 +26,7 @@ module ServerAction =
     
 type ClientAction =
     | Register of string
+    | Ping of Guid
     | Location of Position
     
 module ClientAction =

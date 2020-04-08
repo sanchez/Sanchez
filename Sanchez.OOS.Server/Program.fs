@@ -12,6 +12,13 @@ let main argv =
     
     Parts.Users.registerPart actioner (fun x -> poster(Server.Broadcast, x))
     
+    actioner.AddActioner "pingpong" (fun ip ->
+        function
+            | Ping id ->
+                (ip |> Server.SingleSend, id |> Pong) |> poster
+                Some ()
+            | _ -> None)
+    
     actioner.AddActioner "test" (fun ip a -> None)
     
     while true do

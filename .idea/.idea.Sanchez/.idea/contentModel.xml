@@ -27,6 +27,7 @@
         <e p="Player.fs" t="Include" />
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.OOS.Client.fsproj" t="IncludeRecursive" />
+        <e p="Scheduler.fs" t="Include" />
         <e p="World" t="Include">
           <e p="Blocks" t="Include">
             <e p="Block.fs" t="Include" />
