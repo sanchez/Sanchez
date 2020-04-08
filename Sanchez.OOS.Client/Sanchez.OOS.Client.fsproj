@@ -12,7 +12,6 @@
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />
         <Compile Include="Player.fs" />
-        <Compile Include="Scheduler.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\linux-x64\native\libglfw.so.3.3" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x64\native\glfw3-x64.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x86\native\glfw3-x86.dll" t="Include" />
-    <e p="C:\Users\dfitz\.Rider2019.3\config\scratches" t="IncludeRecursive" />
-    <e p="C:\Users\dfitz\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\dfitz\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Sanchez.-146124324.00" t="ExcludeRecursive" />
-    <e p="C:\Users\dfitz\Documents\git\Sanchez" t="IncludeFlat">
+    <e p="$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/linux-x64/native/libglfw.so.3.3" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/win-x64/native/glfw3-x64.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/win-x86/native/glfw3-x86.dll" t="Include" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_Sanchez.1631713849.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="OOS" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Sanchez.Console" t="IncludeRecursive">
@@ -27,7 +27,6 @@
         <e p="Player.fs" t="Include" />
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.OOS.Client.fsproj" t="IncludeRecursive" />
-        <e p="Scheduler.fs" t="Include" />
         <e p="World" t="Include">
           <e p="Blocks" t="Include">
             <e p="Block.fs" t="Include" />
@@ -45,6 +44,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
+        <e p="Scheduler.fs" t="Include" />
         <e p="User.fs" t="Include" />
       </e>
       <e p="Sanchez.OOS.Server" t="IncludeRecursive">

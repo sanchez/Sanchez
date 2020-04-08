@@ -10,7 +10,7 @@ let main argv =
 //    let port = 25598
 //    let userName = "daniel"
     
-    Thread.Sleep 1000
+    Thread.Sleep 5000
     
     let cToken = new CancellationToken()
     let (poster, actioner) =

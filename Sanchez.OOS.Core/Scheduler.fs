@@ -1,6 +1,5 @@
-﻿namespace Sanchez.OOS.Client
+namespace Sanchez.OOS.Core
 
-open System
 open FSharp.Data.UnitSystems.SI.UnitNames
 
 type ScheduledAction = unit -> bool
@@ -29,3 +28,4 @@ type Scheduler() =
                     else None
                 else
                     { x with Remainder = (x.Remainder - interval) } |> Some)
+

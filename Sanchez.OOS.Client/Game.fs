@@ -25,15 +25,19 @@ type Game (width, height, sender: ClientAction -> unit) =
     
     let scheduler = new Scheduler()
     
+    do scheduler.AddSchedule (0.25<second>) (fun () ->
+        gamePosition |> Location |> sender
+        true)
+    
     let gw = new GameWindow(windowSettings, nativeSettings)
     
     let onUpdate (args: FrameEventArgs) =
         gw.ProcessEvents() |> ignore
         let timeSince = args.Time * (1.<second>)
+        scheduler.Cycle timeSince
         
         let newPosition = Player.processMovement (keys |> Seq.toList) gamePosition timeSince
         if newPosition <> gamePosition then
-            newPosition |> Location |> sender
             gamePosition <- newPosition
         
         ()
