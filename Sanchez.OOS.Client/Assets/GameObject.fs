@@ -44,10 +44,10 @@ type GameObject =
 let loadObject (ShaderProgram sPid) =
     let vertices =
         [|
-            -0.5; -0.5; 0.;   //1.; 0.; 0.; // bottom left
-             0.5; -0.5; 0.;   //0.; 1.; 0.; // bottom right
-             0.5;  0.5; 0.;   //0.; 0.; 1.; // top right
-            -0.5;  0.5; 0.;   //1.; 1.; 1.; // top left
+            -0.5f; -0.5f; 0.f;   //1.; 0.; 0.; // bottom left
+             0.5f; -0.5f; 0.f;   //0.; 1.; 0.; // bottom right
+             0.5f;  0.5f; 0.f;   //0.; 0.; 1.; // top right
+            -0.5f;  0.5f; 0.f;   //1.; 1.; 1.; // top left
         |]
         
     let indices =
@@ -56,11 +56,14 @@ let loadObject (ShaderProgram sPid) =
             3u; 2u; 1u
         |]
         
+    let vertexArrayId = GL.GenVertexArray()
+    GL.BindVertexArray vertexArrayId
+    
     let vertexBufferId = GL.GenBuffer()
     let elementBufferId = GL.GenBuffer()
     
     GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
-    GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float>, vertices, BufferUsageHint.StaticDraw)
+    GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
     
     GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
     GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
@@ -68,10 +71,8 @@ let loadObject (ShaderProgram sPid) =
     let positionLocation = GL.GetAttribLocation(sPid, "aPos")
 //    let colorLocation = GL.GetAttribLocation(sPid, "aColor")
     
-    let vertexArrayId = GL.GenVertexArray()
-    GL.BindVertexArray vertexArrayId
     
-    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Double, false, 3 * sizeof<float>, 0)
+    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 3 * sizeof<float32>, 0)
     GL.EnableVertexAttribArray(positionLocation)
     
 //    GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Double, false, 6 * sizeof<float>, 3 * sizeof<float>)
