@@ -52,6 +52,7 @@ type Game (width, height, sender: ClientAction -> unit) =
         ()
         
     let onRender (args: FrameEventArgs) =
+        gw.MakeCurrent()
         GL.Clear(ClearBufferMask.ColorBufferBit)
         
 //        let vBufferObject = GL.GenBuffer()
@@ -67,7 +68,7 @@ type Game (width, height, sender: ClientAction -> unit) =
 //        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float>, vertices, BufferUsageHint.StaticDraw)
 //        vertices |> ignore
         
-        gw.MakeCurrent()
+        gw.SwapBuffers()
         
     let onResize (args: ResizeEventArgs) =
         gw.Size <- Vector2i(width, height)
