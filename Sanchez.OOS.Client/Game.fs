@@ -14,6 +14,7 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Graphics.OpenGL
 open OpenToolkit.Windowing.GraphicsLibraryFramework
 open Sanchez.OOS.Core
+open Sanchez.Data
 
 type Game (width, height, sender: ClientAction -> unit) =
     let windowSettings = GameWindowSettings.Default
@@ -26,11 +27,16 @@ type Game (width, height, sender: ClientAction -> unit) =
     
     let mutable keys = HashSet<Key>()
     let mutable keyActions = Map.empty
+    
     let mutable gamePosition = Position.create 0.<sq> 0.<sq>
+    
     let mutable textures = None
     let findTexture name =
         textures
         |> Option.bind (Map.tryFind name)
+        
+    let mutable shaders = None
+    let mutable triangle: GameObject.GameObject option = None
     
     let frameTimer = new Stopwatch()
     do frameTimer.Start()
@@ -59,27 +65,12 @@ type Game (width, height, sender: ClientAction -> unit) =
     let onRender (args: FrameEventArgs) =
         GL.Clear(ClearBufferMask.ColorBufferBit)
         
-        let vertices =
-            [|
-                0.5; 0.5; 0.; 1.; 1.
-                0.5; -0.5; 0.; 1.; 0.
-                -0.5; -0.5; 0.; 0.; 0.
-                -0.5; 0.5; 0.; 0.; 1.
-            |]
+        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line)
         
-        
-//        let vBufferObject = GL.GenBuffer()
-//        let vertices =
-//            [
-//                -0.5; 0.5; 0.
-//                -0.5; -0.5; 0.
-//                0.5; -0.5; 0.
-//                0.5; 0.5; 0.
-//            ]
-//            |> List.toArray
-//        GL.BindBuffer(BufferTarget.ArrayBuffer, vBufferObject)
-//        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float>, vertices, BufferUsageHint.StaticDraw)
-//        vertices |> ignore
+        shaders |> Option.map (fun (GameObject.ShaderProgram s) -> GL.UseProgram s) |> ignore
+        triangle |> Option.map (fun x ->
+            GL.BindVertexArray x.Id
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 3)) |> ignore
         
         gw.SwapBuffers()
         
@@ -108,6 +99,8 @@ type Game (width, height, sender: ClientAction -> unit) =
         GL.LoadBindings(new GLFWBindingsContext())
         GL.ClearColor(Color.Black)
         textures <- Assets.loadTextures () |> Some
+        shaders <- GameObject.loadShaders() |> Some
+        triangle <- shaders |> Option.map GameObject.loadObject
         
         ()
         

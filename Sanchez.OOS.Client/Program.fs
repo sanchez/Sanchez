@@ -9,8 +9,6 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 [<EntryPoint>]
 let main argv =
     let serverPort = 25599
-//    let port = 25598
-//    let userName = "daniel"
     
     Thread.Sleep 1000
     
