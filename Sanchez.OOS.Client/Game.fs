@@ -70,7 +70,7 @@ type Game (width, height, sender: ClientAction -> unit) =
         shaders |> Option.map (fun (GameObject.ShaderProgram s) -> GL.UseProgram s) |> ignore
         triangle |> Option.map (fun x ->
             GL.BindVertexArray x.Id
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3)) |> ignore
+            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)) |> ignore
         
         gw.SwapBuffers()
         
