@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Sanchez.Data\Sanchez.Data.fsproj" />
       <ProjectReference Include="..\Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj" />
       <ProjectReference Include="..\Sanchez.Socker\Sanchez.Socker.fsproj" />
     </ItemGroup>

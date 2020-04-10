@@ -1,14 +1,17 @@
 ﻿namespace Sanchez.OOS.Client
 
+open Sanchez.OOS.Client.Assets
 open OpenToolkit.Mathematics
 open OpenToolkit.Windowing.Common
 open System
 open System.Collections.Generic
 open System.Diagnostics
+open System.Drawing
 open OpenToolkit.Windowing.Desktop
 open Sanchez.OOS.Client.Keys
 open Sanchez.OOS.Core.GameCore
 open FSharp.Data.UnitSystems.SI.UnitNames
+open OpenToolkit.Graphics.OpenGL
 open Sanchez.OOS.Core
 
 type Game (width, height, sender: ClientAction -> unit) =
@@ -49,10 +52,26 @@ type Game (width, height, sender: ClientAction -> unit) =
         ()
         
     let onRender (args: FrameEventArgs) =
-        ()
+        GL.Clear(ClearBufferMask.ColorBufferBit)
+        
+//        let vBufferObject = GL.GenBuffer()
+//        let vertices =
+//            [
+//                -0.5; 0.5; 0.
+//                -0.5; -0.5; 0.
+//                0.5; -0.5; 0.
+//                0.5; 0.5; 0.
+//            ]
+//            |> List.toArray
+//        GL.BindBuffer(BufferTarget.ArrayBuffer, vBufferObject)
+//        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float>, vertices, BufferUsageHint.StaticDraw)
+//        vertices |> ignore
+        
+        gw.MakeCurrent()
         
     let onResize (args: ResizeEventArgs) =
         gw.Size <- Vector2i(width, height)
+//        GL.Viewport(0, 0, width, height)
         
     let onKeyDown (ParseGameEvent (key, repeat)) =
         if repeat then
@@ -72,6 +91,9 @@ type Game (width, height, sender: ClientAction -> unit) =
         keyActions <- keyActions |> Map.add key action
         
     let onLoad () =
+//        GL.ClearColor(Color.Black)
+//        let textures = Assets.loadTextures ()
+        
         ()
         
     do gw.add_Load(Action(onLoad))

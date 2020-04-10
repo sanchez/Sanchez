@@ -1,0 +1,47 @@
+{
+    "project": {
+        "autoExportEnabled": true,
+        "creationVersion": "0.9.0",
+        "currentLayerIndex": 0,
+        "guides": [
+        ],
+        "layers": [
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA40lEQVQokW2SPWvEMAyGH3upeoUMAd8QCHjsb8svvjEQyFCDh8D1dEt8Q5DrtNUm6+N9JNlN01RUlVRmxvdPVBWAbU9cL2P1RQRVxasqOWeCi6dg50P1Ab6+FwA8wDAMNfG32dv1MpLKfBSYresKgKoiImx7qp2Xx43gIt7YAPq+P3V/ujudD2x7Irh4ILWcJp9zBiC4iIjwdPca9yJCKnNNFpGTkqHY4HWG/5RaFYDOhwPJOrSFqsq2p9MSRATf4rQq7SpF5OcOb+XjD0arYtfvfGB53PB2UfsehmHLaFWDi7wApBaKv0hMUgEAAAAASUVORK5CYII=",
+                "name": "Layer 1",
+                "opacity": 1,
+                "visible": true
+            }
+        ],
+        "modificationVersion": "0.9.0",
+        "notes": [
+        ],
+        "swatch": {
+            "colours": [
+            ]
+        },
+        "uiState": {
+            "colourPanelExpanded": true,
+            "firstPane": {
+                "offsetX": 480,
+                "offsetY": 197,
+                "sceneCentered": false,
+                "size": 1,
+                "zoomLevel": 48
+            },
+            "lastFillToolUsed": "TexturedFillTool",
+            "layerListViewContentY": 0,
+            "layerPanelExpanded": true,
+            "mainSplitViewState": "gqJlaW5kZXgAbnByZWZlcnJlZFdpZHRo+0CEAAAAAAAAomVpbmRleAFucHJlZmVycmVkV2lkdGj7QG4AAAAAAAA=",
+            "panelSplitViewState": "gaJlaW5kZXgBb3ByZWZlcnJlZEhlaWdodPtAbIAAAAAAAA==",
+            "secondPane": {
+                "offsetX": -6,
+                "offsetY": 455,
+                "sceneCentered": true,
+                "size": 0,
+                "zoomLevel": 1
+            },
+            "swatchPanelExpanded": true
+        }
+    }
+}
