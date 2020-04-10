@@ -12,6 +12,7 @@ open Sanchez.OOS.Client.Keys
 open Sanchez.OOS.Core.GameCore
 open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Graphics.OpenGL
+open OpenToolkit.Windowing.GraphicsLibraryFramework
 open Sanchez.OOS.Core
 
 type Game (width, height, sender: ClientAction -> unit) =
@@ -26,6 +27,10 @@ type Game (width, height, sender: ClientAction -> unit) =
     let mutable keys = HashSet<Key>()
     let mutable keyActions = Map.empty
     let mutable gamePosition = Position.create 0.<sq> 0.<sq>
+    let mutable textures = None
+    let findTexture name =
+        textures
+        |> Option.bind (Map.tryFind name)
     
     let frameTimer = new Stopwatch()
     do frameTimer.Start()
@@ -52,8 +57,16 @@ type Game (width, height, sender: ClientAction -> unit) =
         ()
         
     let onRender (args: FrameEventArgs) =
-        gw.MakeCurrent()
         GL.Clear(ClearBufferMask.ColorBufferBit)
+        
+        let vertices =
+            [|
+                0.5; 0.5; 0.; 1.; 1.
+                0.5; -0.5; 0.; 1.; 0.
+                -0.5; -0.5; 0.; 0.; 0.
+                -0.5; 0.5; 0.; 0.; 1.
+            |]
+        
         
 //        let vBufferObject = GL.GenBuffer()
 //        let vertices =
@@ -92,8 +105,9 @@ type Game (width, height, sender: ClientAction -> unit) =
         keyActions <- keyActions |> Map.add key action
         
     let onLoad () =
-//        GL.ClearColor(Color.Black)
-//        let textures = Assets.loadTextures ()
+        GL.LoadBindings(new GLFWBindingsContext())
+        GL.ClearColor(Color.Black)
+        textures <- Assets.loadTextures () |> Some
         
         ()
         

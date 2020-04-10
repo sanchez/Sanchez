@@ -23,6 +23,9 @@
       <e p="Sanchez.OOS.Client" t="IncludeRecursive">
         <e p="Assets" t="Include">
           <e p="Assets.fs" t="Include" />
+          <e p="GameObject.fs" t="Include" />
+          <e p="shader.frag" t="Include" />
+          <e p="shader.vert" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Connection" t="Include">

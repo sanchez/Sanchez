@@ -41,6 +41,11 @@ let private createTexture (image: BitmapData) (top: int) (left: int) (width: int
     let texId = GL.GenTexture()
     
     GL.BindTexture(TextureTarget.Texture2D, texId)
+    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Nearest)
+    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Nearest)
+    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge)
+    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge)
+    
     GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1)
     GL.TexSubImage2D(TextureTarget.Texture2D, 0, left, top, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, image.Scan0)
     GL.GenerateMipmap(GenerateMipmapTarget.Texture2D)
@@ -48,12 +53,6 @@ let private createTexture (image: BitmapData) (top: int) (left: int) (width: int
     texId
     
 let private loadAnimatedImage (image: BitmapData) (frameWidth: int) =
-//    GL.BindTexture(TextureTarget.Texture2DArray, texId)
-//    GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Nearest)
-//    GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Nearest)
-//    GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureWrapS, (int) TextureWrapMode.ClampToEdge)
-//    GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge)
-    
     let frames = image.Width / frameWidth
     
     Seq.init frames (fun i ->
@@ -64,7 +63,7 @@ let private loadAnimatedImage (image: BitmapData) (frameWidth: int) =
 let private loadStaticImage (image: BitmapData) =
     createTexture image 0 0 image.Width image.Height
     
-let loadImage (info: TextureInformation) =
+let private loadImage (info: TextureInformation) =
     opt {
         let! file = loadBitmap info
         let data = file.LockBits(System.Drawing.Rectangle(0, 0, file.Width, file.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
@@ -89,3 +88,18 @@ let loadTextures () =
     textures
     |> Seq.choose loadImage
     |> Map.ofSeq
+    
+let drawTexture (textures: Map<_, int> option) name =
+    opt {
+        let! tex =
+            textures
+            |> Option.bind (Map.tryFind name)
+            
+        do GL.Enable(EnableCap.Texture2D)
+        do GL.Color4(1., 0., 0., 1.)
+        do GL.BindTexture(TextureTarget.Texture2D, tex)
+//        do GL.Begin(BeginMode.Quads)
+        
+        return ()
+    }
+    |> ignore

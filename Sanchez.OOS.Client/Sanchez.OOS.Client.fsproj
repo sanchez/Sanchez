@@ -8,6 +8,9 @@
     <ItemGroup>
         <Compile Include="Connection\Users.fs" />
         <Compile Include="Assets\Assets.fs" />
+        <Compile Include="Assets\GameObject.fs" />
+        <Content Include="Assets\shader.vert" />
+        <Content Include="Assets\shader.frag" />
         <Compile Include="Keys.fs" />
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />
@@ -18,7 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.FSharpLu.Json" Version="0.11.6" />
-      <PackageReference Include="OpenTK" Version="4.0.0-pre3" />
+      <PackageReference Include="OpenTK" Version="4.0.0-pre5" />
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
 
