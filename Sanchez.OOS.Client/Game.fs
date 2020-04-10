@@ -65,7 +65,7 @@ type Game (width, height, sender: ClientAction -> unit) =
     let onRender (args: FrameEventArgs) =
         GL.Clear(ClearBufferMask.ColorBufferBit)
         
-        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line)
+//        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line)
         
         shaders |> Option.map (fun (GameObject.ShaderProgram s) -> GL.UseProgram s) |> ignore
         triangle |> Option.map (fun x ->
