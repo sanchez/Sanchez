@@ -44,10 +44,10 @@ type GameObject =
 let loadObject (ShaderProgram sPid) =
     let vertices =
         [|
-            -0.5f; -0.5f; 0.f;   //1.; 0.; 0.; // bottom left
-             0.5f; -0.5f; 0.f;   //0.; 1.; 0.; // bottom right
-             0.5f;  0.5f; 0.f;   //0.; 0.; 1.; // top right
-            -0.5f;  0.5f; 0.f;   //1.; 1.; 1.; // top left
+            -0.5f; -0.5f; 0.f;   1.f; 0.f; 0.f; // bottom left
+             0.5f; -0.5f; 0.f;   0.f; 1.f; 0.f; // bottom right
+             0.5f;  0.5f; 0.f;   0.f; 0.f; 1.f; // top right
+            -0.5f;  0.5f; 0.f;   1.f; 1.f; 1.f; // top left
         |]
         
     let indices =
@@ -69,14 +69,14 @@ let loadObject (ShaderProgram sPid) =
     GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
     
     let positionLocation = GL.GetAttribLocation(sPid, "aPos")
-//    let colorLocation = GL.GetAttribLocation(sPid, "aColor")
+    let colorLocation = GL.GetAttribLocation(sPid, "aColor")
     
     
-    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 3 * sizeof<float32>, 0)
+    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof<float32>, 0)
     GL.EnableVertexAttribArray(positionLocation)
     
-//    GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Double, false, 6 * sizeof<float>, 3 * sizeof<float>)
-//    GL.EnableVertexAttribArray(colorLocation)
+    GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof<float32>, 3 * sizeof<float32>)
+    GL.EnableVertexAttribArray(colorLocation)
     
     {
         GameObject.Id = vertexArrayId
