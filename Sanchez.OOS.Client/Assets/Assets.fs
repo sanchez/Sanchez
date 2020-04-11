@@ -21,9 +21,9 @@ type TextureInformation =
     
 let textures =
     [
+        (Body, "body.png", 12) |> AnimationTextureInformation
         (StandardWallBlock, "block1.png") |> StaticTextureInformation
         (SealedDoor, "sealedDoor.png", 12) |> AnimationTextureInformation
-        (Body, "body.png", 12) |> AnimationTextureInformation
     ]
     
 let private loadBitmap (info: TextureInformation) =
@@ -33,7 +33,11 @@ let private loadBitmap (info: TextureInformation) =
         | AnimationTextureInformation (_, fName, _) -> fName
         
     try
-        new Bitmap("Assets/" + fileName) |> Some
+        let i = new Bitmap("Assets/" + fileName)
+        
+        i.RotateFlip(RotateFlipType.RotateNoneFlipY)
+        
+        i |> Some
     with
     | :? FileNotFoundException as ex -> None
     
@@ -56,9 +60,11 @@ let private loadAnimatedImage (image: Bitmap) (frameWidth: int) =
     
     Seq.init frames (fun i ->
         let left = i * frameWidth
-        let data = image.LockBits(System.Drawing.Rectangle(left, 0, frameWidth, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
+        let croppedImage = image.Clone(System.Drawing.Rectangle(left, 0, frameWidth, image.Height), image.PixelFormat)
+        let data = croppedImage.LockBits(System.Drawing.Rectangle(0, 0, croppedImage.Width, croppedImage.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
+        
         let id = createTexture data
-        image.UnlockBits data
+        croppedImage.UnlockBits data
         id)
     |> Seq.toArray
     

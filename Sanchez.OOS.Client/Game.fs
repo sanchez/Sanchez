@@ -101,7 +101,7 @@ type Game (width, height, sender: ClientAction -> unit) =
         triangle <-
             opt {
                 let! s = shaders
-                let! tex = findTexture Assets.ImageAssets.StandardWallBlock
+                let! tex = findTexture Assets.ImageAssets.Body
                 
                 return GameObject.loadObject s tex
             }
