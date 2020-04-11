@@ -68,9 +68,7 @@ type Game (width, height, sender: ClientAction -> unit) =
 //        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line)
         
         shaders |> Option.map (fun (GameObject.ShaderProgram s) -> GL.UseProgram s) |> ignore
-        triangle |> Option.map (fun x ->
-            GL.BindVertexArray x.Id
-            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)) |> ignore
+        triangle |> Option.map (GameObject.renderObj) |> ignore
         
         gw.SwapBuffers()
         
@@ -97,10 +95,16 @@ type Game (width, height, sender: ClientAction -> unit) =
         
     let onLoad () =
         GL.LoadBindings(new GLFWBindingsContext())
-        GL.ClearColor(Color.Black)
+        GL.ClearColor(Color.Gray)
         textures <- Assets.loadTextures () |> Some
         shaders <- GameObject.loadShaders() |> Some
-        triangle <- shaders |> Option.map GameObject.loadObject
+        triangle <-
+            opt {
+                let! s = shaders
+                let! tex = findTexture Assets.ImageAssets.StandardWallBlock
+                
+                return GameObject.loadObject s tex
+            }
         
         ()
         

@@ -38,16 +38,17 @@ let loadShaders () =
 type GameObject =
     {
         Id: int
-//        Texture: LoadedTexture option
+        Texture: LoadedTexture
     }
     
-let loadObject (ShaderProgram sPid) =
+let loadObject (ShaderProgram sPid) (tex: LoadedTexture) =
     let vertices =
         [|
-            -0.5f; -0.5f; 0.f;   1.f; 0.f; 0.f; // bottom left
-             0.5f; -0.5f; 0.f;   0.f; 1.f; 0.f; // bottom right
-             0.5f;  0.5f; 0.f;   0.f; 0.f; 1.f; // top right
-            -0.5f;  0.5f; 0.f;   1.f; 1.f; 1.f; // top left
+            // positions         // colors        // texture coords
+            -0.5f; -0.5f; 0.f;   1.f; 0.f; 0.f;   0.f; 0.f;  // bottom left
+             0.5f; -0.5f; 0.f;   0.f; 1.f; 0.f;   1.f; 0.f;  // bottom right
+             0.5f;  0.5f; 0.f;   0.f; 0.f; 1.f;   1.f; 1.f;  // top right
+            -0.5f;  0.5f; 0.f;   1.f; 1.f; 1.f;   0.f; 1.f;  // top left
         |]
         
     let indices =
@@ -70,14 +71,28 @@ let loadObject (ShaderProgram sPid) =
     
     let positionLocation = GL.GetAttribLocation(sPid, "aPos")
     let colorLocation = GL.GetAttribLocation(sPid, "aColor")
+    let texLocation = GL.GetAttribLocation(sPid, "aTexCoord")
     
-    
-    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof<float32>, 0)
+    GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 0)
     GL.EnableVertexAttribArray(positionLocation)
     
-    GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof<float32>, 3 * sizeof<float32>)
+    GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 3 * sizeof<float32>)
     GL.EnableVertexAttribArray(colorLocation)
+    
+    GL.VertexAttribPointer(texLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 6 * sizeof<float32>)
+    GL.EnableVertexAttribArray(texLocation)
     
     {
         GameObject.Id = vertexArrayId
+        Texture = tex
     }
+    
+let private fetchTextureFrame (go: GameObject) =
+    match go.Texture with
+    | AnimatedTexture frames -> frames.[0]
+    | StaticTexture frame -> frame
+    
+let renderObj (go: GameObject) =
+    GL.BindTexture(TextureTarget.Texture2D, fetchTextureFrame go)
+    GL.BindVertexArray go.Id
+    GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)
