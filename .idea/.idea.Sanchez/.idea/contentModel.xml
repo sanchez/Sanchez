@@ -9,6 +9,7 @@
     <e p="C:\Users\dfitz\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Sanchez.-146124324.00" t="ExcludeRecursive" />
     <e p="C:\Users\dfitz\Documents\git\Sanchez" t="IncludeFlat">
       <e p="Data" t="Include" />
+      <e p="Game" t="Include" />
       <e p="OOS" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Sanchez.Console" t="IncludeRecursive">
@@ -19,6 +20,24 @@
         <e p="obj" t="ExcludeRecursive" />
         <e p="Option.fs" t="Include" />
         <e p="Sanchez.Data.fsproj" t="IncludeRecursive" />
+      </e>
+      <e p="Sanchez.Game.Platformer" t="IncludeRecursive">
+        <e p="Assets" t="Include">
+          <e p="Assets.fs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Entity" t="Include">
+          <e p="GameObject.fs" t="Include" />
+        </e>
+        <e p="Game.fs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Sanchez.Game.Platformer.fsproj" t="IncludeRecursive" />
+      </e>
+      <e p="Sanchez.Game.Platformer.Sample" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Program.fs" t="Include" />
+        <e p="Sanchez.Game.Platformer.Sample.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.OOS.Client" t="IncludeRecursive">
         <e p="Assets" t="Include">

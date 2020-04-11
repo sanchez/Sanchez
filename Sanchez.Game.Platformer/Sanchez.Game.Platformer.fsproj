@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Game.fs" />
+        <Compile Include="Assets\Assets.fs" />
+        <Compile Include="Entity\GameObject.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OpenTK" Version="4.0.0-pre5" />
+    </ItemGroup>
+
+</Project>
