@@ -95,6 +95,8 @@ type Game (width, height, sender: ClientAction -> unit) =
         
     let onLoad () =
         GL.LoadBindings(new GLFWBindingsContext())
+        GL.Enable(EnableCap.Blend)
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha)
         GL.ClearColor(Color.Gray)
         textures <- Assets.loadTextures () |> Some
         shaders <- GameObject.loadShaders() |> Some
