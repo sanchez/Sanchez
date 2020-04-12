@@ -1,12 +1,14 @@
-﻿// Learn more about F# at http://fsharp.org
+﻿open Sanchez.Game.Platformer
+open Sanchez.Game.Core
 
-open Sanchez.Game.Platformer
-open System
+type Textures =
+    | BodyTexture
 
 [<EntryPoint>]
 let main argv =
-    let manager = new GameManager("Hello World", 800, 600)
+    let manager = new GameManager<Textures>("Hello World", 800, 600)
     
+    manager.LoadTexture(BodyTexture, "Assets/body.png", (12, 12. * 1.<FPS>))
     
     manager.Run()
     printfn "Hello World from F#!"

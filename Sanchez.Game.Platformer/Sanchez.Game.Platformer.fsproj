@@ -14,12 +14,13 @@
         </Content>
         <Compile Include="Entity\Shader.fs" />
         <Compile Include="Entity\GameObject.fs" />
+        <Compile Include="Entity\GameObjectManager.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="GameManager.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="OpenTK" Version="4.0.0-pre5" />
+      <PackageReference Include="OpenTK" Version="4.0.0-pre6" />
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
 

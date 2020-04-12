@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <Compile Include="Option.fs" />
+        <Compile Include="Queue.fs" />
     </ItemGroup>
 
 </Project>

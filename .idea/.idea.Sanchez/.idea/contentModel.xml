@@ -19,6 +19,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Option.fs" t="Include" />
+        <e p="Queue.fs" t="Include" />
         <e p="Sanchez.Data.fsproj" t="IncludeRecursive" />
       </e>
       <e p="Sanchez.Game.Core" t="IncludeRecursive">
@@ -36,6 +37,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Entity" t="Include">
           <e p="GameObject.fs" t="Include" />
+          <e p="GameObjectManager.fs" t="Include" />
           <e p="Shader.fs" t="Include" />
         </e>
         <e p="Game.fs" t="Include" />

@@ -3,6 +3,7 @@
 open OpenToolkit.Graphics.OpenGL
 open Sanchez.Game.Platformer.Assets
 open Sanchez.Game.Platformer.Entity.Shader
+open FSharp.Data.UnitSystems.SI.UnitNames
 
 type GameObject(id: int, tex: LoadedTexture) =
     let fetchTextureFrame () =
@@ -11,6 +12,10 @@ type GameObject(id: int, tex: LoadedTexture) =
         | StaticTexture frame -> frame
         
     member val FrameIteration = 0 with get, set
+    member val IsAlive = true with get, set
+    
+    member this.Update(timeElapsed: float<second>) =
+        ()
     
     member this.Render() =
         GL.BindTexture(TextureTarget.Texture2D, fetchTextureFrame())
