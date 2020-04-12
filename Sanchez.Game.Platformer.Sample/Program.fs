@@ -8,8 +8,12 @@ type Textures =
 let main argv =
     let manager = new GameManager<Textures>("Hello World", 800, 600)
     
+    let playerUpdate position timeElapsed =
+        let newPos = position + (Position.create 0.1<sq> 0.<sq>)
+        (true, newPos)
+    
     manager.LoadTexture(BodyTexture, "Assets/body.png", (12, 12. * 1.<FPS>))
-    manager.LoadGameObject BodyTexture
+    manager.LoadGameObject playerUpdate BodyTexture
     
     manager.Run()
     printfn "Hello World from F#!"

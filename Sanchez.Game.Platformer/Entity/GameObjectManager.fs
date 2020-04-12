@@ -7,8 +7,8 @@ open Shader
 type GameObjectManager () =
     let mutable aliveObjs: GameObject list = []
     
-    member this.LoadGameObject (tex: LoadedTexture) (shader: ShaderProgram) =
-        let ob = GameObject.CreateTexturedGameObject shader tex
+    member this.LoadGameObject onUpdate (tex: LoadedTexture) (shader: ShaderProgram) =
+        let ob = GameObject.CreateTexturedGameObject onUpdate shader tex
         aliveObjs <- aliveObjs @ [ob]
         
     member this.Update (timeElapsed: float<second>) =
