@@ -7,7 +7,7 @@ open OpenToolkit.Graphics.OpenGL
 open Sanchez.Data
 open Sanchez.Game.Core
 
-type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, height) =
+type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, height, sqToFloat) =
     let mutable shader = None
     let loadingQueue = new Queue<unit -> unit>()
     let loadQueuedItems () =
@@ -17,7 +17,7 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
             | None -> ()
             
     let texManager = new TextureManager<'TTextureKey>()
-    let goManager = new GameObjectManager()
+    let goManager = new GameObjectManager(sqToFloat)
     
     let onLoad () =
         shader <- Shader.loadShaders() |> Some

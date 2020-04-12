@@ -6,10 +6,12 @@ type Textures =
 
 [<EntryPoint>]
 let main argv =
-    let manager = new GameManager<Textures>("Hello World", 800, 600)
+    let squareUnitToPx (sq: float<sq>) = sq |> float32 |> ((*) 12.f)
+    
+    let manager = new GameManager<Textures>("Hello World", 800, 600, squareUnitToPx)
     
     let playerUpdate position timeElapsed =
-        let newPos = position + (Position.create 0.1<sq> 0.<sq>)
+        let newPos = position + (Position.create 0.0001<sq> 0.<sq>)
         (true, newPos)
     
     manager.LoadTexture(BodyTexture, "Assets/body.png", (12, 12. * 1.<FPS>))

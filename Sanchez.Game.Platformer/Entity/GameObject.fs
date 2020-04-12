@@ -2,11 +2,11 @@
 
 open OpenToolkit.Graphics.OpenGL
 open Sanchez.Game.Platformer.Assets
-open Sanchez.Game.Platformer.Entity.Shader
 open FSharp.Data.UnitSystems.SI.UnitNames
+open OpenToolkit.Mathematics
 open Sanchez.Game.Core
 
-type GameObject(id: int, tex: LoadedTexture, onUpdate) =
+type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat) =
     let fetchTextureFrame () =
         match tex with
         | AnimatedTexture (frames, fps) -> frames.[0]
@@ -23,19 +23,26 @@ type GameObject(id: int, tex: LoadedTexture, onUpdate) =
         currentPosition <- newPos
     
     member this.Render() =
+        Shader.useShader shader
         GL.BindTexture(TextureTarget.Texture2D, fetchTextureFrame())
         GL.BindVertexArray id
+        
+        let transformLoc = Shader.getUniformLocation shader "transform"
+        let trans = Matrix4.CreateTranslation(currentPosition.X |> sqToFloat, currentPosition.Y |> sqToFloat, 1.f)
+        GL.UniformMatrix4(transformLoc, false, ref trans)
+//        GL.UniformMatrix4
+        
         GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)
     
     
-    static member CreateTexturedGameObject onUpdate (ShaderProgram sPid) (tex: LoadedTexture) =
+    static member CreateTexturedGameObject sqToFloat onUpdate shader (tex: LoadedTexture) =
         let vertices =
             [|
-                // positions         // colors        // texture coords
-                -0.5f; -0.5f; 0.f;   1.f; 0.f; 0.f;   0.f; 0.f;  // bottom left
-                 0.5f; -0.5f; 0.f;   0.f; 1.f; 0.f;   1.f; 0.f;  // bottom right
-                 0.5f;  0.5f; 0.f;   0.f; 0.f; 1.f;   1.f; 1.f;  // top right
-                -0.5f;  0.5f; 0.f;   1.f; 1.f; 1.f;   0.f; 1.f;  // top left
+                // positions         // texture coords
+                -0.5f; -0.5f; 0.f;   0.f; 0.f;  // bottom left
+                 0.5f; -0.5f; 0.f;   1.f; 0.f;  // bottom right
+                 0.5f;  0.5f; 0.f;   1.f; 1.f;  // top right
+                -0.5f;  0.5f; 0.f;   0.f; 1.f;  // top left
             |]
             
         let indices =
@@ -56,18 +63,14 @@ type GameObject(id: int, tex: LoadedTexture, onUpdate) =
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
         GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
         
-        let positionLocation = GL.GetAttribLocation(sPid, "aPos")
-        let colorLocation = GL.GetAttribLocation(sPid, "aColor")
-        let texLocation = GL.GetAttribLocation(sPid, "aTexCoord")
+        let positionLocation = Shader.getAttributeLocation shader "aPos"
+        let texLocation = Shader.getAttributeLocation shader "aTexCoord"
         
-        GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 0)
+        GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 0)
         GL.EnableVertexAttribArray(positionLocation)
         
-        GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 3 * sizeof<float32>)
-        GL.EnableVertexAttribArray(colorLocation)
-        
-        GL.VertexAttribPointer(texLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof<float32>, 6 * sizeof<float32>)
+        GL.VertexAttribPointer(texLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 3 * sizeof<float32>)
         GL.EnableVertexAttribArray(texLocation)
         
-        GameObject(vertexArrayId, tex, onUpdate)
+        GameObject(vertexArrayId, tex, shader, onUpdate, sqToFloat)
     

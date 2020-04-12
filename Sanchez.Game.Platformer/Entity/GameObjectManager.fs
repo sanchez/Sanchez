@@ -4,11 +4,11 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Sanchez.Game.Platformer.Assets
 open Shader
 
-type GameObjectManager () =
+type GameObjectManager (sqToFloat) =
     let mutable aliveObjs: GameObject list = []
     
     member this.LoadGameObject onUpdate (tex: LoadedTexture) (shader: ShaderProgram) =
-        let ob = GameObject.CreateTexturedGameObject onUpdate shader tex
+        let ob = GameObject.CreateTexturedGameObject sqToFloat onUpdate shader tex
         aliveObjs <- aliveObjs @ [ob]
         
     member this.Update (timeElapsed: float<second>) =

@@ -35,3 +35,5 @@ let loadShaders () =
     ShaderProgram shaderProgram
     
 let useShader (ShaderProgram sPid) = GL.UseProgram sPid
+let getUniformLocation (ShaderProgram sPid) name = GL.GetUniformLocation(sPid, name)
+let getAttributeLocation (ShaderProgram sPid) name = GL.GetAttribLocation(sPid, name)
