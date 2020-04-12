@@ -11,6 +11,9 @@ type GameObjectManager (sqToFloat) =
         let ob = GameObject.CreateTexturedGameObject sqToFloat onUpdate shader tex
         aliveObjs <- aliveObjs @ [ob]
         
+    member this.AddGameObject ob =
+        aliveObjs <- aliveObjs @ [ob]
+        
     member this.Update (timeElapsed: float<second>) =
         aliveObjs <-
             aliveObjs

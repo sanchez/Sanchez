@@ -43,6 +43,12 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
         loadingQueue.Queue(fun () ->
             Option.map2 (goManager.LoadGameObject onUpdate) (texManager.FindTexture tex) shader |> ignore)
         
+    member this.LoadCustomGameObject initializer =
+        loadingQueue.Queue(fun () ->
+            Option.map (initializer texManager.FindTexture) shader
+            |> Option.map (fun x -> goManager.AddGameObject x)
+            |> ignore)
+        
     member this.Launch () =
         ()
         
