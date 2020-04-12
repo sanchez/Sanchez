@@ -70,3 +70,6 @@ type TextureManager<'T when 'T : comparison>() =
                 
             return tex 
         }
+        
+    member this.FindTexture key =
+        textures |> Map.tryFind key

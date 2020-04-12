@@ -33,3 +33,5 @@ let loadShaders () =
     printfn "Successfully loaded shaders"
     
     ShaderProgram shaderProgram
+    
+let useShader (ShaderProgram sPid) = GL.UseProgram sPid

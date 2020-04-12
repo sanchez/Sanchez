@@ -3,10 +3,12 @@
 open Sanchez.Game.Platformer.Entity
 open Sanchez.Game.Platformer.Assets
 open FSharp.Data.UnitSystems.SI.UnitNames
+open OpenToolkit.Graphics.OpenGL
 open Sanchez.Data
 open Sanchez.Game.Core
 
 type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, height) =
+    let mutable shader = None
     let loadingQueue = new Queue<unit -> unit>()
     let loadQueuedItems () =
         while loadingQueue.Peek() |> Option.isSome do
@@ -18,6 +20,7 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
     let goManager = new GameObjectManager()
     
     let onLoad () =
+        shader <- Shader.loadShaders() |> Some
         loadQueuedItems()
         ()
         
@@ -26,8 +29,9 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
         goManager.Update(timeSince)
         
     let onRender () =
+        shader |> Option.map Shader.useShader |> ignore
         goManager.Render()
-    
+        
     let game = new Game(title, width, height, onLoad, onUpdate, onRender)
     
     member this.LoadTexture (key: 'TTextureKey, fileName: string, ?animationDeets: int*float<FPS>) =
@@ -35,8 +39,9 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
         | Some x -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, x) |> ignore)
         | None -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName) |> ignore)
         
-    member this.LoadGameObject () =
-        goManager.LoadGameObject()
+    member this.LoadGameObject tex =
+        loadingQueue.Queue(fun () ->
+            Option.map2 goManager.LoadGameObject (texManager.FindTexture tex) shader |> ignore)
         
     member this.Launch () =
         ()
