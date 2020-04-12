@@ -6,7 +6,9 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Mathematics
 open Sanchez.Game.Core
 
-type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat) =
+type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat: float<sq> -> float32) =
+    let conversion = Matrix4.CreateScale(1.<sq> |> sqToFloat)
+    
     let fetchTextureFrame () =
         match tex with
         | AnimatedTexture (frames, fps) -> frames.[0]
@@ -22,14 +24,16 @@ type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat) =
         this.IsAlive <- isAlive
         currentPosition <- newPos
     
-    member this.Render() =
+    member this.Render (widthScale: float32) =
         Shader.useShader shader
         GL.BindTexture(TextureTarget.Texture2D, fetchTextureFrame())
         GL.BindVertexArray id
         
         let transformLoc = Shader.getUniformLocation shader "transform"
         let trans = Matrix4.CreateTranslation(currentPosition.X |> sqToFloat, currentPosition.Y |> sqToFloat, 1.f)
-        GL.UniformMatrix4(transformLoc, false, ref trans)
+        let scale = Matrix4.CreateScale(1.f / widthScale, 1.f, 1.f)
+        let mat = trans * scale * conversion
+        GL.UniformMatrix4(transformLoc, false, ref mat)
 //        GL.UniformMatrix4
         
         GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)

@@ -20,6 +20,6 @@ type GameObjectManager (sqToFloat) =
         
         ()
         
-    member this.Render () =
+    member this.Render widthScale =
         aliveObjs
-        |> List.iter (fun x -> x.Render())
+        |> List.iter (fun x -> x.Render(widthScale))

@@ -51,10 +51,14 @@ type Game (title, width, height, loadCB, updateCB, renderCB) =
     let onRender (args: FrameEventArgs) =
         GL.Clear(ClearBufferMask.ColorBufferBit)
         
-        renderCB()
+        let s = gw.Size
+        let adjustment = (s.X |> float32) / (s.Y |> float32)
+        
+        renderCB adjustment
         
         gw.SwapBuffers()
     do gw.add_RenderFrame(Action<FrameEventArgs>(onRender))
+    
     
     member this.Run() =
         gw.Run()

@@ -28,9 +28,9 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
         loadQueuedItems()
         goManager.Update(timeSince)
         
-    let onRender () =
+    let onRender (widthScale: float32) =
         shader |> Option.map Shader.useShader |> ignore
-        goManager.Render()
+        goManager.Render(widthScale)
         
     let game = new Game(title, width, height, onLoad, onUpdate, onRender)
     
