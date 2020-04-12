@@ -10,7 +10,7 @@ open OpenToolkit.Windowing.Desktop
 open OpenToolkit.Windowing.GraphicsLibraryFramework
 open FSharp.Data.UnitSystems.SI.UnitNames
 
-type Game (title, width, height) =
+type Game (title, width, height, loadCB, updateCB, renderCB) =
     let windowSettings = GameWindowSettings.Default
     do windowSettings.RenderFrequency <- 60.
     do windowSettings.UpdateFrequency <- 60.
@@ -26,6 +26,7 @@ type Game (title, width, height) =
         GL.Enable(EnableCap.Blend)
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha)
         GL.ClearColor(Color.Black)
+        loadCB()
     do gw.add_Load(Action(onLoad))
     
     let onResize (args: ResizeEventArgs) =
@@ -42,11 +43,15 @@ type Game (title, width, height) =
         frameTimer.Restart()
         let timeSince = ((elapsed |> float) / (Stopwatch.Frequency |> float)) * (1.<second>)
         
+        updateCB(timeSince)
+        
         ()
     do gw.add_UpdateFrame(Action<FrameEventArgs>(onUpdate))
     
     let onRender (args: FrameEventArgs) =
         GL.Clear(ClearBufferMask.ColorBufferBit)
+        
+        renderCB()
         
         gw.SwapBuffers()
     do gw.add_RenderFrame(Action<FrameEventArgs>(onRender))

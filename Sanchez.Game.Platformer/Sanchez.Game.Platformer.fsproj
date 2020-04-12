@@ -5,13 +5,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Game.fs" />
         <Compile Include="Assets\Assets.fs" />
+        <Content Include="Assets\shader.vert">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\shader.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Compile Include="Entity\Shader.fs" />
         <Compile Include="Entity\GameObject.fs" />
+        <Compile Include="Game.fs" />
+        <Compile Include="GameManager.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="OpenTK" Version="4.0.0-pre5" />
+      <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sanchez.Data\Sanchez.Data.fsproj" />
+      <ProjectReference Include="..\Sanchez.Game.Core\Sanchez.Game.Core.fsproj" />
     </ItemGroup>
 
 </Project>
