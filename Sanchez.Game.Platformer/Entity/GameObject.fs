@@ -6,27 +6,45 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Mathematics
 open Sanchez.Game.Core
 
-type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat: float<sq> -> float32) =
+type GameObject<'TTextureKey when 'TTextureKey : comparison>(id: int, shader, onUpdate, sqToFloat: float<sq> -> float32) =
     let conversion = Matrix4.CreateScale(1.<sq> |> sqToFloat)
+    let mutable nextTexture = None
+    let mutable texDuration = 0.<second>
     
     let fetchTextureFrame () =
-        match tex with
-        | AnimatedTexture (frames, fps) -> frames.[0]
-        | StaticTexture frame -> frame
+        match nextTexture with
+        | Some x ->
+            match x with
+            | AnimatedTexture (frames, fps) ->
+                let frame = fps * texDuration
+                let wholeFrame =
+                    frame |> int
+                frames.[wholeFrame % frames.Length] |> Some
+            | StaticTexture frame -> frame |> Some
+        | None -> None
         
     let mutable currentPosition = Position.create 0.<sq> 0.<sq>
     
     member val FrameIteration = 0 with get, set
     member val IsAlive = true with get, set
     
-    member this.Update(timeElapsed: float<second>) =
-        let (isAlive, newPos) = onUpdate currentPosition timeElapsed
+    member this.Update (textureLoader: 'TTextureKey -> LoadedTexture option) (timeElapsed: float<second>) =
+        let (isAlive, newPos, nextTex) = onUpdate currentPosition timeElapsed
         this.IsAlive <- isAlive
         currentPosition <- newPos
+        
+        let newTexture = textureLoader nextTex
+        if newTexture = nextTexture then
+            texDuration <- texDuration + timeElapsed
+        else
+            texDuration <- 0.<second>
+            nextTexture <- newTexture
     
     member this.Render (widthScale: float32) =
         Shader.useShader shader
-        GL.BindTexture(TextureTarget.Texture2D, fetchTextureFrame())
+        match fetchTextureFrame() with
+        | Some x -> GL.BindTexture(TextureTarget.Texture2D, x)
+        | None -> GL.BindTexture(TextureTarget.Texture2D, 0)
         GL.BindVertexArray id
         
         let transformLoc = Shader.getUniformLocation shader "transform"
@@ -39,7 +57,7 @@ type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat: float<
         GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)
     
     
-    static member CreateTexturedGameObject sqToFloat onUpdate shader (tex: LoadedTexture) =
+    static member CreateTexturedGameObject sqToFloat onUpdate shader =
         let vertices =
             [|
                 // positions         // texture coords
@@ -76,5 +94,5 @@ type GameObject(id: int, tex: LoadedTexture, shader, onUpdate, sqToFloat: float<
         GL.VertexAttribPointer(texLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 3 * sizeof<float32>)
         GL.EnableVertexAttribArray(texLocation)
         
-        GameObject(vertexArrayId, tex, shader, onUpdate, sqToFloat)
+        GameObject(vertexArrayId, shader, onUpdate, sqToFloat)
     

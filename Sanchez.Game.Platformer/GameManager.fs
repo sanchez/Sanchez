@@ -17,7 +17,7 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
             | None -> ()
             
     let texManager = new TextureManager<'TTextureKey>()
-    let goManager = new GameObjectManager(sqToFloat)
+    let goManager = new GameObjectManager<'TTextureKey>(sqToFloat, texManager.FindTexture)
     
     let onLoad () =
         shader <- Shader.loadShaders() |> Some
@@ -34,14 +34,14 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
         
     let game = new Game<'TKey>(title, width, height, onLoad, onUpdate, onRender)
     
-    member this.LoadTexture (key: 'TTextureKey, fileName: string, ?animationDeets: int*float<FPS>) =
+    member this.LoadTexture (key: 'TTextureKey, fileName: string, flip: bool, ?animationDeets: int*float<frame/second>) =
         match animationDeets with
-        | Some x -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, x) |> ignore)
-        | None -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName) |> ignore)
+        | Some x -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, flip, x) |> ignore)
+        | None -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, flip) |> ignore)
         
-    member this.LoadGameObject onUpdate tex =
+    member this.LoadGameObject onUpdate =
         loadingQueue.Queue(fun () ->
-            Option.map2 (goManager.LoadGameObject onUpdate) (texManager.FindTexture tex) shader |> ignore)
+            Option.map (goManager.LoadGameObject onUpdate) shader |> ignore)
         
     member this.LoadCustomGameObject initializer =
         loadingQueue.Queue(fun () ->

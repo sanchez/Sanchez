@@ -6,10 +6,11 @@ open System.Drawing.Imaging
 open System.IO
 open Sanchez.Data
 open Sanchez.Game.Core
+open FSharp.Data.UnitSystems.SI.UnitNames
 
 type LoadedTexture =
     | StaticTexture of int
-    | AnimatedTexture of int array*float<FPS>
+    | AnimatedTexture of int array*float<frame/second>
     
 let private loadBitmap (fileLocation: string) =
     try
@@ -33,12 +34,13 @@ let private createTexture (image: BitmapData) =
     
     texId
     
-let private loadAnimatedImage (image: Bitmap) (frameWidth: int) =
+let private loadAnimatedImage (flipX: bool) (image: Bitmap) (frameWidth: int) =
     let frames = image.Width / frameWidth
     
     Seq.init frames (fun i ->
         let left = i * frameWidth
         let croppedImage = image.Clone(System.Drawing.Rectangle(left, 0, frameWidth, image.Height), image.PixelFormat)
+        if flipX then croppedImage.RotateFlip(RotateFlipType.RotateNoneFlipX)
         let data = croppedImage.LockBits(System.Drawing.Rectangle(0, 0, croppedImage.Width, croppedImage.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
         
         let id = createTexture data
@@ -46,7 +48,8 @@ let private loadAnimatedImage (image: Bitmap) (frameWidth: int) =
         id)
     |> Seq.toArray
     
-let private loadStaticImage (image: Bitmap) =
+let private loadStaticImage (flipX: bool) (image: Bitmap) =
+    if flipX then image.RotateFlip(RotateFlipType.RotateNoneFlipX)
     let data = image.LockBits(System.Drawing.Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
     let id = createTexture data
     image.UnlockBits data
@@ -55,16 +58,16 @@ let private loadStaticImage (image: Bitmap) =
 type TextureManager<'T when 'T : comparison>() =
     let mutable textures: Map<'T, LoadedTexture> = Map.empty
     
-    member this.LoadTexture (key: 'T, fileName: string, ?animationDeets: int*float<FPS>) =
+    member this.LoadTexture (key: 'T, fileName: string, flipX: bool, ?animationDeets: int*float<frame/second>) =
         opt {
             let! file = loadBitmap fileName
             
             let tex =
                 match animationDeets with
                 | Some (w, fps) ->
-                    let t = loadAnimatedImage file w
+                    let t = loadAnimatedImage flipX file w
                     AnimatedTexture (t, fps)
-                | None -> loadStaticImage file |> StaticTexture
+                | None -> loadStaticImage flipX file |> StaticTexture
                 
             do textures <- textures |> Map.add key tex
                 

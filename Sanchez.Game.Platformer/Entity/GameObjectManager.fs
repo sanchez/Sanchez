@@ -4,11 +4,11 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Sanchez.Game.Platformer.Assets
 open Shader
 
-type GameObjectManager (sqToFloat) =
-    let mutable aliveObjs: GameObject list = []
+type GameObjectManager<'TTextureKey when 'TTextureKey : comparison>(sqToFloat, texLoader) =
+    let mutable aliveObjs: GameObject<'TTextureKey> list = []
     
-    member this.LoadGameObject onUpdate (tex: LoadedTexture) (shader: ShaderProgram) =
-        let ob = GameObject.CreateTexturedGameObject sqToFloat onUpdate shader tex
+    member this.LoadGameObject onUpdate (shader: ShaderProgram) =
+        let ob = GameObject.CreateTexturedGameObject sqToFloat onUpdate shader
         aliveObjs <- aliveObjs @ [ob]
         
     member this.AddGameObject ob =
@@ -18,7 +18,7 @@ type GameObjectManager (sqToFloat) =
         aliveObjs <-
             aliveObjs
             |> List.filter (fun x ->
-                x.Update(timeElapsed)
+                x.Update texLoader timeElapsed
                 x.IsAlive)
         
         ()

@@ -3,7 +3,9 @@ open Sanchez.Game.Core
 open FSharp.Data.UnitSystems.SI.UnitNames
 
 type Textures =
-    | BodyTexture
+    | BodyTextureRight
+    | BodyTextureLeft
+    | StationaryTexture
     
 type ActionKeys =
     | LeftKey
@@ -11,7 +13,7 @@ type ActionKeys =
 
 [<EntryPoint>]
 let main argv =
-    let personSpeed = 10.<sq> / 1.<second>
+    let personSpeed = 15.<sq> / 1.<second>
     let fixedSquareNumber = 2.f / 15.f
     let squareUnitToPx (sq: float<sq>) = sq |> float32 |> ((*) fixedSquareNumber)
     
@@ -28,11 +30,19 @@ let main argv =
             | _ -> Position.create 0.<sq> 0.<sq>
         let distanceTravelled = personSpeed * timeElapsed
             
-        let newPos = position + ((sideWaysPosition) * distanceTravelled)
-        (true, newPos)
+        let movementPos = ((sideWaysPosition) * distanceTravelled)
+        
+        let tex =
+            if movementPos.X = 0.<sq> then StationaryTexture
+            elif movementPos.X < 0.<sq> then BodyTextureLeft
+            else BodyTextureRight
+        
+        (true, position + movementPos, tex)
     
-    manager.LoadTexture(BodyTexture, "Assets/body.png", (12, 12. * 1.<FPS>))
-    manager.LoadGameObject playerUpdate BodyTexture
+    manager.LoadTexture(BodyTextureRight, "Assets/body.png", false, (12, 24.<frame/second>))
+    manager.LoadTexture(BodyTextureLeft, "Assets/body.png", true, (12, 24.<frame/second>))
+    manager.LoadTexture(StationaryTexture, "Assets/stationaryBody.png", false)
+    manager.LoadGameObject playerUpdate
     
     manager.Run()
     printfn "Hello World from F#!"
