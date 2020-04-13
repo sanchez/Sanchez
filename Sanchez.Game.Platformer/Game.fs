@@ -10,7 +10,7 @@ open OpenToolkit.Windowing.Desktop
 open OpenToolkit.Windowing.GraphicsLibraryFramework
 open FSharp.Data.UnitSystems.SI.UnitNames
 
-type Game (title, width, height, loadCB, updateCB, renderCB) =
+type Game<'TKey when 'TKey : comparison> (title, width, height, loadCB, updateCB, renderCB) =
     let windowSettings = GameWindowSettings.Default
     do windowSettings.RenderFrequency <- 60.
     do windowSettings.UpdateFrequency <- 60.
@@ -20,6 +20,8 @@ type Game (title, width, height, loadCB, updateCB, renderCB) =
     do nativeSettings.Title <- title 
 
     let gw = new GameWindow(windowSettings, nativeSettings)
+    
+    let mutable keyMap = []
     
     let onLoad () =
         GL.LoadBindings(new GLFWBindingsContext())
@@ -59,6 +61,23 @@ type Game (title, width, height, loadCB, updateCB, renderCB) =
         gw.SwapBuffers()
     do gw.add_RenderFrame(Action<FrameEventArgs>(onRender))
     
+    member this.IsKeyPressed (key: 'TKey) =
+        keyMap
+        |> List.tryFind (fst >> ((=) key))
+        |> Option.map (snd >> gw.IsKeyDown)
+        |> Option.defaultValue false
+        
+    member this.AddKeyBinding (key: 'TKey) (gameKey: string) =
+        keyMap <- keyMap @ [(key, Input.Key.Parse(gameKey))]
+        
+    member this.RemoveKeyBinding (key: 'TKey) =
+        keyMap <- keyMap |> List.filter (fst >> ((=) key) >> not)
+        
+    member this.WasKeyReleased (key: 'TKey) =
+        keyMap
+        |> List.tryFind (fst >> (=) key)
+        |> Option.map (snd >> gw.IsKeyReleased)
+        |> Option.defaultValue false
     
     member this.Run() =
         gw.Run()

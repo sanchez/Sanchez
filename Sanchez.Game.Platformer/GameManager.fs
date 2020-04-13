@@ -7,7 +7,7 @@ open OpenToolkit.Graphics.OpenGL
 open Sanchez.Data
 open Sanchez.Game.Core
 
-type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, height, sqToFloat) =
+type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : comparison>(title, width, height, sqToFloat) =
     let mutable shader = None
     let loadingQueue = new Queue<unit -> unit>()
     let loadQueuedItems () =
@@ -32,7 +32,7 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
         shader |> Option.map Shader.useShader |> ignore
         goManager.Render(widthScale)
         
-    let game = new Game(title, width, height, onLoad, onUpdate, onRender)
+    let game = new Game<'TKey>(title, width, height, onLoad, onUpdate, onRender)
     
     member this.LoadTexture (key: 'TTextureKey, fileName: string, ?animationDeets: int*float<FPS>) =
         match animationDeets with
@@ -48,6 +48,11 @@ type GameManager<'TTextureKey when 'TTextureKey : comparison>(title, width, heig
             Option.map (initializer texManager.FindTexture) shader
             |> Option.map (fun x -> goManager.AddGameObject x)
             |> ignore)
+        
+    member this.IsKeyPressed = game.IsKeyPressed
+    member this.RemoveKeyBinding = game.RemoveKeyBinding
+    member this.WasKeyReleased = game.WasKeyReleased
+    member this.AddKeyBinding = game.AddKeyBinding
         
     member this.Launch () =
         ()
