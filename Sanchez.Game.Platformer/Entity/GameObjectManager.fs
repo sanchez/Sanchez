@@ -7,8 +7,16 @@ open Shader
 type GameObjectManager<'TTextureKey when 'TTextureKey : comparison>(sqToFloat, texLoader) =
     let mutable aliveObjs: GameObject<'TTextureKey> list = []
     
-    member this.LoadGameObject onUpdate (shader: ShaderProgram) =
-        let ob = GameObject.CreateTexturedGameObject sqToFloat onUpdate shader
+    member this.FindGameObject name =
+        aliveObjs
+        |> List.tryFind (fun x -> x.Name = name)
+    
+    member this.LoadGameObject name onUpdate (shader: ShaderProgram) =
+        let ob = GameObject.CreateTexturedGameObject name sqToFloat onUpdate shader
+        aliveObjs <- aliveObjs @ [ob]
+        
+    member this.LoadParentedGameObject parentName name onUpdate shader =
+        let ob = ParentedGameObject.CreateParentedTextureObject parentName name sqToFloat onUpdate shader
         aliveObjs <- aliveObjs @ [ob]
         
     member this.AddGameObject ob =
@@ -18,7 +26,7 @@ type GameObjectManager<'TTextureKey when 'TTextureKey : comparison>(sqToFloat, t
         aliveObjs <-
             aliveObjs
             |> List.filter (fun x ->
-                x.Update texLoader timeElapsed
+                x.Update(this.FindGameObject, texLoader, timeElapsed)
                 x.IsAlive)
         
         ()

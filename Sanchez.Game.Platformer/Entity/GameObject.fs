@@ -6,7 +6,7 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Mathematics
 open Sanchez.Game.Core
 
-type GameObject<'TTextureKey when 'TTextureKey : comparison>(id: int, shader, onUpdate, sqToFloat: float<sq> -> float32) =
+type GameObject<'TTextureKey when 'TTextureKey : comparison>(name: string, id: int, shader, onUpdate, sqToFloat: float<sq> -> float32) =
     let conversion = Matrix4.CreateScale(1.<sq> |> sqToFloat)
     let mutable nextTexture = None
     let mutable texDuration = 0.<second>
@@ -23,15 +23,16 @@ type GameObject<'TTextureKey when 'TTextureKey : comparison>(id: int, shader, on
             | StaticTexture frame -> frame |> Some
         | None -> None
         
-    let mutable currentPosition = Position.create 0.<sq> 0.<sq>
-    
+    member val CurrentPosition = Position.create 0.<sq> 0.<sq> with get, set
     member val FrameIteration = 0 with get, set
     member val IsAlive = true with get, set
+    member val Name = name with get, set
     
-    member this.Update (textureLoader: 'TTextureKey -> LoadedTexture option) (timeElapsed: float<second>) =
-        let (isAlive, newPos, nextTex) = onUpdate currentPosition timeElapsed
+    abstract member Update : (string -> GameObject<'TTextureKey> option) * ('TTextureKey -> LoadedTexture option) * (float<second>) -> unit
+    default this.Update (objectFinder: string -> GameObject<'TTextureKey> option, textureLoader: 'TTextureKey -> LoadedTexture option, timeElapsed: float<second>) =
+        let (isAlive, newPos, nextTex) = onUpdate this.CurrentPosition timeElapsed
         this.IsAlive <- isAlive
-        currentPosition <- newPos
+        this.CurrentPosition <- newPos
         
         let newTexture = textureLoader nextTex
         if newTexture = nextTexture then
@@ -48,51 +49,16 @@ type GameObject<'TTextureKey when 'TTextureKey : comparison>(id: int, shader, on
         GL.BindVertexArray id
         
         let transformLoc = Shader.getUniformLocation shader "transform"
-        let trans = Matrix4.CreateTranslation(currentPosition.X |> sqToFloat, currentPosition.Y |> sqToFloat, 1.f)
+        let trans = Matrix4.CreateTranslation(this.CurrentPosition.X |> float32, this.CurrentPosition.Y |> float32, 0.f)
         let scale = Matrix4.CreateScale(1.f / widthScale, 1.f, 1.f)
         let mat = trans * scale * conversion
         GL.UniformMatrix4(transformLoc, false, ref mat)
-//        GL.UniformMatrix4
         
         GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)
     
     
-    static member CreateTexturedGameObject sqToFloat onUpdate shader =
-        let vertices =
-            [|
-                // positions         // texture coords
-                -0.5f; -0.5f; 0.f;   0.f; 0.f;  // bottom left
-                 0.5f; -0.5f; 0.f;   1.f; 0.f;  // bottom right
-                 0.5f;  0.5f; 0.f;   1.f; 1.f;  // top right
-                -0.5f;  0.5f; 0.f;   0.f; 1.f;  // top left
-            |]
-            
-        let indices =
-            [|
-                3u; 0u; 1u
-                3u; 2u; 1u
-            |]
-            
-        let vertexArrayId = GL.GenVertexArray()
-        GL.BindVertexArray vertexArrayId
+    static member CreateTexturedGameObject name sqToFloat onUpdate shader =
+        let vertexArrayId = GameObjectBase.createTexturePoints shader
         
-        let vertexBufferId = GL.GenBuffer()
-        let elementBufferId = GL.GenBuffer()
-        
-        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
-        
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
-        
-        let positionLocation = Shader.getAttributeLocation shader "aPos"
-        let texLocation = Shader.getAttributeLocation shader "aTexCoord"
-        
-        GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 0)
-        GL.EnableVertexAttribArray(positionLocation)
-        
-        GL.VertexAttribPointer(texLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 3 * sizeof<float32>)
-        GL.EnableVertexAttribArray(texLocation)
-        
-        GameObject(vertexArrayId, shader, onUpdate, sqToFloat)
+        GameObject(name, vertexArrayId, shader, onUpdate, sqToFloat)
     

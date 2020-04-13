@@ -39,9 +39,13 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
         | Some x -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, flip, x) |> ignore)
         | None -> loadingQueue.Queue(fun () -> texManager.LoadTexture(key, fileName, flip) |> ignore)
         
-    member this.LoadGameObject onUpdate =
+    member this.LoadGameObject name onUpdate =
         loadingQueue.Queue(fun () ->
-            Option.map (goManager.LoadGameObject onUpdate) shader |> ignore)
+            Option.map (goManager.LoadGameObject name onUpdate) shader |> ignore)
+        
+    member this.LoadParentedGameObject parentName name onUpdate =
+        loadingQueue.Queue(fun () ->
+            Option.map (goManager.LoadParentedGameObject parentName name onUpdate) shader |> ignore)
         
     member this.LoadCustomGameObject initializer =
         loadingQueue.Queue(fun () ->
