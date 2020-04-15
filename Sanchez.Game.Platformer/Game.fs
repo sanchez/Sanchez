@@ -16,9 +16,10 @@ type Game<'TKey when 'TKey : comparison> (title, width, height, loadCB, updateCB
     do windowSettings.UpdateFrequency <- 60.
     
     let nativeSettings = NativeWindowSettings.Default
+    do nativeSettings.Flags <- ContextFlags.ForwardCompatible
     do nativeSettings.Size <- Vector2i(width, height)
-    do nativeSettings.Title <- title 
-
+    do nativeSettings.Title <- title
+    
     let gw = new GameWindow(windowSettings, nativeSettings)
     
     let mutable keyMap = []
