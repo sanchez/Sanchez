@@ -40,8 +40,8 @@
           <e p="GameObject.fs" t="Include" />
           <e p="GameObjectBase.fs" t="Include" />
           <e p="GameObjectManager.fs" t="Include" />
-          <e p="ParentedGameObject.fs" t="Include" />
           <e p="Shader.fs" t="Include" />
+          <e p="TexturedGameObject.fs" t="Include" />
         </e>
         <e p="Game.fs" t="Include" />
         <e p="GameManager.fs" t="Include" />

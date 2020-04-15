@@ -1,6 +1,7 @@
 ﻿open Sanchez.Game.Platformer
 open Sanchez.Game.Core
 open FSharp.Data.UnitSystems.SI.UnitNames
+open Sanchez.Game.Platformer.Entity
 
 type Textures =
     | BodyTextureLeft
@@ -25,7 +26,7 @@ let main argv =
     manager.AddKeyBinding RightKey "D"
     
     let mutable lastLeft = false 
-    let playerUpdate position timeElapsed =
+    let playerUpdate obFinder position timeElapsed =
         let sideWaysPosition =
             match (manager.IsKeyPressed LeftKey, manager.IsKeyPressed RightKey) with
             | (true, true) -> Position.create 0.<sq> 0.<sq>
@@ -50,7 +51,7 @@ let main argv =
         (true, position + movementPos, tex)
         
     let headOffset = Position.create 0.<sq> 1.<sq>
-    let headUpdate position timeElapsed =
+    let headUpdate obFinder position timeElapsed =
         let tex =
             if lastLeft then HeadTextureLeft
             else HeadTextureRight
@@ -62,8 +63,8 @@ let main argv =
     manager.LoadTexture(BodyStationaryLeft, "Assets/stationaryBody.png", true)
     manager.LoadTexture(HeadTextureLeft, "Assets/head1.png", true)
     manager.LoadTexture(HeadTextureRight, "Assets/head1.png", false)
-    manager.LoadGameObject "mainPlayer" playerUpdate
-    manager.LoadParentedGameObject "mainPlayer" "mainPlayerHead" headUpdate
+    manager.LoadTexturedGameObject "mainPlayer" playerUpdate
+    manager.LoadTexturedGameObject "mainPlayerHead" (TexturedGameObjectBinds.BindToObject<Textures> "mainPlayer" BodyTextureRight headUpdate)
     
     manager.Run()
     printfn "Hello World from F#!"

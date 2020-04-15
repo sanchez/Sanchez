@@ -5,20 +5,16 @@ open Sanchez.Game.Platformer.Assets
 open Shader
 
 type GameObjectManager<'TTextureKey when 'TTextureKey : comparison>(sqToFloat, texLoader) =
-    let mutable aliveObjs: GameObject<'TTextureKey> list = []
+    let mutable aliveObjs: IGameObject<'TTextureKey> list = []
     
     member this.FindGameObject name =
         aliveObjs
         |> List.tryFind (fun x -> x.Name = name)
+        
+    member this.LoadTexturedGameObject name onUpdate (shader: ShaderProgram) =
+        let ob = TexturedGameObject.CreateTexturedGameObject name sqToFloat onUpdate shader
+        aliveObjs <- aliveObjs @ [ob]
     
-    member this.LoadGameObject name onUpdate (shader: ShaderProgram) =
-        let ob = GameObject.CreateTexturedGameObject name sqToFloat onUpdate shader
-        aliveObjs <- aliveObjs @ [ob]
-        
-    member this.LoadParentedGameObject parentName name onUpdate shader =
-        let ob = ParentedGameObject.CreateParentedTextureObject parentName name sqToFloat onUpdate shader
-        aliveObjs <- aliveObjs @ [ob]
-        
     member this.AddGameObject ob =
         aliveObjs <- aliveObjs @ [ob]
         

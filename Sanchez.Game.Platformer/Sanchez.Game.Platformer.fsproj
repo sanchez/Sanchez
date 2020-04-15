@@ -15,7 +15,7 @@
         <Compile Include="Entity\Shader.fs" />
         <Compile Include="Entity\GameObjectBase.fs" />
         <Compile Include="Entity\GameObject.fs" />
-        <Compile Include="Entity\ParentedGameObject.fs" />
+        <Compile Include="Entity\TexturedGameObject.fs" />
         <Compile Include="Entity\GameObjectManager.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="GameManager.fs" />
