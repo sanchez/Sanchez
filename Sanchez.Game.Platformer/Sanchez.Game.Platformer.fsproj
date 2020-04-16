@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <Compile Include="Assets\Assets.fs" />
+        <Compile Include="Assets\TextManager.fs" />
         <Content Include="Assets\shader.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -16,6 +17,7 @@
         <Compile Include="Entity\GameObjectBase.fs" />
         <Compile Include="Entity\GameObject.fs" />
         <Compile Include="Entity\TexturedGameObject.fs" />
+        <Compile Include="Entity\TextGameObject.fs" />
         <Compile Include="Entity\GameObjectManager.fs" />
         <Compile Include="Game.fs" />
         <Compile Include="GameManager.fs" />
@@ -23,6 +25,8 @@
 
     <ItemGroup>
       <PackageReference Include="OpenTK" Version="4.0.0-pre7" />
+      <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
+      <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
 

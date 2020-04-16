@@ -34,6 +34,7 @@
           <e p="Assets.fs" t="Include" />
           <e p="shader.frag" t="Include" />
           <e p="shader.vert" t="Include" />
+          <e p="TextManager.fs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Entity" t="Include">
@@ -41,6 +42,7 @@
           <e p="GameObjectBase.fs" t="Include" />
           <e p="GameObjectManager.fs" t="Include" />
           <e p="Shader.fs" t="Include" />
+          <e p="TextGameObject.fs" t="Include" />
           <e p="TexturedGameObject.fs" t="Include" />
         </e>
         <e p="Game.fs" t="Include" />
