@@ -1,6 +1,6 @@
 ﻿namespace Sanchez.OOS.Core
 
-open Sanchez.OOS.Core.GameCore
+open Sanchez.Game.Core
 
 type User (conn: string, userName: string) =
     let mutable position = Position.create (0.<sq>) (0.<sq>)
@@ -20,6 +20,8 @@ type UserManager() =
     
     member this.RegisterUser (u: User) =
         users <- u::users
+        
+    member this.AllUsers () = users
         
     member this.FindUser (conn: string) =
         users

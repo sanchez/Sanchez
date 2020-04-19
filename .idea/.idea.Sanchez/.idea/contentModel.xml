@@ -76,6 +76,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Characters" t="Include">
           <e p="MainPlayer.fs" t="Include" />
+          <e p="NetworkPlayer.fs" t="Include" />
         </e>
         <e p="Connection" t="Include">
           <e p="Users.fs" t="Include" />
@@ -95,10 +96,6 @@
         <e p="Action.fs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Connection.fs" t="Include" />
-        <e p="GameCore" t="Include">
-          <e p="Position.fs" t="Include" />
-          <e p="Units.fs" t="Include" />
-        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
         <e p="User.fs" t="Include" />

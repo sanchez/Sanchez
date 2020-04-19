@@ -1,7 +1,7 @@
 ﻿module Sanchez.OOS.Client.Connection.Users
 
+open Sanchez.Game.Core
 open Sanchez.OOS.Core
-open Sanchez.OOS.Core.GameCore
 
 let registerUser (sender: ClientAction -> unit) (userName: string) =
     userName |> Register |> sender

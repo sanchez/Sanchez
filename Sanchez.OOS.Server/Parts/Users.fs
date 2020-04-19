@@ -18,6 +18,8 @@ let registerPart (actioner: Actioner<ClientAction>) (broadcaster: ServerAction -
             | Register userName ->
                 new User(ip, userName) |> userManager.RegisterUser
                 
+                userManager.AllUsers() |> Seq.map (fun x -> x.UserName) |> Seq.toArray |> Players |> broadcaster
+                
                 Some ()
             | _ -> None)
     

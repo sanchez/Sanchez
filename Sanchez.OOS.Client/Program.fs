@@ -22,8 +22,6 @@ let main argv =
     Keys.loadKeys manager
     Textures.loadAllTextures manager
     
-    MainPlayer.loadMainPlayer manager name
-    
     Thread.Sleep 1000
     
     let cToken = new CancellationToken()
@@ -32,6 +30,12 @@ let main argv =
         |> Async.RunSynchronously
         
     Users.registerUser poster name
+    
+    let mutable playerPos = Position.create 0.<sq> 0.<sq>
+    MainPlayer.loadMainPlayer manager name (fun x -> playerPos <- x)
+    manager.AddSchedule (1.<second>) (fun () ->
+        playerPos |> Location |> poster
+        true)
     
     let mutable pingCounters = Map.empty
     actioner.AddActioner "pingpong" (fun ip ->

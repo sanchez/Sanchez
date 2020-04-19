@@ -36,6 +36,7 @@
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />
         <Compile Include="Characters\MainPlayer.fs" />
+        <Compile Include="Characters\NetworkPlayer.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿namespace Sanchez.OOS.Core
 
+open Sanchez.Game.Core
 open System
-open Sanchez.OOS.Core.GameCore
 open System.Net
 open System.Text
 

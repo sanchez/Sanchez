@@ -7,7 +7,7 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Sanchez.Game.Core
 open Sanchez.Game.Platformer.Entity
 
-let loadMainPlayer (manager: GameManager<Textures, Keys>) name =
+let loadMainPlayer (manager: GameManager<Textures, Keys>) name onPosUpdate =
     let personSpeed = 5.<sq> / 1.<second>
     
     let mutable lastLeft = false
@@ -32,7 +32,10 @@ let loadMainPlayer (manager: GameManager<Textures, Keys>) name =
             elif movementPos.X < 0.<sq> then TextureBodyLeft
             else TextureBodyRight
             
-        (true, position + movementPos, tex)
+        let finalPos = position + movementPos
+        onPosUpdate finalPos
+            
+        (true, finalPos, tex)
         
     let headOffset = Position.create 0.<sq> 1.<sq>
     let headUpdate obFinder position timeElapsed =
