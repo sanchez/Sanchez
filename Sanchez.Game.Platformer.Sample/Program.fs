@@ -56,6 +56,9 @@ let main argv =
             if lastLeft then HeadTextureLeft
             else HeadTextureRight
         (true, headOffset, tex)
+        
+    let playerName obFinder position (timeElapsed: float<second>) =
+        (true, headOffset, "Daniel")
     
     manager.LoadTexture(BodyTextureRight, "Assets/body.png", false, (12, 24.<frame/second>))
     manager.LoadTexture(BodyTextureLeft, "Assets/body.png", true, (12, 24.<frame/second>))
@@ -65,6 +68,7 @@ let main argv =
     manager.LoadTexture(HeadTextureRight, "Assets/head1.png", false)
     manager.LoadTexturedGameObject "mainPlayer" playerUpdate
     manager.LoadTexturedGameObject "mainPlayerHead" (TexturedGameObjectBinds.BindToObject<Textures> "mainPlayer" BodyTextureRight headUpdate)
+    manager.LoadTextGameObject "mainPlayerName" (TextGameObjectBinds.BindToObject<Textures> "mainPlayerHead" playerName)
     
     manager.Run()
     printfn "Hello World from F#!"

@@ -9,5 +9,5 @@ type IGameObject<'TTextureKey when 'TTextureKey : comparison> =
     abstract member IsAlive : bool with get
     abstract member Name : string with get
     
-    abstract member Update : (string -> IGameObject<'TTextureKey> option) * ('TTextureKey -> LoadedTexture option) * (float<second>) -> unit
+    abstract member Update : (string -> IGameObject<'TTextureKey> option) * ('TTextureKey -> LoadedTexture option) * (string -> TextTexture) * (float<second>) -> unit
     abstract member Render : float32 -> unit

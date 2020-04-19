@@ -3,7 +3,7 @@ namespace Sanchez.Game.Platformer.Assets
 open SkiaSharp
 open OpenToolkit.Graphics.OpenGL
 
-type TextTexture = TextTexture of string*int
+type TextTexture = TextTexture of string*int*float32
 
 module Text =
     let createTexture (str: string) =
@@ -22,6 +22,7 @@ module Text =
         let canvas = surface.Canvas
         
         canvas.Clear(SKColors.Black.WithAlpha(0uy))
+        canvas.Scale(1.f, -1.f, 0.f, textHeight / 2.f)
         canvas.DrawText(str, 0.f, textHeight, paint)
         
         canvas.Flush()
@@ -39,7 +40,7 @@ module Text =
         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, skBMP.Width, skBMP.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, skBMP.Bytes)
         GL.GenerateMipmap(GenerateMipmapTarget.Texture2D)
         
-        (str, texId) |> TextTexture
+        (str, texId, textWidth / textHeight) |> TextTexture
         
 type TextManager() =
     let mutable texts: Map<string, TextTexture list> = Map.empty

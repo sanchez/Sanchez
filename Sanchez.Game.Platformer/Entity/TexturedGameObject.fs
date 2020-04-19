@@ -29,7 +29,7 @@ type TexturedGameObject<'TTextureKey when 'TTextureKey : comparison>(name: strin
         member this.IsAlive with get() = isAlive
         member this.Name with get() = name
             
-        member this.Update (objectFinder, textureLoader, timeElapsed) =
+        member this.Update (objectFinder, textureLoader, textLoader, timeElapsed) =
             let (alive, newPos, nextTex) = onUpdate objectFinder currentPosition timeElapsed
             isAlive <- alive
             currentPosition <- newPos
