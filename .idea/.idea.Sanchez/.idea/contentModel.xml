@@ -24,6 +24,7 @@
         <e p="obj" t="ExcludeRecursive" />
         <e p="Position.fs" t="Include" />
         <e p="Sanchez.Game.Core.fsproj" t="IncludeRecursive" />
+        <e p="Scheduler.fs" t="Include" />
         <e p="Units.fs" t="Include" />
       </e>
       <e p="Sanchez.Game.Platformer" t="IncludeRecursive">
@@ -100,7 +101,6 @@
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
-        <e p="Scheduler.fs" t="Include" />
         <e p="User.fs" t="Include" />
       </e>
       <e p="Sanchez.OOS.Server" t="IncludeRecursive">

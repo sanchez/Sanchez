@@ -16,6 +16,7 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
             | Some cb -> cb()
             | None -> ()
             
+    let scheduler = new Scheduler()
     let textureManager = new TextureManager<'TTextureKey>()
     let textManager = new TextManager()
     let goManager = new GameObjectManager<'TTextureKey>(sqToFloat, textureManager.FindTexture, textManager.FindText)
@@ -27,6 +28,7 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
         
     let onUpdate (timeSince: float<second>) =
         loadQueuedItems()
+        scheduler.Cycle timeSince
         goManager.Update(timeSince)
         
     let onRender (widthScale: float32) =
@@ -53,6 +55,8 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
             Option.map (initializer textureManager.FindTexture) shader
             |> Option.map (fun x -> goManager.AddGameObject x)
             |> ignore)
+        
+    member this.AddSchedule = scheduler.AddSchedule
         
     member this.IsKeyPressed = game.IsKeyPressed
     member this.RemoveKeyBinding = game.RemoveKeyBinding

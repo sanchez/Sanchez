@@ -1,4 +1,4 @@
-namespace Sanchez.OOS.Core
+namespace Sanchez.Game.Core
 
 open FSharp.Data.UnitSystems.SI.UnitNames
 

@@ -33,28 +33,24 @@ let main argv =
         
     Users.registerUser poster name
     
-//    use game = new Game(800, 600, poster)
-//    
-//    let mutable pingCounters = Map.empty
-//    actioner.AddActioner "pingpong" (fun ip ->
-//        function
-//            | Pong id ->
-//                let current = DateTime.UtcNow
-//                let (dt: DateTime) = pingCounters |> Map.find id
-//                let t = current.Subtract(dt)
-//                printfn "Current Server Ping: %.3fms" t.TotalMilliseconds
-//                Some ()
-//            | _ -> None)
-//    game.AddSchedule (1.<second>) (fun () ->
-//        let id = Guid.NewGuid()
-//        pingCounters <- pingCounters |> Map.add id DateTime.UtcNow
-//        id |> Ping |> poster
-//        true)
-    
+    let mutable pingCounters = Map.empty
+    actioner.AddActioner "pingpong" (fun ip ->
+        function
+            | Pong id ->
+                let current = DateTime.UtcNow
+                let (dt: DateTime) = pingCounters |> Map.find id
+                let t = current.Subtract(dt)
+                printfn "Current Server Ping: %.3fms" t.TotalMilliseconds
+                Some ()
+            | _ -> None)
+    manager.AddSchedule (1.<second>) (fun () ->
+        let id = Guid.NewGuid()
+        pingCounters <- pingCounters |> Map.add id DateTime.UtcNow
+        id |> Ping |> poster
+        true)
     
 //    actioner.AddActioner "missing" (fun ip ->
 //        printfn "Missing action binding: %A" >> Some)
     
-//    game.Run()
     manager.Run()
     0
