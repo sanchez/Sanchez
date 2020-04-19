@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="OpenTK" Version="4.0.0-pre7" />
+      <PackageReference Include="OpenTK" Version="4.0.0-pre8" />
       <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
       <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />

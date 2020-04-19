@@ -6,28 +6,46 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Connection\Users.fs" />
-        <Compile Include="Assets\Assets.fs" />
-        <Compile Include="Assets\GameObject.fs" />
-        <Content Include="Assets\shader.vert" />
-        <Content Include="Assets\shader.frag" />
+        <Compile Include="Assets\Textures.fs" />
+        <Content Include="Assets\heads\head1.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\block1.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\blocks.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\body.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\heads.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\icon.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\sealedDoor.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\stationaryBody.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Compile Include="Keys.fs" />
+        <Compile Include="Connection\Users.fs" />
         <Compile Include="World\Blocks\Block.fs" />
         <Compile Include="World\World.fs" />
-        <Compile Include="Player.fs" />
-        <Compile Include="Game.fs" />
+        <Compile Include="Characters\MainPlayer.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.FSharpLu.Json" Version="0.11.6" />
-      <PackageReference Include="OpenTK" Version="4.0.0-pre6" />
-      <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
-      <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Sanchez.Data\Sanchez.Data.fsproj" />
+      <ProjectReference Include="..\Sanchez.Game.Platformer\Sanchez.Game.Platformer.fsproj" />
       <ProjectReference Include="..\Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj" />
       <ProjectReference Include="..\Sanchez.Socker\Sanchez.Socker.fsproj" />
     </ItemGroup>

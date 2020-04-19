@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\linux-x64\native\libglfw.so.3.3" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x64\native\glfw3-x64.dll" t="Include" />
-    <e p="C:\Users\dfitz\.nuget\packages\opentoolkit.redist.glfw\3.3.0-pre20190419183326\runtimes\win-x86\native\glfw3-x86.dll" t="Include" />
     <e p="C:\Users\dfitz\.Rider2019.3\config\scratches" t="IncludeRecursive" />
     <e p="C:\Users\dfitz\.Rider2019.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\dfitz\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Sanchez.-146124324.00" t="ExcludeRecursive" />
@@ -63,19 +60,27 @@
       </e>
       <e p="Sanchez.OOS.Client" t="IncludeRecursive">
         <e p="Assets" t="Include">
-          <e p="Assets.fs" t="Include" />
-          <e p="GameObject.fs" t="Include" />
-          <e p="shader.frag" t="Include" />
-          <e p="shader.vert" t="Include" />
+          <e p="block1.png" t="Include" />
+          <e p="blocks.png" t="Include" />
+          <e p="body.png" t="Include" />
+          <e p="heads" t="Include">
+            <e p="head1.png" t="Include" />
+          </e>
+          <e p="heads.png" t="Include" />
+          <e p="icon.png" t="Include" />
+          <e p="sealedDoor.png" t="Include" />
+          <e p="stationaryBody.png" t="Include" />
+          <e p="Textures.fs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Characters" t="Include">
+          <e p="MainPlayer.fs" t="Include" />
+        </e>
         <e p="Connection" t="Include">
           <e p="Users.fs" t="Include" />
         </e>
-        <e p="Game.fs" t="Include" />
         <e p="Keys.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
-        <e p="Player.fs" t="Include" />
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.OOS.Client.fsproj" t="IncludeRecursive" />
         <e p="World" t="Include">

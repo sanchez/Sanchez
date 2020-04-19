@@ -1,25 +1,12 @@
-﻿module Sanchez.OOS.Client.Keys
+﻿namespace Sanchez.OOS.Client
 
-open OpenToolkit.Windowing.Common
+open Sanchez.Game.Platformer
 
-type Key =
-    | Escape = 0
+type Keys =
+    | LeftKey
+    | RightKey
     
-    | Left = 1
-    | Right = 2
-    | Up = 3
-    | Down = 4
-    
-    | Other = -1
-    
-let mapWindowKeyToKey (key: Input.Key) =
-    match key with
-    | Input.Key.A -> Key.Left
-    | Input.Key.D -> Key.Right
-    | Input.Key.W -> Key.Up
-    | Input.Key.S -> Key.Down
-    | Input.Key.Escape -> Key.Escape
-    | _ -> Key.Other
-    
-let (|ParseGameEvent|) (evt: KeyboardKeyEventArgs) =
-    (mapWindowKeyToKey evt.Key, evt.IsRepeat)
+module Keys =
+    let loadKeys (manager: GameManager<_, Keys>) =
+        manager.AddKeyBinding LeftKey "A"
+        manager.AddKeyBinding RightKey "D"

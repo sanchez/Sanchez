@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/linux-x64/native/libglfw.so.3.3" />
-    <content url="file://$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/win-x64/native/glfw3-x64.dll" />
-    <content url="file://$USER_HOME$/.nuget/packages/opentoolkit.redist.glfw/3.3.0-pre20190419183326/runtimes/win-x86/native/glfw3-x86.dll" />
     <content url="file://$MODULE_DIR$/../.." />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
