@@ -9,6 +9,7 @@ open Sanchez.Game.Platformer
 open Sanchez.OOS.Client
 open Sanchez.OOS.Client.Assets
 open Sanchez.OOS.Client.Characters
+open Sanchez.OOS.Client.Characters.NetworkPlayer
 
 [<EntryPoint>]
 let main argv =
@@ -28,6 +29,17 @@ let main argv =
     let (poster, actioner) =
         Client.connectToServer ServerAction.decode ClientAction.encode "127.0.0.1" serverPort cToken
         |> Async.RunSynchronously
+        
+    let networkPlayerManager = new NetworkPlayerManager(manager)
+    actioner.AddActioner "networkManager" (fun ip ->
+        function
+            | Players pl ->
+                networkPlayerManager.HandlePlayerList(pl |> Array.toList)
+                Some ()
+            | LocationUpdate (name, pos) ->
+                networkPlayerManager.HandlePlayerLocation name pos
+                Some ()
+            | _ -> None)
         
     Users.registerUser poster name
     
