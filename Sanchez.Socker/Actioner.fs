@@ -11,15 +11,16 @@ type Actioner<'T> () =
             while (true) do
                 let! (addr, a) = inbox.Receive()
                 
-                let t = actioners
-                
-                actioners
-                |> Seq.map (snd >> (fun x -> x addr a))
-                |> Seq.choose id
-                |> Seq.tryHead
-                |> function
-                    | Some () -> ()
-                    | None -> () // oh god, no actioners were able to execute
+                if inbox.CurrentQueueLength > 100 then
+                    ()
+                else
+                    actioners
+                    |> Seq.map (snd >> (fun x -> x addr a))
+                    |> Seq.choose id
+                    |> Seq.tryHead
+                    |> function
+                        | Some () -> ()
+                        | None -> () // oh god, no actioners were able to execute
             
             return ()
         })

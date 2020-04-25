@@ -5,8 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Option.fs" />
+        <Compile Include="BaseDataTypes.fs" />
         <Compile Include="Queue.fs" />
+        <Compile Include="Actioner.fs" />
     </ItemGroup>
 
 </Project>
