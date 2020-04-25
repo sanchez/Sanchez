@@ -7,7 +7,6 @@
     <ItemGroup>
         <Compile Include="Units.fs" />
         <Compile Include="Position.fs" />
-        <Compile Include="Scheduler.fs" />
     </ItemGroup>
 
 </Project>

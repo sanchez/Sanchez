@@ -9,10 +9,15 @@ open Sanchez.Socketier.Errors
 let private openConnection (serverAddr: string) (port: int) (cToken: CancellationToken) =
     async {
         let ipHostInfo = Dns.GetHostEntry(serverAddr)
-        let ipAddress = ipHostInfo.AddressList.[0]
+        let ipAddress =
+            ipHostInfo.AddressList
+            |> Seq.pick (fun x ->
+                if x.AddressFamily = AddressFamily.InterNetwork then
+                    Some x
+                else None)
         let remoteEP = IPEndPoint(ipAddress, port)
         
-        let client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Udp)
+        let client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
         
         do! client.ConnectAsync(remoteEP) |> Async.AwaitTask
         
