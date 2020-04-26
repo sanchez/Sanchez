@@ -75,5 +75,9 @@ module AsyncResultBuilder =
         member this.Bind(v, f) = AsyncResult.bind f v
         member this.Return v = AsyncResult.fromValue v
         member this.ReturnFrom o = o |> async.ReturnFrom
+        member this.Zero() =
+            async {
+                return Ok ()
+            }
         
     let asyncResult = AsyncResultBuilder()

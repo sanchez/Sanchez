@@ -5,6 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Errors.fs" />
+        <Compile Include="Parts\PingPong.fs" />
         <Compile Include="ServerManager.fs" />
     </ItemGroup>
 
