@@ -12,7 +12,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Serializer.Tests", 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.OOS.Client", "Sanchez.OOS.Client\Sanchez.OOS.Client.fsproj", "{717E21E5-8D91-4B39-9443-87C58DA1DC8A}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.OOS.Server", "Sanchez.OOS.Server\Sanchez.OOS.Server.fsproj", "{D2E7A371-3798-41CE-8508-C501800F6905}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.OOS.Server.Old", "Sanchez.OOS.Server.Old\Sanchez.OOS.Server.Old.fsproj", "{D2E7A371-3798-41CE-8508-C501800F6905}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.OOS.Core", "Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj", "{148FC456-332E-449C-B0C1-CC263C91C746}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Socketier", "Sanchez.Socketier\Sanchez.Socketier.fsproj", "{F2B537B2-19AB-4E97-A7CD-D8769DD90A78}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.Socketier.Console", "Sanchez.Socketier.Console\Sanchez.Socketier.Console.fsproj", "{34ACC42C-FA77-429D-A9D9-2274F4A52E0B}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sanchez.OOS.Client.Window", "Sanchez.OOS.Client.Window\Sanchez.OOS.Client.Window.fsproj", "{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,10 @@ Global
 		{34ACC42C-FA77-429D-A9D9-2274F4A52E0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34ACC42C-FA77-429D-A9D9-2274F4A52E0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34ACC42C-FA77-429D-A9D9-2274F4A52E0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{94A49300-4A0D-49C2-940B-72172F7CFA83} = {E55DDCCB-A949-43D6-9C0B-F2A33B6E3A54}
@@ -110,5 +116,6 @@ Global
 		{5490C6B4-83F5-4182-9ABB-1DE15E318CFC} = {5DC9C70E-FA7D-4CD4-A521-48E7895CB3EE}
 		{F2B537B2-19AB-4E97-A7CD-D8769DD90A78} = {C276FA6B-BAD5-444F-852C-50D514940C31}
 		{34ACC42C-FA77-429D-A9D9-2274F4A52E0B} = {C276FA6B-BAD5-444F-852C-50D514940C31}
+		{B09B9239-9BB0-45B3-AACB-DC6CCBB466AF} = {3A68249C-B347-4F21-8266-0C60E79C1CE5}
 	EndGlobalSection
 EndGlobal

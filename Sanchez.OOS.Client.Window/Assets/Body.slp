@@ -1,0 +1,133 @@
+{
+    "project": {
+        "animationPlayback": {
+            "fps": 24,
+            "frameCount": 12,
+            "frameHeight": 12,
+            "frameWidth": 12,
+            "frameX": 0,
+            "frameY": 0,
+            "loop": true,
+            "scale": 10
+        },
+        "creationVersion": "",
+        "currentLayerIndex": 1,
+        "guides": [
+            {
+                "orientation": 2,
+                "position": 6
+            },
+            {
+                "orientation": 1,
+                "position": 1
+            },
+            {
+                "orientation": 1,
+                "position": 6
+            },
+            {
+                "orientation": 2,
+                "position": 12
+            },
+            {
+                "orientation": 2,
+                "position": 24
+            },
+            {
+                "orientation": 2,
+                "position": 36
+            },
+            {
+                "orientation": 2,
+                "position": 48
+            },
+            {
+                "orientation": 2,
+                "position": 60
+            },
+            {
+                "orientation": 2,
+                "position": 72
+            },
+            {
+                "orientation": 2,
+                "position": 84
+            },
+            {
+                "orientation": 2,
+                "position": 96
+            },
+            {
+                "orientation": 2,
+                "position": 108
+            },
+            {
+                "orientation": 2,
+                "position": 120
+            },
+            {
+                "orientation": 2,
+                "position": 132
+            },
+            {
+                "orientation": 2,
+                "position": 144
+            }
+        ],
+        "hasUsedAnimation": true,
+        "layers": [
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAJAAAAAMCAYAAACN4jSAAAAACXBIWXMAAAsTAAALEwEAmpwYAAABLUlEQVRYhe2TvQ3CMBCFj4goG9DSUDFAhmCKSGxBEQQFczAFQzADTVo2QClMgS46jB2/U/gV95Xoe+cXnyEyDMMwDMMwDMMwPkhRNS6bL102X7qiatyr/VRmqP/q/v/uZ6kBGtrjlpBSeVl3PpLJy5rysr7z+zJyPtIH7V9UjWuPW3i+5mzkzzHE1/ZBecoD4gUTYUvjJaAZfjihh9Q3X84Ouf6DQPsj8GzkwUlXO1vbRwNyD2PVxAhcTC5Cm7nspyMkd9lPR8iH+Ysjul1I6Bx22eNFS1cuQPopN4V0NfencYdkUjxcpr+c1GKlvzrPiIhofWijGX9+KhPqs1nkLpYJ+fI3f9Exr88N8Qw31UHCd7CbnKKzQxmN7/dD/O4gLojw7X5f/tdcJP9O/wpyR6dtZKQiggAAAABJRU5ErkJggg==",
+                "name": "Legs",
+                "opacity": 1,
+                "visible": true
+            },
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAJAAAAAMCAYAAACN4jSAAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABAElEQVRYhe2UvQ3CMBCFXxCZITNEzJMyrRsv4BG8AE1aSs9jMQMzUJgCGUwC9p0jFCTuk9JE3z2dX34AQVhBM78xujZczgEA0PUNTsN14fyqP7o2AEDOj05KzvdOB4uJ7HPzufu/m9nS3+eGS6ThW/rz4nMYKFhMC7dUJtWvzed2UzPzDX9HTivALYjy9lMxUItdPuUfhmNjoB5Ozo1+mknxOfnpGbr+qXD72ar/VX+guEiNS1neQMH296+59NC808H2Eyk7vhRUuEVz8+MM5wzAaz8UuP1XzYyuDelV8r3TwTtNOgHHTWcoe/wrnH5q++fO1A0JgiAIgiAIgiAIZW7dRgsK+qkJ4gAAAABJRU5ErkJggg==",
+                "name": "Behind Arm",
+                "opacity": 1,
+                "visible": true
+            },
+            {
+                "imageData": "iVBORw0KGgoAAAANSUhEUgAAAJAAAAAMCAYAAACN4jSAAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNklEQVRYhe2WMY7CMBBFf1ZwBs4QcQ9uQEmbLajoUlFwASoKasrcYO+BfIbcYSVvsTKKhvF4xslKW8yTECC9b8/Yo0ADwu6yitPvX+fvhjruu5/4oIFN27Cfc8z1D8M6CvoivpTJ+bmM5D+H41tG8rk95vZbYmn/bYAodAIlxhCLDY8hvgoZQ1RlplmNQ9eX9sj5AMANhORb1+/RqXzL+WhdrU/roX5xgDRFaCa5NkNdS9Mpt2kb9rI4P716dNjub2yRnA/A5GvW19RupeY8JVaLVAXd47A2k5pO7z06PHArZtIe0mVRH/j9ndeun3xND9b1NbXXno31vnI+O0A1T5Rr+wkAOIW7OVO63GldmmGg+2zPev8/MYaIE8rnOR2evzh/8/0+hyP7h9BxHMdxHMdxHMeZyQ8mZ0McEfzlSwAAAABJRU5ErkJggg==",
+                "name": "Arms",
+                "opacity": 1,
+                "visible": true
+            }
+        ],
+        "modificationVersion": "0.9.0",
+        "notes": [
+        ],
+        "swatch": {
+            "colours": [
+            ]
+        },
+        "uiState": {
+            "animationPanelExpanded": true,
+            "colourPanelExpanded": true,
+            "firstPane": {
+                "offsetX": 581,
+                "offsetY": 172,
+                "sceneCentered": false,
+                "size": 1,
+                "zoomLevel": 29
+            },
+            "guidesLocked": true,
+            "lastFillToolUsed": "FillTool",
+            "layerListViewContentY": 0,
+            "layerPanelExpanded": true,
+            "mainSplitViewState": "gqJlaW5kZXgAbnByZWZlcnJlZFdpZHRo+0CBfVVVVVVVomVpbmRleAFucHJlZmVycmVkV2lkdGj7QG4AAAAAAAA=",
+            "notesVisible": false,
+            "panelSplitViewState": "g6JlaW5kZXgAb3ByZWZlcnJlZEhlaWdodPtAebFQAAAAAKJlaW5kZXgBb3ByZWZlcnJlZEhlaWdodPtAWQAAAAAAAKJlaW5kZXgEb3ByZWZlcnJlZEhlaWdodPtAcP6wAAAAAA==",
+            "secondPane": {
+                "offsetX": -42,
+                "offsetY": 422,
+                "sceneCentered": true,
+                "size": 0,
+                "zoomLevel": 1
+            },
+            "swatchPanelExpanded": true
+        },
+        "usingAnimation": true
+    }
+}
