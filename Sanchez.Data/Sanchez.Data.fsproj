@@ -8,6 +8,7 @@
         <Compile Include="BaseDataTypes.fs" />
         <Compile Include="Queue.fs" />
         <Compile Include="Actioner.fs" />
+        <Compile Include="Scheduler.fs" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
-namespace Sanchez.Game.Core
+namespace Sanchez.Data
 
+open System.Diagnostics
+open System.Diagnostics
+open System.Threading
 open FSharp.Data.UnitSystems.SI.UnitNames
 
 type ScheduledAction = unit -> bool
@@ -28,4 +31,15 @@ type Scheduler() =
                     else None
                 else
                     { x with Remainder = (x.Remainder - interval) } |> Some)
-
+            
+    member this.Run (delay: float<second>) =
+        let stopWatch = Stopwatch.StartNew()
+        while (true) do
+            stopWatch.ElapsedTicks
+            |> float
+            |> (fun x -> x / (Stopwatch.Frequency |> float))
+            |> ((*) 1.<second>)
+            |> this.Cycle
+            stopWatch.Restart()
+            
+            delay |> float |> ((*) 1000.) |> int |> Thread.Sleep

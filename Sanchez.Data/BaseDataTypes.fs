@@ -36,6 +36,12 @@ module AsyncResult =
     let mapError f v =
         bindError (f >> Error >> async.Return) v
         
+    let inject f v =
+        async.Bind(v, function
+            | Ok x -> f x; Ok x
+            | Error err -> Error err
+            >> async.Return)
+        
     let fromValue a =
         a |> Ok |> async.Return
     let fromAsync (err: 'e) (a: Async<'a>) =
@@ -51,6 +57,8 @@ module AsyncResult =
     let fromOptionAsync err a =
         fromAsync err a
         |> bind (fromOption err)
+    let fromResult a =
+        a |> async.Return
         
     let synchronously a =
         Async.RunSynchronously a
@@ -66,6 +74,6 @@ module AsyncResultBuilder =
     type AsyncResultBuilder() =
         member this.Bind(v, f) = AsyncResult.bind f v
         member this.Return v = AsyncResult.fromValue v
-        member this.ReturnFrom o = o
+        member this.ReturnFrom o = o |> async.ReturnFrom
         
     let asyncResult = AsyncResultBuilder()
