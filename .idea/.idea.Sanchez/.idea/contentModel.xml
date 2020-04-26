@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_Sanchez.1631713849.00" t="ExcludeRecursive" />
-    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$" t="IncludeFlat">
+    <e p="C:\Users\dfitz\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\dfitz\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Sanchez.-146124324.00" t="ExcludeRecursive" />
+    <e p="C:\Users\dfitz\AppData\Roaming\JetBrains\Rider2020.1\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\dfitz\Documents\git\Sanchez" t="IncludeFlat">
       <e p="Data" t="Include" />
       <e p="Game" t="Include" />
       <e p="OOS" t="Include" />
@@ -88,6 +88,12 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
+      </e>
+      <e p="Sanchez.OOS.Server" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Sanchez.OOS.Server.fsproj" t="IncludeRecursive" />
+        <e p="ServerManager.fs" t="Include" />
       </e>
       <e p="Sanchez.Serializer" t="IncludeRecursive">
         <e p="Sanchez.Serializer.fsproj" t="IncludeRecursive" />

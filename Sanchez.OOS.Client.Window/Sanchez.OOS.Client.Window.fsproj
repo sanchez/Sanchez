@@ -38,6 +38,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Sanchez.Game.Platformer\Sanchez.Game.Platformer.fsproj" />
+      <ProjectReference Include="..\Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj" />
+      <ProjectReference Include="..\Sanchez.OOS.Server\Sanchez.OOS.Server.fsproj" />
       <ProjectReference Include="..\Sanchez.Socketier\Sanchez.Socketier.fsproj" />
     </ItemGroup>
 

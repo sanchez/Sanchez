@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="ServerManager.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sanchez.Data\Sanchez.Data.fsproj" />
+      <ProjectReference Include="..\Sanchez.Game.Core\Sanchez.Game.Core.fsproj" />
+      <ProjectReference Include="..\Sanchez.OOS.Core\Sanchez.OOS.Core.fsproj" />
+      <ProjectReference Include="..\Sanchez.Socketier\Sanchez.Socketier.fsproj" />
+    </ItemGroup>
+
+</Project>
