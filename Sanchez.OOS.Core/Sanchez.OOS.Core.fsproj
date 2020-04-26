@@ -5,9 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Connection.fs" />
         <Compile Include="Action.fs" />
-        <Compile Include="User.fs" />
     </ItemGroup>
 
     <ItemGroup>

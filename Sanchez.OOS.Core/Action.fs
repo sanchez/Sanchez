@@ -9,9 +9,7 @@ module Action =
     let staticVersion = "0.0.1"
     
 type ServerAction =
-    | Players of string[]
     | Pong of Guid
-    | LocationUpdate of string*Position
     
 module ServerAction =
     let encode (a: ServerAction) =
@@ -25,9 +23,7 @@ module ServerAction =
             | Choice2Of2 err -> None
     
 type ClientAction =
-    | Register of string
     | Ping of Guid
-    | Location of Position
     
 module ClientAction =
     let encode (a: ClientAction) =
