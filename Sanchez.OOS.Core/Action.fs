@@ -10,6 +10,7 @@ module Action =
     
 type ServerAction =
     | Pong of Guid
+    | PlayerUpdate of Player list
     
 module ServerAction =
     let encode (a: ServerAction) =
@@ -24,6 +25,7 @@ module ServerAction =
     
 type ClientAction =
     | Ping of Guid
+    | PlayerUpdate of Player
     
 module ClientAction =
     let encode (a: ClientAction) =

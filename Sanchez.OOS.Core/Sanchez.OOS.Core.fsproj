@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Player.fs" />
         <Compile Include="Action.fs" />
     </ItemGroup>
 

@@ -33,6 +33,7 @@
         </Content>
         <Compile Include="Keys.fs" />
         <Compile Include="Characters\MainPlayer.fs" />
+        <Compile Include="Characters\NetworkManager.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

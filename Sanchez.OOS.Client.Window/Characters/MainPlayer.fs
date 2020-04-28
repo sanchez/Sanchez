@@ -8,7 +8,7 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Sanchez.Game.Core
 open Sanchez.Game.Platformer.Entity
 
-let loadMainPlayer (manager: GameManager<Textures, Keys>) name =
+let loadMainPlayer (manager: GameManager<Textures, Keys>) name onPositionUpdate =
     let personSpeed = 5.<sq> / 1.<second>
     
     let mutable lastLeft = false
@@ -34,6 +34,7 @@ let loadMainPlayer (manager: GameManager<Textures, Keys>) name =
             else TextureBodyRight
             
         let finalPos = position + movementPos
+        onPositionUpdate finalPos
         
         (true, finalPos, tex)
         

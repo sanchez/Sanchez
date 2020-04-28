@@ -29,7 +29,10 @@ let main argv =
     
     let cToken = new CancellationToken()
     
-    MainPlayer.loadMainPlayer manager name
+    let mutable playerPosition = Position.create 0.<sq> 0.<sq>
+    let onPlayerPosition (pos: Position) =
+        playerPosition <- pos
+    MainPlayer.loadMainPlayer manager name onPlayerPosition
     
     let connectToServer() = Client.connectToServer ServerAction.decode ClientAction.encode host serverPort cToken
     let createServerAndConnect () =
@@ -39,6 +42,17 @@ let main argv =
         connectToServer()
         |> AsyncResult.bindError (fun _ -> createServerAndConnect())
         |> AsyncResult.synchronously
+        
+    NetworkManager.setupNetworkManager name poster actioner manager
+        
+    manager.AddSchedule 0.05<second> (fun () ->
+        let pl =
+            {
+                Player.Name = name
+                Location = playerPosition
+            }
+        pl |> ClientAction.PlayerUpdate |> poster
+        true)
         
     let mutable pingGuids: Map<Guid, Stopwatch> = Map.empty
     manager.AddSchedule 0.5<second> (fun () ->
@@ -62,7 +76,8 @@ let main argv =
                 |> (fun x -> x / (Stopwatch.Frequency |> float))
                 |> ((*) 1.<second>)
             printfn "Received a ping of %fms" elapsed
-            Some ())
+            Some ()
+        | _ -> None)
     
     manager.Run()
     

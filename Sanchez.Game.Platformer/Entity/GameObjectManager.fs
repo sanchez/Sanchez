@@ -7,6 +7,9 @@ open Shader
 type GameObjectManager<'TTextureKey when 'TTextureKey : comparison>(sqToFloat, textureLoader, textLoader) =
     let mutable aliveObjs: IGameObject<'TTextureKey> list = []
     
+    member this.RemoveObject name =
+        aliveObjs <- aliveObjs |> List.filter ((fun x -> x.Name = name) >> not)
+    
     member this.FindGameObject name =
         aliveObjs
         |> List.tryFind (fun x -> x.Name = name)

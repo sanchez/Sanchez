@@ -56,6 +56,9 @@ type GameManager<'TTextureKey, 'TKey when 'TTextureKey : comparison and 'TKey : 
             |> Option.map (fun x -> goManager.AddGameObject x)
             |> ignore)
         
+    member this.RemoveObject name =
+        loadingQueue.Queue(fun () -> goManager.RemoveObject name)
+        
     member this.AddSchedule = scheduler.AddSchedule
         
     member this.IsKeyPressed = game.IsKeyPressed
