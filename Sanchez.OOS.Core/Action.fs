@@ -11,6 +11,7 @@ module Action =
 type ServerAction =
     | Pong of Guid
     | PlayerUpdate of Player list
+    | SinglePlayerUpdate of string*Player
     
 module ServerAction =
     let encode (a: ServerAction) =

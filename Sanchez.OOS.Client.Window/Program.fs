@@ -30,8 +30,12 @@ let main argv =
     let cToken = new CancellationToken()
     
     let mutable playerPosition = Position.create 0.<sq> 0.<sq>
-    let onPlayerPosition (pos: Position) =
+    let mutable playerDir = PlayerRight
+    let mutable isMoving = false
+    let onPlayerPosition (pos, dir, mov) =
         playerPosition <- pos
+        playerDir <- dir
+        isMoving <- mov
     MainPlayer.loadMainPlayer manager name onPlayerPosition
     
     let connectToServer() = Client.connectToServer ServerAction.decode ClientAction.encode host serverPort cToken
@@ -50,6 +54,8 @@ let main argv =
             {
                 Player.Name = name
                 Location = playerPosition
+                Direction = playerDir
+                IsMoving = isMoving
             }
         pl |> ClientAction.PlayerUpdate |> poster
         true)

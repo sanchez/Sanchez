@@ -28,9 +28,11 @@ let createPart (poster: SenderAddress*ServerAction -> unit) (actioner: Actioner<
         match a with
         | PlayerUpdate pl ->
             updateForPlayer pl
+            (SenderAddress.Broadcast, (pl.Name, pl) |> SinglePlayerUpdate) |> poster
+            
             Some ()
         | _ -> None)
     
-    scheduler.AddSchedule 0.05<second> (fun () ->
+    scheduler.AddSchedule 0.2<second> (fun () ->
         (SenderAddress.Broadcast, removeOldPlayers() |> ServerAction.PlayerUpdate) |> poster
         true)
