@@ -6,6 +6,11 @@
 
     <ItemGroup>
         <Compile Include="Player.fs" />
+        <Compile Include="Blocks\Block.fs" />
+        <Compile Include="Blocks\WallBlock.fs" />
+        <Compile Include="Blocks\BaseBlock.fs" />
+        <Compile Include="World\World.fs" />
+        <Compile Include="World\Generator.fs" />
         <Compile Include="Action.fs" />
     </ItemGroup>
 

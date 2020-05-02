@@ -9,6 +9,7 @@ open Sanchez.Game.Platformer
 open Sanchez.OOS.Client.Window
 open Sanchez.OOS.Client.Window.Assets
 open Sanchez.OOS.Client.Window.Characters
+open Sanchez.OOS.Client.Window.World
 open Sanchez.OOS.Core
 open Sanchez.OOS.Server
 open Sanchez.Socketier
@@ -48,6 +49,7 @@ let main argv =
         |> AsyncResult.synchronously
         
     NetworkManager.setupNetworkManager name poster actioner manager
+    let world = WorldManager.setupWorldManager squareUnitToPx poster actioner manager
         
     manager.AddSchedule 0.05<second> (fun () ->
         let pl =

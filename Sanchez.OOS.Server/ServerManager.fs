@@ -15,6 +15,7 @@ let serverThread cToken poster actioner =
         
         do PingPong.createPart poster actioner scheduler
         do PlayerStatus.createPart poster actioner scheduler
+        do WorldPart.createPart poster actioner scheduler
         
         do scheduler.Run 0.01<second>
     }, cToken)

@@ -1,9 +1,8 @@
 ﻿namespace Sanchez.OOS.Core
 
-open Sanchez.Game.Core
 open System
-open System.Net
 open System.Text
+open Sanchez.OOS.Core.World
 
 module Action =
     let staticVersion = "0.0.1"
@@ -12,6 +11,7 @@ type ServerAction =
     | Pong of Guid
     | PlayerUpdate of Player list
     | SinglePlayerUpdate of string*Player
+    | WorldUpdate of World
     
 module ServerAction =
     let encode (a: ServerAction) =

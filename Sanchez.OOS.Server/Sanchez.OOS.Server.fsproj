@@ -8,6 +8,7 @@
         <Compile Include="Errors.fs" />
         <Compile Include="Parts\PingPong.fs" />
         <Compile Include="Parts\PlayerStatus.fs" />
+        <Compile Include="Parts\WorldPart.fs" />
         <Compile Include="ServerManager.fs" />
     </ItemGroup>
 
