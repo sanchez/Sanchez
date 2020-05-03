@@ -8,6 +8,9 @@ open Sanchez.Data.Positional
 type Vertexor = Vertexor of (int * (Matrix4 -> unit))
 
 module Vertexor =
+    let createEmpty () =
+        (0, fun _ -> ()) |> Vertexor
+    
     let renderVertexor (Vertexor (_, render)) (trans: Matrix4) =
         render trans
     
@@ -43,7 +46,7 @@ module Vertexor =
         
         let shader = shaders |> Map.find "simpleColor"
         let positionLocation = Shaders.getAttributeLocation shader "aPos"
-        let colorLocation = Shaders.getUniformLocation shader "ourColor"
+        let colorLocation = Shaders.getAttributeLocation shader "aColor"
         let transformLocation = Shaders.getUniformLocation shader "transform"
         
         GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof<float32>, 0)
@@ -53,9 +56,10 @@ module Vertexor =
         GL.EnableVertexAttribArray(colorLocation)
         
         let render (mat: Matrix4) =
+            Shaders.useShader shader
             GL.BindVertexArray vertexArrayId
             GL.UniformMatrix4(transformLocation, false, ref mat)
             
-            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 6)
+            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0)
             
         (vertexArrayId, render) |> Vertexor

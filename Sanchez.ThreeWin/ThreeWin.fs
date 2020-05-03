@@ -75,7 +75,8 @@ type ThreeWin(title, width, height, clearColor: Color) =
 module ThreeWin =
     let createWindow title width height clearColor cToken =
         let win = new ThreeWin(title, width, height, clearColor)
-        let loadThread = Async.FromContinuations(fun (success, failed, _) ->
-            win.SetOnLoad(fun () -> success win))
-        
-        (loadThread, fun () -> win.Run())
+//        let loadThread = Async.FromContinuations(fun (success, failed, _) ->
+//            win.SetOnLoad(fun () -> success win))
+//        
+//        (loadThread, fun () -> win.Run())
+        win

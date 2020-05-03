@@ -2,7 +2,7 @@
 
 out vec4 outputColor;
 
-uniform vec3 ourColor;
+in vec3 ourColor;
 
 void main(void)
 {

@@ -42,16 +42,11 @@ module Shaders =
         let keyFragLookup k = Path.Combine(shaderDir, "Shaders", sprintf "%s.frag" k)
         
         let loadVertFragPair (key: string) =
-            async {
-                let! vertShader = key |> keyVertLookup |> File.ReadAllTextAsync |> Async.AwaitTask
-                let! fragShader = key |> keyFragLookup |> File.ReadAllTextAsync |> Async.AwaitTask
-                return createSimpleShader vertShader fragShader
-            }
+            let vertShader = key |> keyVertLookup |> File.ReadAllText
+            let fragShader = key |> keyFragLookup |> File.ReadAllText
+            createSimpleShader vertShader fragShader
         
-        async {
-            let! simpleColor = loadVertFragPair "simpleColor"
-            
-            return
-                Map.empty
-                |> Map.add "simpleColor" simpleColor
-        }
+        let simpleColor = loadVertFragPair "simpleColor"
+        
+        Map.empty
+        |> Map.add "simpleColor" simpleColor
