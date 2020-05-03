@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Units.fs" />
+        <Compile Include="Shaders.fs" />
+        <Compile Include="Vertexor.fs" />
+        <Compile Include="Textures.fs" />
+        <Compile Include="ThreeWin.fs" />
+        <Content Include="Shaders\simpleColor.vert">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Shaders\simpleColor.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OpenTK" Version="4.0.0-pre9" />
+      <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sanchez.Data\Sanchez.Data.fsproj" />
+    </ItemGroup>
+
+</Project>

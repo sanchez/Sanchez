@@ -6,6 +6,7 @@
     <e p="C:\Users\dfitz\AppData\Roaming\JetBrains\Rider2020.1\scratches" t="IncludeRecursive" />
     <e p="C:\Users\dfitz\Documents\git\Sanchez" t="IncludeFlat">
       <e p="Data" t="Include" />
+      <e p="FunCAD" t="Include" />
       <e p="Game" t="Include" />
       <e p="OOS" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
@@ -17,6 +18,10 @@
         <e p="BaseDataTypes.fs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
+        <e p="Positional" t="Include">
+          <e p="PointVector.fs" t="Include" />
+          <e p="Vector.fs" t="Include" />
+        </e>
         <e p="Queue.fs" t="Include" />
         <e p="Sanchez.Data.fsproj" t="IncludeRecursive" />
         <e p="Scheduler.fs" t="Include" />
@@ -138,8 +143,29 @@
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.Socketier.Console.fsproj" t="IncludeRecursive" />
       </e>
+      <e p="Sanchez.ThreeWin" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Sanchez.ThreeWin.fsproj" t="IncludeRecursive" />
+        <e p="Shaders" t="Include">
+          <e p="simpleColor.frag" t="Include" />
+          <e p="simpleColor.vert" t="Include" />
+        </e>
+        <e p="Shaders.fs" t="Include" />
+        <e p="Textures.fs" t="Include" />
+        <e p="ThreeWin.fs" t="Include" />
+        <e p="Units.fs" t="Include" />
+        <e p="Vertexor.fs" t="Include" />
+      </e>
+      <e p="Sanchez.ThreeWin.Console" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Program.fs" t="Include" />
+        <e p="Sanchez.ThreeWin.Console.fsproj" t="IncludeRecursive" />
+      </e>
       <e p="Serializer" t="Include" />
       <e p="Socketier" t="Include" />
+      <e p="ThreeWin" t="Include" />
     </e>
   </component>
 </project>
