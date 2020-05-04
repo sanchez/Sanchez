@@ -13,6 +13,11 @@ module Vertexor =
     
     let renderVertexor (Vertexor (_, render)) =
         render
+        
+    let applyStaticTransformation (newTrans: Matrix4) (Vertexor (id, render)) =
+        let newRender cam trans =
+            trans * newTrans |> render cam
+        (id, newRender) |> Vertexor
     
     let createColoredObject (shaders: Map<string, ShaderProgram>) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
         let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)

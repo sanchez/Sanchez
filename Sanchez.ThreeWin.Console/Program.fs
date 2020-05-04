@@ -13,18 +13,17 @@ let loadSquare () =
     
     let squareVectors =
         [
-            Vector.create -0.5f -0.5f 0.f
-            Vector.create 0.5f -0.5f 0.f
-            Vector.create 0.5f 0.5f 0.f
-            Vector.create -0.5f 0.5f 0.f
+            Vector.create -5.f 0.f -5.f
+            Vector.create 5.f 0.f -5.f
+            Vector.create 5.f 0.f 5.f
+            Vector.create -5.f 0.f 5.f
         ]
     let squareIndices =
         [
             (0, 1, 2)
             (0, 3, 2)
         ]
-    let squareColorizer _ =
-        Color.Red
+    let squareColorizer _ = Color.Gray
         
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
     
@@ -60,6 +59,7 @@ let loadCube () =
         | _ -> Color.Blue
         
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
+    |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(0.f, 0.5f, 0.f))
 
 [<EntryPoint>]
 let main argv =
@@ -89,7 +89,7 @@ let main argv =
     
     win.SetOnRender(fun widthScale ->
         let renderCam = Camera.renderCamera camera widthScale
-//        Matrix4.CreateTranslation(Vector3(1.f, 0.f, 0.f)) |> Vertexor.renderVertexor square renderCam
+        Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         
         Matrix4.Identity |> Vertexor.renderVertexor cube renderCam
         
