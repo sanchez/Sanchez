@@ -33,25 +33,31 @@ let loadCube () =
     
     let squareVectors =
         [
-            Vector.create -0.5f -0.5f 0.f   // front top left
-            Vector.create 0.5f -0.5f 0.f    // front top right
-            Vector.create 0.5f 0.5f 0.f     // front bottom right
-            Vector.create -0.5f 0.5f 0.f    // front bottom left
+            Vector.create -0.5f -0.5f -0.5f   // front bottom left
+            Vector.create 0.5f -0.5f -0.5f    // front bottom right
+            Vector.create 0.5f 0.5f -0.5f     // front top right
+            Vector.create -0.5f 0.5f -0.5f    // front top left
             
-            Vector.create -0.5f -0.5f 1.f   // back top left
-            Vector.create 0.5f -0.5f 1.f    // back top right
-            Vector.create 0.5f 0.5f 1.f     // back bottom right
-            Vector.create -0.5f 0.5f 1.f    // back bottom left
+            Vector.create -0.5f -0.5f 0.5f   // back bottom left
+            Vector.create 0.5f -0.5f 0.5f    // back bottom right
+            Vector.create 0.5f 0.5f 0.5f     // back top right
+            Vector.create -0.5f 0.5f 0.5f    // back top left
         ]
     let squareIndices =
         [
             (0, 1, 2); (0, 3, 2)   // front face
             (0, 3, 4); (4, 7, 3)   // left face
             (1, 2, 6); (6, 5, 1)   // right face
+            (4, 5, 6); (6, 7, 4)   // back face
+            (0, 1, 4); (4, 5, 1)   // bottom face
+            (2, 3, 7); (7, 6, 2)   // top face
         ]
     let squareColorizer (v: Vector<_>) =
-        if v.Z = 1.f then Color.Blue
-        else Color.Green
+        match (v.Z, v.Y) with
+        | (0.5f, 0.5f) -> Color.Orange
+        | (0.5f, _) -> Color.Purple
+        | (_, 0.5f) -> Color.Green
+        | _ -> Color.Blue
         
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
 
@@ -75,15 +81,15 @@ let main argv =
     let mutable currentTimer = 0.
     win.SetOnUpdate(fun timeElapsed ->
         currentTimer <- currentTimer + (timeElapsed |> float)
-        let x = (3. * Math.Sin currentTimer) |> float32
-        let z = (3. * Math.Cos currentTimer) |> float32
-        camera |> Camera.setPosition (Vector.create x 1.f z) |> ignore
+        let x = (4. * Math.Sin currentTimer) |> float32
+        let z = (4. * Math.Cos currentTimer) |> float32
+        camera |> Camera.setPosition (Vector.create x 4.f z) |> ignore
         
         ())
     
     win.SetOnRender(fun widthScale ->
         let renderCam = Camera.renderCamera camera widthScale
-        Matrix4.CreateTranslation(Vector3(1.f, 0.f, 0.f)) |> Vertexor.renderVertexor square renderCam
+//        Matrix4.CreateTranslation(Vector3(1.f, 0.f, 0.f)) |> Vertexor.renderVertexor square renderCam
         
         Matrix4.Identity |> Vertexor.renderVertexor cube renderCam
         
