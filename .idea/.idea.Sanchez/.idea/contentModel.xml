@@ -145,6 +145,7 @@
       </e>
       <e p="Sanchez.ThreeWin" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Camera.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Sanchez.ThreeWin.fsproj" t="IncludeRecursive" />
         <e p="Shaders" t="Include">

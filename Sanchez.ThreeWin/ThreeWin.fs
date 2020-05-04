@@ -26,6 +26,7 @@ type ThreeWin(title, width, height, clearColor: Color) =
     let onLoad () =
         GL.LoadBindings(new GLFWBindingsContext())
         GL.Enable(EnableCap.Blend)
+        GL.Enable(EnableCap.DepthTest)
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha)
         GL.ClearColor(clearColor)
         userLoadCB()
@@ -50,7 +51,7 @@ type ThreeWin(title, width, height, clearColor: Color) =
     
     let mutable userRenderCB = fun (widthScale: float32) -> ()
     let onRender (args: FrameEventArgs) =
-        GL.Clear(ClearBufferMask.ColorBufferBit)
+        GL.Clear(ClearBufferMask.ColorBufferBit ||| ClearBufferMask.DepthBufferBit)
         
         let s = gw.Size
         let adjustment = (s.X |> float32) / (s.Y |> float32)
