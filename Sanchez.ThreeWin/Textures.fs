@@ -6,9 +6,7 @@ open System.IO
 open FSharp.Data.UnitSystems.SI.UnitNames
 open OpenToolkit.Graphics.OpenGL
 
-type LoadedTexture =
-    | StaticTexture of int
-    | AnimatedTexture of int array * float<frame/second>
+type LoadedTexture = LoadedTexture of int
 
 module Textures =
     let private loadBitmap (fileLocation: string) =
@@ -33,7 +31,7 @@ module Textures =
         
         texId
         
-    let loadAnimatedImage (flipX: bool) (image: Bitmap) (frameWidth: int) (fps) =
+    let loadAnimatedImage (flipX: bool) (image: Bitmap) (frameWidth: int) =
         let frames = image.Width / frameWidth
         
         let imgs =
@@ -46,8 +44,9 @@ module Textures =
                 let id = createTexture data
                 croppedImage.UnlockBits data
                 id)
+            |> Seq.map LoadedTexture
             |> Seq.toArray
-        (imgs, fps) |> AnimatedTexture
+        imgs
         
     let loadStaticImage (flipX: bool) (image: Bitmap) =
         if flipX then image.RotateFlip(RotateFlipType.RotateNoneFlipX)
@@ -55,4 +54,4 @@ module Textures =
         let id = createTexture data
         image.UnlockBits data
         
-        id |> StaticTexture
+        id |> LoadedTexture

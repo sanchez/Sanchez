@@ -8,9 +8,7 @@ open Sanchez.Data.Positional
 open Sanchez.Data.Positional
 open Sanchez.ThreeWin
 
-let loadSquare () =
-    let shaders = Shaders.loadStandardShaders ""
-    
+let loadSquare shaders =
     let squareVectors =
         [
             Vector.create -5.f 0.f -5.f
@@ -27,9 +25,7 @@ let loadSquare () =
         
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
     
-let loadCube () =
-    let shaders = Shaders.loadStandardShaders ""
-    
+let loadCube shaders =
     let squareVectors =
         [
             Vector.create -0.5f -0.5f -0.5f   // front bottom left
@@ -60,6 +56,9 @@ let loadCube () =
         
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
     |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(0.f, 0.5f, 0.f))
+    
+let loadPlayer () =
+    ()
 
 [<EntryPoint>]
 let main argv =
@@ -74,8 +73,10 @@ let main argv =
     let mutable cube = Vertexor.createEmpty()
     
     win.SetOnLoad(fun () ->
-        square <- loadSquare()
-        cube <- loadCube()
+        let shaders = Shaders.loadStandardShaders ""
+        
+        square <- loadSquare shaders
+        cube <- loadCube shaders
         ())
     
     let mutable currentTimer = 0.

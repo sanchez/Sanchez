@@ -19,7 +19,7 @@ module Vertexor =
             trans * newTrans |> render cam
         (id, newRender) |> Vertexor
     
-    let createColoredObject (shaders: Map<string, ShaderProgram>) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
+    let createColoredObject (ShaderMap shaders) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
         let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)
         let vertices =
             vectors

@@ -4,6 +4,7 @@ open System.IO
 open OpenToolkit.Graphics.OpenGL
 
 type ShaderProgram = ShaderProgram of int
+type ShaderMap = ShaderMap of Map<string, ShaderProgram>
 
 module Shaders =
     let useShader (ShaderProgram sPid) = GL.UseProgram sPid
@@ -50,3 +51,4 @@ module Shaders =
         
         Map.empty
         |> Map.add "simpleColor" simpleColor
+        |> ShaderMap

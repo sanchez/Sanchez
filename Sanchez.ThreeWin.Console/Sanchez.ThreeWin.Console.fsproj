@@ -7,6 +7,9 @@
 
     <ItemGroup>
         <Compile Include="Program.fs" />
+        <Content Include="Assets\body.png" />
+        <Content Include="Assets\head1.png" />
+        <Content Include="Assets\stationaryBody.png" />
     </ItemGroup>
 
     <ItemGroup>

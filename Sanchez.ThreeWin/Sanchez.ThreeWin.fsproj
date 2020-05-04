@@ -8,8 +8,8 @@
         <Compile Include="Units.fs" />
         <Compile Include="Shaders.fs" />
         <Compile Include="Camera.fs" />
-        <Compile Include="Vertexor.fs" />
         <Compile Include="Textures.fs" />
+        <Compile Include="Vertexor.fs" />
         <Compile Include="ThreeWin.fs" />
         <Content Include="Shaders\simpleColor.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
