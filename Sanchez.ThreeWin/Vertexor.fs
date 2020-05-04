@@ -60,7 +60,7 @@ module Vertexor =
         let render (cam: RenderedCamera) (mat: Matrix4) =
             Shaders.useShader shader
             GL.BindVertexArray vertexArrayId
-            GL.UniformMatrix4(transformLocation, false, ref mat)
+            GL.UniformMatrix4(transformLocation, true, ref mat)
             GL.UniformMatrix4(viewLocation, true, ref cam.View)
             GL.UniformMatrix4(projectionLocation, true, ref cam.Projection)
             
