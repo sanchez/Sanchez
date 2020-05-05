@@ -5,7 +5,6 @@ open System.Drawing
 open System.Threading
 open OpenToolkit.Mathematics
 open Sanchez.Data.Positional
-open Sanchez.Data.Positional
 open Sanchez.ThreeWin
 
 let loadSquare shaders =
@@ -57,8 +56,25 @@ let loadCube shaders =
     Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
     |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(0.f, 0.5f, 0.f))
     
-let loadPlayer () =
-    ()
+let loadPlayer shaders =
+    let (leftHead, rightHead) = Textures.loadDoubleSidedStaticTexture "Assets/head1.png" |> Option.get
+    let playerVectors =
+        [
+            (Vector.create -0.5f -0.5f 0.f, PointVector.create 0.f 0.f)  // bottom left
+            (Vector.create 0.5f -0.5f 0.f, PointVector.create 1.f 0.f)   // bottom right
+            (Vector.create 0.5f 0.5f 0.f, PointVector.create 1.f 1.f)    // top right
+            (Vector.create -0.5f 0.5f 0.f, PointVector.create 0.f 1.f)   // top left
+        ]
+    let playerIndices =
+        [
+            (0, 1, 2)
+            (0, 3, 2)
+        ]
+    
+    let onHeadUpdate () = leftHead
+        
+    Vertexor.createTexturedObject shaders playerVectors playerIndices onHeadUpdate
+    |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(3.f, 0.5f, 0.f))
 
 [<EntryPoint>]
 let main argv =
@@ -71,12 +87,14 @@ let main argv =
     
     let mutable square = Vertexor.createEmpty()
     let mutable cube = Vertexor.createEmpty()
+    let mutable player = Vertexor.createEmpty()
     
     win.SetOnLoad(fun () ->
         let shaders = Shaders.loadStandardShaders ""
         
         square <- loadSquare shaders
         cube <- loadCube shaders
+        player <- loadPlayer shaders
         ())
     
     let mutable currentTimer = 0.
@@ -90,9 +108,12 @@ let main argv =
     
     win.SetOnRender(fun widthScale ->
         let renderCam = Camera.renderCamera camera widthScale
+        
         Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         
         Matrix4.Identity |> Vertexor.renderVertexor cube renderCam
+        
+        Matrix4.Identity |> Vertexor.renderVertexor player renderCam
         
         ())
     

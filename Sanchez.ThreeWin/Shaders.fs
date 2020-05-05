@@ -48,7 +48,9 @@ module Shaders =
             createSimpleShader vertShader fragShader
         
         let simpleColor = loadVertFragPair "simpleColor"
+        let simpleTexture = loadVertFragPair "simpleTexture"
         
         Map.empty
         |> Map.add "simpleColor" simpleColor
+        |> Map.add "simpleTexture" simpleTexture
         |> ShaderMap

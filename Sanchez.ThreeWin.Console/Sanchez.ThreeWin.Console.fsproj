@@ -7,9 +7,15 @@
 
     <ItemGroup>
         <Compile Include="Program.fs" />
-        <Content Include="Assets\body.png" />
-        <Content Include="Assets\head1.png" />
-        <Content Include="Assets\stationaryBody.png" />
+        <Content Include="Assets\body.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\head1.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets\stationaryBody.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

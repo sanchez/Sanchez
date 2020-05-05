@@ -1,5 +1,6 @@
 ﻿namespace Sanchez.ThreeWin
 
+open Sanchez.Data
 open System.Drawing
 open System.Drawing.Imaging
 open System.IO
@@ -31,7 +32,7 @@ module Textures =
         
         texId
         
-    let loadAnimatedImage (flipX: bool) (image: Bitmap) (frameWidth: int) =
+    let private loadAnimatedImage (flipX: bool) (image: Bitmap) (frameWidth: int) =
         let frames = image.Width / frameWidth
         
         let imgs =
@@ -48,10 +49,30 @@ module Textures =
             |> Seq.toArray
         imgs
         
-    let loadStaticImage (flipX: bool) (image: Bitmap) =
+    let private loadStaticImage (flipX: bool) (image: Bitmap) =
         if flipX then image.RotateFlip(RotateFlipType.RotateNoneFlipX)
         let data = image.LockBits(System.Drawing.Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb)
         let id = createTexture data
         image.UnlockBits data
         
         id |> LoadedTexture
+        
+    let loadDoubleSidedStaticTexture fileName =
+        opt {
+            let! bitmap = loadBitmap fileName
+            
+            return (loadStaticImage false bitmap, loadStaticImage true bitmap)
+        }
+        
+    let loadStaticTexture = loadBitmap >> (Option.map (loadStaticImage false))
+    
+    let loadDoubleSidedAnimatedTexture fileName frameWidth =
+        opt {
+            let! bitmap = loadBitmap fileName
+            
+            return (loadAnimatedImage false bitmap frameWidth, loadAnimatedImage true bitmap frameWidth)
+        }
+        
+    let loadAnimatedTexture fileName frameWidth =
+        loadBitmap fileName
+        |> Option.map (fun x -> loadAnimatedImage false x frameWidth)

@@ -72,3 +72,55 @@ module Vertexor =
             GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0)
             
         (vertexArrayId, render) |> Vertexor
+        
+    let createTexturedObject (ShaderMap shaders) (vectors: (Vector<float32> * PointVector<float32>) list) (indiceMap: (int * int * int) list) (onUpdate: unit -> LoadedTexture) =
+        let vertices =
+            vectors
+            |> Seq.map (fun (x, texCoord) ->
+                [| x.X; x.Y; x.Z; texCoord.X; texCoord.Y |])
+            |> Seq.fold (Array.append) [||]
+        let indices =
+            indiceMap
+            |> Seq.map (fun (a, b, c) ->
+                [|
+                    (a |> uint32)
+                    (b |> uint32)
+                    (c |> uint32)
+                |])
+            |> Seq.fold (Array.append) [||]
+            
+        let vertexArrayId = GL.GenVertexArray()
+        GL.BindVertexArray vertexArrayId
+        
+        let vertexBufferId = GL.GenBuffer()
+        let elementBufferId = GL.GenBuffer()
+        
+        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
+        
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
+        
+        let shader = shaders |> Map.find "simpleTexture"
+        let positionLocation = Shaders.getAttributeLocation shader "aPos"
+        let textureLocation = Shaders.getAttributeLocation shader "aTexCoord"
+        let transformLocation = Shaders.getUniformLocation shader "transform"
+        let viewLocation = Shaders.getUniformLocation shader "view"
+        let projectionLocation = Shaders.getUniformLocation shader "projection"
+        
+        GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 0)
+        GL.EnableVertexAttribArray(positionLocation)
+        
+        GL.VertexAttribPointer(textureLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 3 * sizeof<float32>)
+        GL.EnableVertexAttribArray(textureLocation)
+        
+        let render (cam: RenderedCamera) (mat: Matrix4) =
+            Shaders.useShader shader
+            GL.BindVertexArray vertexArrayId
+            GL.UniformMatrix4(transformLocation, true, ref mat)
+            GL.UniformMatrix4(viewLocation, true, ref cam.View)
+            GL.UniformMatrix4(projectionLocation, true, ref cam.Projection)
+            
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0)
+            
+        (vertexArrayId, render) |> Vertexor
