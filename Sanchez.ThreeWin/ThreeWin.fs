@@ -9,8 +9,14 @@ open OpenToolkit.Windowing.Common
 open OpenToolkit.Windowing.Desktop
 open OpenToolkit.Windowing.GraphicsLibraryFramework
 open FSharp.Data.UnitSystems.SI.UnitNames
+open Sanchez.Data.Positional
 
-type ThreeWin(title, width, height, clearColor: Color) =
+type ThreeWinKeyState =
+    | KeyPressed
+    | KeyReleasing
+    | KeyReleased
+
+type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: Color) =
     let windowSettings = GameWindowSettings.Default
     do windowSettings.RenderFrequency <- 60.
     do windowSettings.UpdateFrequency <- 60.
@@ -19,6 +25,8 @@ type ThreeWin(title, width, height, clearColor: Color) =
     do nativeSettings.Flags <- ContextFlags.ForwardCompatible
     do nativeSettings.Size <- Vector2i(width, height)
     do nativeSettings.Title <- title
+    
+    let mutable keyMap = []
     
     let gw = new GameWindow(windowSettings, nativeSettings)
     
@@ -37,12 +45,29 @@ type ThreeWin(title, width, height, clearColor: Color) =
         // GL.Viewport(0, 0, width, height)
     do gw.add_Resize(Action<ResizeEventArgs>(onResize))
     
+    let mutable currentKeyState = Map.empty
+    
     let mutable userUpdateCB = fun (timeSince: float<second>) -> ()
     let frameTimer = new Stopwatch()
     do frameTimer.Start()
     let onUpdate (args: FrameEventArgs) =
         gw.ProcessEvents() |> ignore
         
+        currentKeyState <-
+            keyMap
+            |> Seq.map (fun (key, input) ->
+                match gw.IsKeyDown input with
+                | true -> (key, KeyPressed)
+                | false -> (key, KeyReleasing))
+            |> Seq.fold (fun m (key, state) ->
+                let oldState = currentKeyState |> Map.tryFind key |> Option.defaultValue KeyReleased
+                match (oldState, state) with
+                | (_, KeyPressed) -> m |> Map.add key KeyPressed
+                | (KeyPressed, KeyReleasing) -> m |> Map.add key KeyReleasing
+                | (_, KeyReleasing) -> m |> Map.add key KeyReleased
+                | _ -> m |> Map.add key KeyReleased
+                ) currentKeyState
+                
         let elapsed = frameTimer.ElapsedTicks
         frameTimer.Restart()
         let timeSince = ((elapsed |> float) / (Stopwatch.Frequency |> float)) * (1.<second>)
@@ -68,16 +93,37 @@ type ThreeWin(title, width, height, clearColor: Color) =
     member this.SetOnRender cb =
         userRenderCB <- cb
     
+    member this.AddKeyBinding (key: 'TKey) (gameKey: string) =
+        keyMap <- (key, Input.Key.Parse(gameKey))::keyMap
+    member this.RemoveKeyBinding (key: 'TKey) =
+        keyMap <- keyMap |> List.filter (fst >> ((=) key) >> not)
+    member this.WasKeyReleased (key: 'TKey) =
+        currentKeyState
+        |> Map.tryFind key
+        |> Option.defaultValue KeyReleased
+        |> function
+            | KeyReleasing -> true
+            | _ -> false
+    member this.IsKeyDown (key: 'TKey) =
+        currentKeyState
+        |> Map.tryFind key
+        |> Option.defaultValue KeyReleased
+        |> function
+            | KeyPressed -> true
+            | _ -> false
+    
+    member this.GetMousePosition () =
+        let pos = gw.MousePosition
+        let width = gw.Size.X |> float32
+        let height = gw.Size.Y |> float32
+        let scaledPos = PointVector.create (2.f * pos.X / width) (2.f * (1.f - pos.Y / height))
+        scaledPos - (PointVector.create 1.f 1.f)
+    
     member this.Run() = gw.Run()
     
     interface IDisposable with
         member this.Dispose() = gw.Dispose()
         
-module ThreeWin =
-    let createWindow title width height clearColor cToken =
-        let win = new ThreeWin(title, width, height, clearColor)
-//        let loadThread = Async.FromContinuations(fun (success, failed, _) ->
-//            win.SetOnLoad(fun () -> success win))
-//        
-//        (loadThread, fun () -> win.Run())
+    static member createWindow<'TKey when 'TKey : comparison> title width height clearColor cToken =
+        let win = new ThreeWin<'TKey>(title, width, height, clearColor)
         win

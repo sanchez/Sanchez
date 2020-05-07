@@ -7,6 +7,14 @@ open OpenToolkit.Mathematics
 open Sanchez.Data.Positional
 open Sanchez.ThreeWin
 
+type Keys =
+    | Forwards
+    | Backwards
+    | Left
+    | Right
+    | PauseRotate
+    | DoMousePosition
+
 let loadSquare shaders =
     let squareVectors =
         [
@@ -81,7 +89,13 @@ let main argv =
     let cTokenSource = new CancellationTokenSource()
     let cToken = cTokenSource.Token
     
-    use win = ThreeWin.createWindow "testing" 800 600 Color.White cToken
+    use win = ThreeWin.createWindow<Keys> "testing" 800 600 Color.White cToken
+    win.AddKeyBinding Forwards "W"
+    win.AddKeyBinding Backwards "S"
+    win.AddKeyBinding Left "A"
+    win.AddKeyBinding Right "D"
+    win.AddKeyBinding PauseRotate "Space"
+    win.AddKeyBinding DoMousePosition "E"
     
     let camera = Vector.create 1.f 1.f 1.f |> Camera.create
     
@@ -97,12 +111,21 @@ let main argv =
         player <- loadPlayer shaders
         ())
     
+    let mutable rotateCamera = true
     let mutable currentTimer = 0.
     win.SetOnUpdate(fun timeElapsed ->
-        currentTimer <- currentTimer + (timeElapsed |> float)
-        let x = (4. * Math.Sin currentTimer) |> float32
-        let z = (4. * Math.Cos currentTimer) |> float32
-        camera |> Camera.setPosition (Vector.create x 4.f z) |> ignore
+        if rotateCamera then
+            currentTimer <- currentTimer + (timeElapsed |> float)
+            let x = (4. * Math.Sin currentTimer) |> float32
+            let z = (4. * Math.Cos currentTimer) |> float32
+            camera |> Camera.setPosition (Vector.create x 4.f z) |> ignore
+            
+        if win.WasKeyReleased PauseRotate then
+            rotateCamera <- rotateCamera |> not
+            
+        if win.WasKeyReleased DoMousePosition then
+            let pos = win.GetMousePosition()
+            pos |> ignore
         
         ())
     
