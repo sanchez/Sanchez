@@ -7,7 +7,6 @@
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="Data" t="Include" />
       <e p="FunCAD" t="Include" />
-      <e p="Game" t="Include" />
       <e p="OOS" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Sanchez.Console" t="IncludeRecursive">
@@ -26,46 +25,6 @@
         <e p="Sanchez.Data.fsproj" t="IncludeRecursive" />
         <e p="Scheduler.fs" t="Include" />
       </e>
-      <e p="Sanchez.Game.Core" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="BoundingBox.fs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Position.fs" t="Include" />
-        <e p="Sanchez.Game.Core.fsproj" t="IncludeRecursive" />
-        <e p="Units.fs" t="Include" />
-      </e>
-      <e p="Sanchez.Game.Platformer" t="IncludeRecursive">
-        <e p="Assets" t="Include">
-          <e p="Assets.fs" t="Include" />
-          <e p="shader.frag" t="Include" />
-          <e p="shader.vert" t="Include" />
-          <e p="TextManager.fs" t="Include" />
-        </e>
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="Entity" t="Include">
-          <e p="GameObject.fs" t="Include" />
-          <e p="GameObjectBase.fs" t="Include" />
-          <e p="GameObjectManager.fs" t="Include" />
-          <e p="Shader.fs" t="Include" />
-          <e p="TextGameObject.fs" t="Include" />
-          <e p="TexturedGameObject.fs" t="Include" />
-        </e>
-        <e p="Game.fs" t="Include" />
-        <e p="GameManager.fs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Sanchez.Game.Platformer.fsproj" t="IncludeRecursive" />
-      </e>
-      <e p="Sanchez.Game.Platformer.Sample" t="IncludeRecursive">
-        <e p="Assets" t="Include">
-          <e p="body.png" t="Include" />
-          <e p="head1.png" t="Include" />
-          <e p="stationaryBody.png" t="Include" />
-        </e>
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Program.fs" t="Include" />
-        <e p="Sanchez.Game.Platformer.Sample.fsproj" t="IncludeRecursive" />
-      </e>
       <e p="Sanchez.OOS.Client.Window" t="IncludeRecursive">
         <e p="Assets" t="Include">
           <e p="block1.png" t="Include" />
@@ -78,48 +37,13 @@
           <e p="icon.png" t="Include" />
           <e p="sealedDoor.png" t="Include" />
           <e p="stationaryBody.png" t="Include" />
-          <e p="Textures.fs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Characters" t="Include">
-          <e p="MainPlayer.fs" t="Include" />
-          <e p="NetworkManager.fs" t="Include" />
-        </e>
-        <e p="Keys.fs" t="Include" />
+        <e p="Characters" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Program.fs" t="Include" />
         <e p="Sanchez.OOS.Client.Window.fsproj" t="IncludeRecursive" />
-        <e p="World" t="Include">
-          <e p="WorldManager.fs" t="Include" />
-        </e>
-      </e>
-      <e p="Sanchez.OOS.Core" t="IncludeRecursive">
-        <e p="Action.fs" t="Include" />
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="Blocks" t="Include">
-          <e p="BaseBlock.fs" t="Include" />
-          <e p="Block.fs" t="Include" />
-          <e p="WallBlock.fs" t="Include" />
-        </e>
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Player.fs" t="Include" />
-        <e p="Sanchez.OOS.Core.fsproj" t="IncludeRecursive" />
-        <e p="World" t="Include">
-          <e p="Generator.fs" t="Include" />
-          <e p="World.fs" t="Include" />
-        </e>
-      </e>
-      <e p="Sanchez.OOS.Server" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="Errors.fs" t="Include" />
-        <e p="obj" t="ExcludeRecursive" />
-        <e p="Parts" t="Include">
-          <e p="PingPong.fs" t="Include" />
-          <e p="PlayerStatus.fs" t="Include" />
-          <e p="WorldPart.fs" t="Include" />
-        </e>
-        <e p="Sanchez.OOS.Server.fsproj" t="IncludeRecursive" />
-        <e p="ServerManager.fs" t="Include" />
+        <e p="World" t="Include" />
       </e>
       <e p="Sanchez.Serializer" t="IncludeRecursive">
         <e p="Sanchez.Serializer.fsproj" t="IncludeRecursive" />
