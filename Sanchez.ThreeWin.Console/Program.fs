@@ -97,7 +97,7 @@ let main argv =
     win.AddKeyBinding PauseRotate "Space"
     win.AddKeyBinding DoMousePosition "E"
     
-    let camera = Vector.create 1.f 1.f 1.f |> Camera.create
+    let camera = Vector.create 1.f 1.f 1.f |> OrbitalCamera.create
     
     let mutable square = Vertexor.createEmpty()
     let mutable cube = Vertexor.createEmpty()
@@ -118,7 +118,7 @@ let main argv =
             currentTimer <- currentTimer + (timeElapsed |> float)
             let x = (4. * Math.Sin currentTimer) |> float32
             let z = (4. * Math.Cos currentTimer) |> float32
-            camera |> Camera.setPosition (Vector.create x 4.f z) |> ignore
+            camera |> OrbitalCamera.setEyeOffset (Vector.create x 4.f z) |> ignore
             
         if win.WasKeyReleased PauseRotate then
             rotateCamera <- rotateCamera |> not
@@ -130,7 +130,7 @@ let main argv =
         ())
     
     win.SetOnRender(fun widthScale ->
-        let renderCam = Camera.renderCamera camera widthScale
+        let renderCam = OrbitalCamera.renderCamera camera widthScale
         
         Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         

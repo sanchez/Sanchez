@@ -8,6 +8,7 @@
         <Compile Include="Units.fs" />
         <Compile Include="Shaders.fs" />
         <Compile Include="Camera.fs" />
+        <Compile Include="OrbitalCamera.fs" />
         <Compile Include="Textures.fs" />
         <Compile Include="Vertexor.fs" />
         <Compile Include="ThreeWin.fs" />
