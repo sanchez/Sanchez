@@ -97,7 +97,7 @@ let main argv =
     win.AddKeyBinding PauseRotate "Space"
     win.AddKeyBinding DoMousePosition "E"
     
-    let camera = Vector.create 1.f 1.f 1.f |> OrbitalCamera.create
+    let camera = Vector.create 0.f 0.f 8.f |> OrbitalCamera.create
     
     let mutable square = Vertexor.createEmpty()
     let mutable cube = Vertexor.createEmpty()
@@ -111,8 +111,9 @@ let main argv =
         player <- loadPlayer shaders
         ())
     
-    let mutable rotateCamera = true
+    let mutable rotateCamera = false
     let mutable currentTimer = 0.
+    let mutable cubePosition = Vector.create 0.f 0.f 0.f
     win.SetOnUpdate(fun timeElapsed ->
         if rotateCamera then
             currentTimer <- currentTimer + (timeElapsed |> float)
@@ -123,18 +124,22 @@ let main argv =
         if win.WasKeyReleased PauseRotate then
             rotateCamera <- rotateCamera |> not
             
-        if win.WasKeyReleased DoMousePosition then
+        if win.IsKeyDown DoMousePosition then
             let pos = win.GetMousePosition()
-            pos |> ignore
+            let widthScale = win.GetWindowWidthScale()
+            let mappedPosition = OrbitalCamera.mapMouseToPosition camera widthScale pos
+            cubePosition <- mappedPosition
         
         ())
     
     win.SetOnRender(fun widthScale ->
         let renderCam = OrbitalCamera.renderCamera camera widthScale
         
-        Matrix4.Identity |> Vertexor.renderVertexor square renderCam
+//        Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         
-        Matrix4.Identity |> Vertexor.renderVertexor cube renderCam
+        Vector3(cubePosition.X, cubePosition.Y, cubePosition.Z)
+        |> Matrix4.CreateTranslation
+        |> Vertexor.renderVertexor cube renderCam
         
         Matrix4.Identity |> Vertexor.renderVertexor player renderCam
         

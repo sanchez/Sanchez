@@ -21,6 +21,12 @@ type Vector<'T> =
             Y = a.Y - b.Y
             Z = a.Z - b.Z
         }
+    static member inline (*) (a: Vector<_>, b) =
+        {
+            Vector.X = a.X * b
+            Y = a.Y * b
+            Z = a.Z * b
+        }
     static member inline (+*) (a: Vector<_>, b: Vector<_>) =
         {
             Vector.X = (a.Y * b.Z) - (a.Z * b.Y)

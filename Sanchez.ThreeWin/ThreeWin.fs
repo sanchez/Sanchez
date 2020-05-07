@@ -74,14 +74,15 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         userUpdateCB(timeSince)
     do gw.add_UpdateFrame(Action<FrameEventArgs>(onUpdate))
     
+    let getWidthScale () =
+        let s = gw.Size
+        (s.X |> float32) / (s.Y |> float32)
+    
     let mutable userRenderCB = fun (widthScale: float32) -> ()
     let onRender (args: FrameEventArgs) =
         GL.Clear(ClearBufferMask.ColorBufferBit ||| ClearBufferMask.DepthBufferBit)
         
-        let s = gw.Size
-        let adjustment = (s.X |> float32) / (s.Y |> float32)
-        
-        userRenderCB adjustment
+        () |> getWidthScale |> userRenderCB
         
         gw.SwapBuffers()
     do gw.add_RenderFrame(Action<FrameEventArgs>(onRender))
@@ -111,6 +112,8 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         |> function
             | KeyPressed -> true
             | _ -> false
+            
+    member this.GetWindowWidthScale () = getWidthScale()
     
     member this.GetMousePosition () =
         let pos = gw.MousePosition
