@@ -126,8 +126,9 @@ let main argv =
             
         if win.IsKeyDown DoMousePosition then
             let pos = win.GetMousePosition()
-            let widthScale = win.GetWindowWidthScale()
-            let mappedPosition = OrbitalCamera.mapMouseToPosition camera widthScale pos
+            let (width, height) = win.GetWindowDimensions()
+//            let widthScale = win.GetWindowWidthScale()
+            let mappedPosition = OrbitalCamera.mapMouseToPosition camera width height pos
             cubePosition <- mappedPosition
         
         ())

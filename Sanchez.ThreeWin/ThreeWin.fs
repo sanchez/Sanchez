@@ -114,6 +114,9 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
             | _ -> false
             
     member this.GetWindowWidthScale () = getWidthScale()
+    member this.GetWindowDimensions () =
+        let sw = gw.Size
+        (sw.X |> float, sw.Y |> float)
     
     member this.GetMousePosition () =
         let pos = gw.MousePosition
