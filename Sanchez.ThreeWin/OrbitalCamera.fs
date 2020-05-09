@@ -44,10 +44,10 @@ module OrbitalCamera =
     let mapMouseToView (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) =
         let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
         
-        let screenPosition = Vector4(-3.f, 1.f, 0.f, 1.f) * renderedCam.View * renderedCam.Projection
-        let properScreenPosition = (screenPosition / screenPosition.W).Xyz
+        // I hate this but I it works and so I am walking away
+        let screenPosition = Vector4(cam.Position.X, cam.Position.Y, cam.Position.Z, 1.f) * renderedCam.View * renderedCam.Projection
         
-        let mousePos = Vector4(pos.X * distFromEye, pos.Y * distFromEye, 1.f * distFromEye, distFromEye)
+        let mousePos = Vector4(pos.X * distFromEye, pos.Y * distFromEye, screenPosition.Z, distFromEye)
         let worldPos = mousePos * ((renderedCam.View * renderedCam.Projection) |> Matrix4.Invert)
         let normWorldPos = worldPos / worldPos.W
         
