@@ -42,12 +42,26 @@ module OrbitalCamera =
         }
         
     let mapMouseToView (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) =
+        let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
+        
         let fov = System.Math.PI / 4.
         let halfHeight = System.Math.Tan(fov / 2.) |> float32
-        let halfWidth = halfHeight / ((screenWidth * screenHeight) |> float32)
-        let mouseCursor = PointVector.create (pos.X * halfWidth) (pos.Y * halfHeight)
+        let halfWidth = (halfHeight / (screenWidth |> float32)) * (screenHeight |> float32)
+        let vecCursor =
+            Vector4(pos.X * halfWidth, pos.Y * halfHeight, 0.f, 1.f) * distFromEye
+            |> Vector4.Normalize
+        let quat = renderedCam.View.ExtractRotation()
+        let rotCursor = quat * vecCursor
+        let rotCursorVec = Vector.create rotCursor.X rotCursor.Y rotCursor.Z
+        let posCursor = (cam.Position + cam.EyeOffset) + rotCursorVec
+            
+        let cameraMat = (renderedCam.Projection * renderedCam.View) |> Matrix4.Invert
+        let screenSpaceMouse = Vector4(pos.X, pos.Y, 0.f, 1.f) * cameraMat
         
-        ()
+//        Vector.create (screenSpaceMouse.X) (screenSpaceMouse.Y) (screenSpaceMouse.Z)
+        posCursor
+        
+//        Vector.create (screenSpaceMouse.X / screenSpaceMouse.W) (screenSpaceMouse.Y / screenSpaceMouse.W) (screenSpaceMouse.Z / screenSpaceMouse.W)
         
     let mapMouseToPosition (cam: OrbitalCamera) =
         let dist = cam.EyeOffset |> Vector.map float |> Vector.mag |> float32
