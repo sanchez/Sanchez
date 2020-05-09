@@ -11,6 +11,7 @@
         <Compile Include="Scheduler.fs" />
         <Compile Include="Positional\PointVector.fs" />
         <Compile Include="Positional\Vector.fs" />
+        <Compile Include="Positional\Plane.fs" />
     </ItemGroup>
 
 </Project>

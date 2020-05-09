@@ -97,7 +97,9 @@ let main argv =
     win.AddKeyBinding PauseRotate "Space"
     win.AddKeyBinding DoMousePosition "E"
     
-    let camera = Vector.create 0.f 0.f 8.f |> OrbitalCamera.create
+    let camera =
+        Vector.create 4.f 4.f 4.f
+        |> OrbitalCamera.create
     
     let mutable square = Vertexor.createEmpty()
     let mutable cube = Vertexor.createEmpty()
@@ -111,32 +113,36 @@ let main argv =
         player <- loadPlayer shaders
         ())
     
-    let mutable rotateCamera = false
     let mutable currentTimer = 0.
-    let mutable cubePosition = Vector.create 0.f 0.f 0.f
+    let mutable cubePosition = Vector.create 0.f 0.5f 0.f
     win.SetOnUpdate(fun timeElapsed ->
-        if rotateCamera then
-            currentTimer <- currentTimer + (timeElapsed |> float)
-            let x = (4. * Math.Sin currentTimer) |> float32
-            let z = (4. * Math.Cos currentTimer) |> float32
-            camera |> OrbitalCamera.setEyeOffset (Vector.create x 4.f z) |> ignore
-            
-        if win.WasKeyReleased PauseRotate then
-            rotateCamera <- rotateCamera |> not
-            
-        if win.IsKeyDown DoMousePosition then
-            let pos = win.GetMousePosition()
+        if win.IsMouseButtonDown MouseButtonRight then
             let (width, height) = win.GetWindowDimensions()
-//            let widthScale = win.GetWindowWidthScale()
-            let mappedPosition = OrbitalCamera.mapMouseToPosition camera width height pos
-            cubePosition <- mappedPosition
+            let mouseDelta = win.GetMouseDelta()
+            let mousePos = win.GetMousePosition()
+            let currentPoint = OrbitalCamera.mapMouseToPosition camera width height mousePos
+            let lastPoint = OrbitalCamera.mapMouseToPosition camera width height (mousePos - mouseDelta)
+            let offset = lastPoint - currentPoint
+            let newCameraPosition = camera.Position + offset
+            
+            let difference = ()
+            
+            camera |> OrbitalCamera.setPosition newCameraPosition |> ignore
+            
+        if win.IsMouseButtonDown MouseButtonLeft then
+            let (width, height) = win.GetWindowDimensions()
+            let mousePos = win.GetMousePosition()
+            let planePoint = OrbitalCamera.mapMouseToXZPlane camera width height mousePos
+            match planePoint with
+            | Some x -> cubePosition <- x
+            | None -> ()
         
         ())
     
     win.SetOnRender(fun widthScale ->
         let renderCam = OrbitalCamera.renderCamera camera widthScale
         
-//        Matrix4.Identity |> Vertexor.renderVertexor square renderCam
+        Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         
         Vector3(cubePosition.X, cubePosition.Y, cubePosition.Z)
         |> Matrix4.CreateTranslation

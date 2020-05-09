@@ -26,6 +26,8 @@ module OrbitalCamera =
         cam.EyeOffset <- pos
         cam
         
+    let eyePosition (cam: OrbitalCamera) = cam.Position + cam.EyeOffset
+        
     let renderCamera (cam: OrbitalCamera) widthScale =
         let projection = Matrix4.CreatePerspectiveFieldOfView(System.Math.PI / 4. |> float32, widthScale, 0.1f, 100.f)
         let lookingAt = cam.Position
@@ -41,6 +43,17 @@ module OrbitalCamera =
             View = view
         }
         
+    let private convertScreenSpaceToWorld (distFromEye: float32) (cam: OrbitalCamera) (rendered: RenderedCamera) (pos: PointVector<float32>) =
+        let screenPosition = Vector4(cam.Position.X, cam.Position.Y, cam.Position.Z, 1.f) * rendered.View * rendered.Projection
+        let mousePos = Vector4(pos.X * distFromEye, pos.Y * distFromEye, screenPosition.Z, distFromEye)
+        let worldPos = mousePos * ((rendered.View * rendered.Projection) |> Matrix4.Invert)
+        let normWorldPos = worldPos / worldPos.W
+        Vector.create normWorldPos.X normWorldPos.Y normWorldPos.Z
+        
+    let prefillDistance f (cam: OrbitalCamera) =
+        let dist = cam.EyeOffset |> Vector.map float |> Vector.mag |> float32
+        f dist cam
+        
     let mapMouseToView (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) =
         let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
         
@@ -53,6 +66,28 @@ module OrbitalCamera =
         
         Vector.create normWorldPos.X normWorldPos.Y normWorldPos.Z
         
-    let mapMouseToPosition (cam: OrbitalCamera) =
+    let mapMouseToPosition = prefillDistance mapMouseToView
+        
+    let mapMouseToXZPlaneDist (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) =
+        let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
+        let worldSpace = convertScreenSpaceToWorld distFromEye cam renderedCam pos
+        let dir = worldSpace - (eyePosition cam)
+        Plane.create (Vector.create 0.f 0.f 0.f) (Vector.create 1.f 0.f 0.f) (Vector.create 0.f 0.f 1.f)
+        |> Plane.pointOnPlane (cam |> eyePosition) dir
+        
+    let mapMouseToXZPlane = prefillDistance mapMouseToXZPlaneDist
+        
+    let mapMouseDeltaToViewMovementDist (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) (delta: PointVector<float32>) =
+        let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
+        
+        let lastPointVector = pos - delta
+        let lastViewVector = convertScreenSpaceToWorld distFromEye cam renderedCam lastPointVector
+        let currentViewVector = convertScreenSpaceToWorld distFromEye cam renderedCam pos
+        
+        let difference = lastViewVector - currentViewVector
+        
+        Vector.create difference.X difference.Y 0.f
+        
+    let mapMouseDeltaToViewMovement (cam: OrbitalCamera) =
         let dist = cam.EyeOffset |> Vector.map float |> Vector.mag |> float32
-        mapMouseToView dist cam
+        mapMouseDeltaToViewMovementDist dist

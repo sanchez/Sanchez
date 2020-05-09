@@ -18,6 +18,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Positional" t="Include">
+          <e p="Plane.fs" t="Include" />
           <e p="PointVector.fs" t="Include" />
           <e p="Vector.fs" t="Include" />
         </e>

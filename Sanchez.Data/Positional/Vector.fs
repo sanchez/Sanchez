@@ -33,6 +33,8 @@ type Vector<'T> =
             Y = (a.Z * b.X) - (a.X * b.Z)
             Z = (a.X * b.Y) - (a.Y * b.X)
         }
+    static member inline (.*) (a: Vector<_>, b: Vector<_>) =
+        (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z)
         
 module Vector =
     let create x y z =

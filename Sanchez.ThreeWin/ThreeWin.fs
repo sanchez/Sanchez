@@ -15,6 +15,10 @@ type ThreeWinKeyState =
     | KeyPressed
     | KeyReleasing
     | KeyReleased
+    
+type ThreeWinMouseButton =
+    | MouseButtonLeft
+    | MouseButtonRight
 
 type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: Color) =
     let windowSettings = GameWindowSettings.Default
@@ -124,6 +128,15 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         let height = gw.Size.Y |> float32
         let scaledPos = PointVector.create (2.f * pos.X / width) (2.f * (1.f - pos.Y / height))
         scaledPos - (PointVector.create 1.f 1.f)
+    member this.GetMouseDelta () =
+        let pos = gw.MouseDelta
+        let width = gw.Size.X |> float32
+        let height = gw.Size.Y |> float32
+        PointVector.create (pos.X / width) (pos.Y / height)
+    member this.IsMouseButtonDown (btn: ThreeWinMouseButton) =
+        match btn with
+        | MouseButtonLeft -> gw.IsMouseButtonDown(Input.MouseButton.Left)
+        | MouseButtonRight -> gw.IsMouseButtonDown(Input.MouseButton.Right)
     
     member this.Run() = gw.Run()
     
