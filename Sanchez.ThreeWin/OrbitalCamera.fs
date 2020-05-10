@@ -76,18 +76,3 @@ module OrbitalCamera =
         |> Plane.pointOnPlane (cam |> eyePosition) dir
         
     let mapMouseToXZPlane = prefillDistance mapMouseToXZPlaneDist
-        
-    let mapMouseDeltaToViewMovementDist (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) (delta: PointVector<float32>) =
-        let renderedCam = renderCamera cam ((screenWidth / screenHeight) |> float32)
-        
-        let lastPointVector = pos - delta
-        let lastViewVector = convertScreenSpaceToWorld distFromEye cam renderedCam lastPointVector
-        let currentViewVector = convertScreenSpaceToWorld distFromEye cam renderedCam pos
-        
-        let difference = lastViewVector - currentViewVector
-        
-        Vector.create difference.X difference.Y 0.f
-        
-    let mapMouseDeltaToViewMovement (cam: OrbitalCamera) =
-        let dist = cam.EyeOffset |> Vector.map float |> Vector.mag |> float32
-        mapMouseDeltaToViewMovementDist dist

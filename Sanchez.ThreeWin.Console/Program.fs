@@ -113,21 +113,27 @@ let main argv =
         player <- loadPlayer shaders
         ())
     
-    let mutable currentTimer = 0.
     let mutable cubePosition = Vector.create 0.f 0.5f 0.f
+    let mutable lastMousePosition = None
     win.SetOnUpdate(fun timeElapsed ->
         if win.IsMouseButtonDown MouseButtonRight then
             let (width, height) = win.GetWindowDimensions()
-            let mouseDelta = win.GetMouseDelta()
             let mousePos = win.GetMousePosition()
-            let currentPoint = OrbitalCamera.mapMouseToPosition camera width height mousePos
-            let lastPoint = OrbitalCamera.mapMouseToPosition camera width height (mousePos - mouseDelta)
-            let offset = lastPoint - currentPoint
-            let newCameraPosition = camera.Position + offset
-            
-            let difference = ()
-            
-            camera |> OrbitalCamera.setPosition newCameraPosition |> ignore
+            match lastMousePosition with
+            | Some x ->
+                let currentPoint = OrbitalCamera.mapMouseToXZPlane camera width height mousePos
+                let lastPoint = OrbitalCamera.mapMouseToXZPlane camera width height x
+                match (currentPoint, lastPoint) with
+                | (Some a, Some b) ->
+                    let diff = b - a
+                    if diff.X = 0.f && diff.Y = 0.f then ()
+                    else
+                        camera |> OrbitalCamera.setPosition (camera.Position + diff) |> ignore
+                | _ -> ()
+            | None -> ()
+            lastMousePosition <- Some mousePos
+        else
+            lastMousePosition <- None
             
         if win.IsMouseButtonDown MouseButtonLeft then
             let (width, height) = win.GetWindowDimensions()

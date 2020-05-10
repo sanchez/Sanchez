@@ -137,6 +137,14 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         match btn with
         | MouseButtonLeft -> gw.IsMouseButtonDown(Input.MouseButton.Left)
         | MouseButtonRight -> gw.IsMouseButtonDown(Input.MouseButton.Right)
+    member this.IsMousePressed (btn: ThreeWinMouseButton) =
+        match btn with
+        | MouseButtonLeft -> gw.IsMouseButtonPressed(Input.MouseButton.Left)
+        | MouseButtonRight -> gw.IsMouseButtonPressed(Input.MouseButton.Right)
+    member this.IsMouseReleased (btn: ThreeWinMouseButton) =
+        match btn with
+        | MouseButtonLeft -> gw.IsMouseButtonReleased(Input.MouseButton.Left)
+        | MouseButtonRight -> gw.IsMouseButtonReleased(Input.MouseButton.Right)
     
     member this.Run() = gw.Run()
     
