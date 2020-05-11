@@ -142,6 +142,13 @@ let main argv =
             match planePoint with
             | Some x -> cubePosition <- x
             | None -> ()
+            
+        let mouseWheelDelta = win.GetMouseScroll()
+        if mouseWheelDelta = 0.f then ()
+        else
+            let newCameraDiff =
+                (camera.EyeOffset) * (mouseWheelDelta * 0.05f)
+            camera |> OrbitalCamera.setEyeOffset (newCameraDiff + camera.EyeOffset) |> ignore
         
         ())
     

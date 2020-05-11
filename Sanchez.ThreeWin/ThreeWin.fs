@@ -51,6 +51,10 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
     
     let mutable currentKeyState = Map.empty
     
+    let mutable mouseWheelDelta = 0.f
+    do gw.add_MouseWheel(fun x ->
+        mouseWheelDelta <- mouseWheelDelta + x.OffsetY)
+    
     let mutable userUpdateCB = fun (timeSince: float<second>) -> ()
     let frameTimer = new Stopwatch()
     do frameTimer.Start()
@@ -76,6 +80,8 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         frameTimer.Restart()
         let timeSince = ((elapsed |> float) / (Stopwatch.Frequency |> float)) * (1.<second>)
         userUpdateCB(timeSince)
+        
+        mouseWheelDelta <- 0.f
     do gw.add_UpdateFrame(Action<FrameEventArgs>(onUpdate))
     
     let getWidthScale () =
@@ -128,23 +134,12 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         let height = gw.Size.Y |> float32
         let scaledPos = PointVector.create (2.f * pos.X / width) (2.f * (1.f - pos.Y / height))
         scaledPos - (PointVector.create 1.f 1.f)
-    member this.GetMouseDelta () =
-        let pos = gw.MouseDelta
-        let width = gw.Size.X |> float32
-        let height = gw.Size.Y |> float32
-        PointVector.create (pos.X / width) (pos.Y / height)
     member this.IsMouseButtonDown (btn: ThreeWinMouseButton) =
         match btn with
         | MouseButtonLeft -> gw.IsMouseButtonDown(Input.MouseButton.Left)
         | MouseButtonRight -> gw.IsMouseButtonDown(Input.MouseButton.Right)
-    member this.IsMousePressed (btn: ThreeWinMouseButton) =
-        match btn with
-        | MouseButtonLeft -> gw.IsMouseButtonPressed(Input.MouseButton.Left)
-        | MouseButtonRight -> gw.IsMouseButtonPressed(Input.MouseButton.Right)
-    member this.IsMouseReleased (btn: ThreeWinMouseButton) =
-        match btn with
-        | MouseButtonLeft -> gw.IsMouseButtonReleased(Input.MouseButton.Left)
-        | MouseButtonRight -> gw.IsMouseButtonReleased(Input.MouseButton.Right)
+    member this.GetMouseScroll () =
+        mouseWheelDelta
     
     member this.Run() = gw.Run()
     
