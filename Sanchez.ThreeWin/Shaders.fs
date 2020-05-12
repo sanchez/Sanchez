@@ -46,11 +46,12 @@ module Shaders =
             let vertShader = key |> keyVertLookup |> File.ReadAllText
             let fragShader = key |> keyFragLookup |> File.ReadAllText
             createSimpleShader vertShader fragShader
-        
-        let simpleColor = loadVertFragPair "simpleColor"
-        let simpleTexture = loadVertFragPair "simpleTexture"
+            
+        let loadVertFragPairAndAdd (key: string) =
+            Map.add key (loadVertFragPair key)
         
         Map.empty
-        |> Map.add "simpleColor" simpleColor
-        |> Map.add "simpleTexture" simpleTexture
+        |> loadVertFragPairAndAdd "simpleColor"
+        |> loadVertFragPairAndAdd "simpleTexture"
+        |> loadVertFragPairAndAdd "staticBackgroundOverlay"
         |> ShaderMap

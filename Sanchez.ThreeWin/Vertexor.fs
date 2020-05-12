@@ -18,6 +18,58 @@ module Vertexor =
         let newRender cam trans =
             trans * newTrans |> render cam
         (id, newRender) |> Vertexor
+        
+    let private generateArrayAndElementArrayBuffers (vertices: float32[]) (indices: uint32[]) =
+        let vertexArrayId = GL.GenVertexArray()
+        GL.BindVertexArray vertexArrayId
+        
+        let vertexBufferId = GL.GenBuffer()
+        let elementBufferId = GL.GenBuffer()
+        
+        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
+        
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
+        
+        (vertexArrayId, vertexBufferId, elementBufferId)
+        
+    let createStaticBackground (ShaderMap shaders) (colorLookup: PointVector<float32> -> Color) =
+        let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)
+        let vertices =
+            seq {
+                yield PointVector.create 1.f 1.f
+                yield PointVector.create -1.f 1.f
+                yield PointVector.create -1.f -1.f
+                yield PointVector.create 1.f -1.f
+            }
+            |> Seq.map (fun x ->
+                let (r, g, b) = x |> colorLookup |> colorToFloats
+                [| x.X; x.Y; r; g; b |])
+            |> Seq.fold (Array.append) [||]
+        let indices =
+            [|
+                0u; 1u; 2u
+                2u; 3u; 0u
+            |]
+            
+        let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
+        
+        let shader = shaders |> Map.find "staticBackgroundOverlay"
+        let positionLocation = Shaders.getAttributeLocation shader "aPos"
+        let colorLocation = Shaders.getAttributeLocation shader "aColor"
+        
+        GL.VertexAttribPointer(positionLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 0)
+        GL.EnableVertexAttribArray(positionLocation)
+        
+        GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof<float32>, 2 * sizeof<float32>)
+        GL.EnableVertexAttribArray(colorLocation)
+        
+        let render (cam: RenderedCamera) (mat: Matrix4) =
+            Shaders.useShader shader
+            GL.BindVertexArray vertexArrayId
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0)
+        (vertexArrayId, render) |> Vertexor
     
     let createColoredObject (ShaderMap shaders) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
         let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)
@@ -37,18 +89,8 @@ module Vertexor =
                 |])
             |> Seq.fold (Array.append) [||]
             
-        let vertexArrayId = GL.GenVertexArray()
-        GL.BindVertexArray vertexArrayId
-        
-        let vertexBufferId = GL.GenBuffer()
-        let elementBufferId = GL.GenBuffer()
-        
-        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
-        
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
-        
+        let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
+            
         let shader = shaders |> Map.find "simpleColor"
         let positionLocation = Shaders.getAttributeLocation shader "aPos"
         let colorLocation = Shaders.getAttributeLocation shader "aColor"
@@ -89,18 +131,8 @@ module Vertexor =
                 |])
             |> Seq.fold (Array.append) [||]
             
-        let vertexArrayId = GL.GenVertexArray()
-        GL.BindVertexArray vertexArrayId
-        
-        let vertexBufferId = GL.GenBuffer()
-        let elementBufferId = GL.GenBuffer()
-        
-        GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId)
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof<float32>, vertices, BufferUsageHint.StaticDraw)
-        
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferId)
-        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof<uint32>, indices, BufferUsageHint.StaticDraw)
-        
+        let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
+            
         let shader = shaders |> Map.find "simpleTexture"
         let positionLocation = Shaders.getAttributeLocation shader "aPos"
         let textureLocation = Shaders.getAttributeLocation shader "aTexCoord"

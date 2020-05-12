@@ -83,6 +83,15 @@ let loadPlayer shaders =
         
     Vertexor.createTexturedObject shaders playerVectors playerIndices onHeadUpdate
     |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(3.f, 0.5f, 0.f))
+    
+let loadBackground shaders =
+    let backgroundColorizer (v: PointVector<_>) =
+        match v.Y with
+        | -1.f -> Color.DarkSlateGray
+        | 1.f -> Color.LightGray
+        | _ -> Color.Red
+    
+    Vertexor.createStaticBackground shaders backgroundColorizer
 
 [<EntryPoint>]
 let main argv =
@@ -101,6 +110,7 @@ let main argv =
         Vector.create 4.f 4.f 4.f
         |> OrbitalCamera.create
     
+    let mutable background = Vertexor.createEmpty()
     let mutable square = Vertexor.createEmpty()
     let mutable cube = Vertexor.createEmpty()
     let mutable player = Vertexor.createEmpty()
@@ -108,6 +118,7 @@ let main argv =
     win.SetOnLoad(fun () ->
         let shaders = Shaders.loadStandardShaders ""
         
+        background <- loadBackground shaders
         square <- loadSquare shaders
         cube <- loadCube shaders
         player <- loadPlayer shaders
@@ -151,6 +162,11 @@ let main argv =
             camera |> OrbitalCamera.setEyeOffset (newCameraDiff + camera.EyeOffset) |> ignore
         
         ())
+    
+    win.SetBackgroundRender(fun widthScale ->
+        let renderCam = OrbitalCamera.renderCamera camera widthScale
+        
+        Matrix4.Identity |> Vertexor.renderVertexor background renderCam)
     
     win.SetOnRender(fun widthScale ->
         let renderCam = OrbitalCamera.renderCamera camera widthScale

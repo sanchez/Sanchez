@@ -59,6 +59,8 @@
           <e p="simpleColor.vert" t="Include" />
           <e p="simpleTexture.frag" t="Include" />
           <e p="simpleTexture.vert" t="Include" />
+          <e p="staticBackgroundOverlay.frag" t="Include" />
+          <e p="staticBackgroundOverlay.vert" t="Include" />
         </e>
         <e p="Shaders.fs" t="Include" />
         <e p="Textures.fs" t="Include" />

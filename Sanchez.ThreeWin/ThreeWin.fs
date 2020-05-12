@@ -88,11 +88,16 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         let s = gw.Size
         (s.X |> float32) / (s.Y |> float32)
     
+    let mutable userBackgroundRender = fun (widthScale: float32) -> ()
     let mutable userRenderCB = fun (widthScale: float32) -> ()
     let onRender (args: FrameEventArgs) =
+        let widthScale = getWidthScale()
         GL.Clear(ClearBufferMask.ColorBufferBit ||| ClearBufferMask.DepthBufferBit)
+        GL.Disable(EnableCap.DepthTest)
+        widthScale |> userBackgroundRender
+        GL.Enable(EnableCap.DepthTest)
         
-        () |> getWidthScale |> userRenderCB
+        widthScale |> userRenderCB
         
         gw.SwapBuffers()
     do gw.add_RenderFrame(Action<FrameEventArgs>(onRender))
@@ -140,6 +145,9 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         | MouseButtonRight -> gw.IsMouseButtonDown(Input.MouseButton.Right)
     member this.GetMouseScroll () =
         mouseWheelDelta
+        
+    member this.SetBackgroundRender backing =
+        userBackgroundRender <- backing
     
     member this.Run() = gw.Run()
     

@@ -24,6 +24,12 @@
         <Content Include="Shaders\simpleTexture.frag">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Shaders\staticBackgroundOverlay.vert">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Shaders\staticBackgroundOverlay.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
