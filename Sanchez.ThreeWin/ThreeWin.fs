@@ -19,6 +19,7 @@ type ThreeWinKeyState =
 type ThreeWinMouseButton =
     | MouseButtonLeft
     | MouseButtonRight
+    | MouseButtonMiddle
 
 type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: Color) =
     let windowSettings = GameWindowSettings.Default
@@ -141,8 +142,10 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         scaledPos - (PointVector.create 1.f 1.f)
     member this.IsMouseButtonDown (btn: ThreeWinMouseButton) =
         match btn with
-        | MouseButtonLeft -> gw.IsMouseButtonDown(Input.MouseButton.Left)
-        | MouseButtonRight -> gw.IsMouseButtonDown(Input.MouseButton.Right)
+        | MouseButtonLeft -> Input.MouseButton.Left
+        | MouseButtonRight -> Input.MouseButton.Right
+        | MouseButtonMiddle -> Input.MouseButton.Middle
+        |> gw.IsMouseButtonDown
     member this.GetMouseScroll () =
         mouseWheelDelta
         

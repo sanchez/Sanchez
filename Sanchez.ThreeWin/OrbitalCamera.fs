@@ -65,7 +65,6 @@ module OrbitalCamera =
         let normWorldPos = worldPos / worldPos.W
         
         Vector.create normWorldPos.X normWorldPos.Y normWorldPos.Z
-        
     let mapMouseToPosition = prefillDistance mapMouseToView
         
     let mapMouseToXZPlaneDist (distFromEye: float32) (cam: OrbitalCamera) (screenWidth: float) (screenHeight: float) (pos: PointVector<float32>) =

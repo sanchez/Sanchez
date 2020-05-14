@@ -43,6 +43,19 @@ module Vector =
     let inline mag a =
         Math.Sqrt((a.X * a.X) + (a.Y * a.Y) + (a.Z * a.Z))
         
+    let phi a =
+        Math.Atan2(a.Z, a.X)
+    
+    let theta a =
+        Math.Atan2(Math.Sqrt((a.X * a.X) + (a.Z * a.Z)), a.Y)
+        
+    let fromPolar mag phi theta =
+        {
+            Vector.X = mag * Math.Sin(theta) * Math.Cos(phi)
+            Y = mag * Math.Cos(theta)
+            Z = mag * Math.Sin(theta) * Math.Sin(phi)
+        }
+        
     let normalize a =
         let m = mag a
         {

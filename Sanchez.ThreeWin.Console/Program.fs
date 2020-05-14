@@ -143,6 +143,22 @@ let main argv =
                 | _ -> ()
             | None -> ()
             lastMousePosition <- Some mousePos
+        elif win.IsMouseButtonDown MouseButtonMiddle then
+            let (width, height) = win.GetWindowDimensions()
+            let mousePos = win.GetMousePosition()
+            match lastMousePosition with
+            | Some x ->
+                let diff = mousePos - x
+                if diff.X = 0.f && diff.Y = 0.f then ()
+                else
+                    let eye = Vector.map float camera.EyeOffset
+                    let phi = (Vector.phi eye) + (Math.PI * (diff.X |> float))
+                    let theta = (Vector.theta eye) + (Math.PI * (diff.Y |> float))
+                    let mag = Vector.mag eye
+                    
+                    (Vector.fromPolar mag phi theta |> Vector.map float32 |> OrbitalCamera.setEyeOffset) camera |> ignore
+            | None -> ()
+            lastMousePosition <- Some mousePos
         else
             lastMousePosition <- None
             
