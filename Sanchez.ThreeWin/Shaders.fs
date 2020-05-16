@@ -54,4 +54,5 @@ module Shaders =
         |> loadVertFragPairAndAdd "simpleColor"
         |> loadVertFragPairAndAdd "simpleTexture"
         |> loadVertFragPairAndAdd "staticBackgroundOverlay"
+        |> loadVertFragPairAndAdd "simplePoint"
         |> ShaderMap

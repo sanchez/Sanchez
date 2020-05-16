@@ -40,6 +40,7 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         GL.LoadBindings(new GLFWBindingsContext())
         GL.Enable(EnableCap.Blend)
         GL.Enable(EnableCap.DepthTest)
+        GL.Enable(EnableCap.VertexProgramPointSize)
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha)
         GL.ClearColor(clearColor)
         userLoadCB()

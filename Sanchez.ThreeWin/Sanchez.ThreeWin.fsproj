@@ -12,6 +12,7 @@
         <Compile Include="Textures.fs" />
         <Compile Include="Vertexor.fs" />
         <Compile Include="ThreeWin.fs" />
+        <Compile Include="ControlledOrbitalCamera.fs" />
         <Content Include="Shaders\simpleColor.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -28,6 +29,12 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="Shaders\staticBackgroundOverlay.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Shaders\simplePoint.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Shaders\simplePoint.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

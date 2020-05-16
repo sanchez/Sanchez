@@ -106,9 +106,7 @@ let main argv =
     win.AddKeyBinding PauseRotate "Space"
     win.AddKeyBinding DoMousePosition "E"
     
-    let camera =
-        Vector.create 4.f 4.f 4.f
-        |> OrbitalCamera.create
+    let (cameraUpdate, cameraRender, camera) = ControlledOrbitalCamera.create 1. 1.f win
     
     let mutable background = Vertexor.createEmpty()
     let mutable square = Vertexor.createEmpty()
@@ -125,43 +123,9 @@ let main argv =
         ())
     
     let mutable cubePosition = Vector.create 0.f 0.5f 0.f
-    let mutable lastMousePosition = None
     win.SetOnUpdate(fun timeElapsed ->
-        if win.IsMouseButtonDown MouseButtonRight then
-            let (width, height) = win.GetWindowDimensions()
-            let mousePos = win.GetMousePosition()
-            match lastMousePosition with
-            | Some x ->
-                let currentPoint = OrbitalCamera.mapMouseToXZPlane camera width height mousePos
-                let lastPoint = OrbitalCamera.mapMouseToXZPlane camera width height x
-                match (currentPoint, lastPoint) with
-                | (Some a, Some b) ->
-                    let diff = b - a
-                    if diff.X = 0.f && diff.Y = 0.f then ()
-                    else
-                        camera |> OrbitalCamera.setPosition (camera.Position + diff) |> ignore
-                | _ -> ()
-            | None -> ()
-            lastMousePosition <- Some mousePos
-        elif win.IsMouseButtonDown MouseButtonMiddle then
-            let (width, height) = win.GetWindowDimensions()
-            let mousePos = win.GetMousePosition()
-            match lastMousePosition with
-            | Some x ->
-                let diff = mousePos - x
-                if diff.X = 0.f && diff.Y = 0.f then ()
-                else
-                    let eye = Vector.map float camera.EyeOffset
-                    let phi = (Vector.phi eye) + (Math.PI * (diff.X |> float))
-                    let theta = (Vector.theta eye) + (Math.PI * (diff.Y |> float))
-                    let mag = Vector.mag eye
-                    
-                    (Vector.fromPolar mag phi theta |> Vector.map float32 |> OrbitalCamera.setEyeOffset) camera |> ignore
-            | None -> ()
-            lastMousePosition <- Some mousePos
-        else
-            lastMousePosition <- None
-            
+        cameraUpdate timeElapsed
+        
         if win.IsMouseButtonDown MouseButtonLeft then
             let (width, height) = win.GetWindowDimensions()
             let mousePos = win.GetMousePosition()
@@ -169,23 +133,16 @@ let main argv =
             match planePoint with
             | Some x -> cubePosition <- x
             | None -> ()
-            
-        let mouseWheelDelta = win.GetMouseScroll()
-        if mouseWheelDelta = 0.f then ()
-        else
-            let newCameraDiff =
-                (camera.EyeOffset) * (mouseWheelDelta * 0.05f)
-            camera |> OrbitalCamera.setEyeOffset (newCameraDiff + camera.EyeOffset) |> ignore
         
         ())
     
     win.SetBackgroundRender(fun widthScale ->
-        let renderCam = OrbitalCamera.renderCamera camera widthScale
+        let renderCam = cameraRender widthScale
         
         Matrix4.Identity |> Vertexor.renderVertexor background renderCam)
     
     win.SetOnRender(fun widthScale ->
-        let renderCam = OrbitalCamera.renderCamera camera widthScale
+        let renderCam = cameraRender widthScale
         
         Matrix4.Identity |> Vertexor.renderVertexor square renderCam
         

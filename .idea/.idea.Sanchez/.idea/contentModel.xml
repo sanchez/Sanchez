@@ -26,6 +26,23 @@
         <e p="Sanchez.Data.fsproj" t="IncludeRecursive" />
         <e p="Scheduler.fs" t="Include" />
       </e>
+      <e p="Sanchez.FunCAD" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Library.fs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Primitive" t="Include">
+          <e p="Box.fs" t="Include" />
+          <e p="Point.fs" t="Include" />
+        </e>
+        <e p="Sanchez.FunCAD.fsproj" t="IncludeRecursive" />
+        <e p="Scene.fs" t="Include" />
+      </e>
+      <e p="Sanchez.FunCAD.Console" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Program.fs" t="Include" />
+        <e p="Sanchez.FunCAD.Console.fsproj" t="IncludeRecursive" />
+      </e>
       <e p="Sanchez.Serializer" t="IncludeRecursive">
         <e p="Sanchez.Serializer.fsproj" t="IncludeRecursive" />
       </e>
@@ -51,12 +68,15 @@
       <e p="Sanchez.ThreeWin" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Camera.fs" t="Include" />
+        <e p="ControlledOrbitalCamera.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="OrbitalCamera.fs" t="Include" />
         <e p="Sanchez.ThreeWin.fsproj" t="IncludeRecursive" />
         <e p="Shaders" t="Include">
           <e p="simpleColor.frag" t="Include" />
           <e p="simpleColor.vert" t="Include" />
+          <e p="simplePoint.frag" t="Include" />
+          <e p="simplePoint.vert" t="Include" />
           <e p="simpleTexture.frag" t="Include" />
           <e p="simpleTexture.vert" t="Include" />
           <e p="staticBackgroundOverlay.frag" t="Include" />
