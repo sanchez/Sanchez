@@ -30,7 +30,7 @@ let loadSquare shaders =
         ]
     let squareColorizer _ = Color.Gray
         
-    Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
+    Vertexor.createColoredObject shaders ShaderSimple squareColorizer squareVectors squareIndices
     
 let loadCube shaders =
     let squareVectors =
@@ -61,7 +61,7 @@ let loadCube shaders =
         | (_, 0.5f) -> Color.Green
         | _ -> Color.Blue
         
-    Vertexor.createColoredObject shaders squareColorizer squareVectors squareIndices
+    Vertexor.createColoredObject shaders ShaderSimple squareColorizer squareVectors squareIndices
     |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(0.f, 0.5f, 0.f))
     
 let loadPlayer shaders =
@@ -81,7 +81,7 @@ let loadPlayer shaders =
     
     let onHeadUpdate () = leftHead
         
-    Vertexor.createTexturedObject shaders playerVectors playerIndices onHeadUpdate
+    Vertexor.createTexturedObject shaders ShaderSimple playerVectors playerIndices onHeadUpdate
     |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(3.f, 0.5f, 0.f))
     
 let loadBackground shaders =

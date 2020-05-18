@@ -37,6 +37,8 @@
         <Content Include="Shaders\simplePoint.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Shaders\outlineColor.vert" />
+        <Content Include="Shaders\outlineColor.frag" />
     </ItemGroup>
 
     <ItemGroup>

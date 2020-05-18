@@ -41,6 +41,7 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
         GL.Enable(EnableCap.Blend)
         GL.Enable(EnableCap.DepthTest)
         GL.Enable(EnableCap.VertexProgramPointSize)
+        GL.Enable(EnableCap.StencilTest)
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha)
         GL.ClearColor(clearColor)
         userLoadCB()
@@ -94,7 +95,7 @@ type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: C
     let mutable userRenderCB = fun (widthScale: float32) -> ()
     let onRender (args: FrameEventArgs) =
         let widthScale = getWidthScale()
-        GL.Clear(ClearBufferMask.ColorBufferBit ||| ClearBufferMask.DepthBufferBit)
+        GL.Clear(ClearBufferMask.ColorBufferBit ||| ClearBufferMask.DepthBufferBit ||| ClearBufferMask.StencilBufferBit)
         GL.Disable(EnableCap.DepthTest)
         widthScale |> userBackgroundRender
         GL.Enable(EnableCap.DepthTest)

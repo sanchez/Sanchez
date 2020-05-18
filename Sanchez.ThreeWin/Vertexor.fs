@@ -7,6 +7,11 @@ open Sanchez.Data.Positional
 
 type Vertexor = Vertexor of (int * (RenderedCamera -> Matrix4 -> unit))
 
+type ShaderTypes =
+    | ShaderCustom of string
+    | ShaderSimple
+    | ShaderOutline
+
 module Vertexor =
     let createEmpty () =
         (0, fun _ _ -> ()) |> Vertexor
@@ -80,7 +85,7 @@ module Vertexor =
             GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0)
         (vertexArrayId, render) |> Vertexor
     
-    let createColoredObject (ShaderMap shaders) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
+    let createColoredObject (ShaderMap shaders) (shaderType: ShaderTypes) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) (indiceMap: (int * int * int) list) =
         let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)
         let vertices =
             vectors
@@ -100,7 +105,11 @@ module Vertexor =
             
         let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
             
-        let shader = shaders |> Map.find "simpleColor"
+        let shader =
+            (match shaderType with
+            | ShaderCustom s -> s
+            | ShaderSimple -> "simpleColor"
+            |> Map.find) shaders
         let positionLocation = Shaders.getAttributeLocation shader "aPos"
         let colorLocation = Shaders.getAttributeLocation shader "aColor"
         let transformLocation = Shaders.getUniformLocation shader "transform"
@@ -124,7 +133,7 @@ module Vertexor =
             
         (vertexArrayId, render) |> Vertexor
         
-    let createTexturedObject (ShaderMap shaders) (vectors: (Vector<float32> * PointVector<float32>) list) (indiceMap: (int * int * int) list) (onUpdate: unit -> LoadedTexture) =
+    let createTexturedObject (ShaderMap shaders) (shaderType: ShaderTypes) (vectors: (Vector<float32> * PointVector<float32>) list) (indiceMap: (int * int * int) list) (onUpdate: unit -> LoadedTexture) =
         let vertices =
             vectors
             |> Seq.map (fun (x, texCoord) ->
@@ -142,7 +151,11 @@ module Vertexor =
             
         let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
             
-        let shader = shaders |> Map.find "simpleTexture"
+        let shader =
+            (match shaderType with
+             | ShaderCustom s -> s
+             | ShaderSimple -> "simpleTexture"
+             |> Map.find) shaders
         let positionLocation = Shaders.getAttributeLocation shader "aPos"
         let textureLocation = Shaders.getAttributeLocation shader "aTexCoord"
         let transformLocation = Shaders.getUniformLocation shader "transform"

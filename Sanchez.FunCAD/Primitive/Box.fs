@@ -48,5 +48,5 @@ module Box =
         
         let pos = box.Position |> Vector.map float32
         
-        Vertexor.createColoredObject shaders boxColorizer boxVerts boxIndices
+        Vertexor.createColoredObject shaders ShaderSimple boxColorizer boxVerts boxIndices
         |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(pos.X, pos.Y, pos.Z))

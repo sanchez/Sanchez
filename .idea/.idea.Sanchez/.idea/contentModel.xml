@@ -73,6 +73,8 @@
         <e p="OrbitalCamera.fs" t="Include" />
         <e p="Sanchez.ThreeWin.fsproj" t="IncludeRecursive" />
         <e p="Shaders" t="Include">
+          <e p="outlineColor.frag" t="Include" />
+          <e p="outlineColor.vert" t="Include" />
           <e p="simpleColor.frag" t="Include" />
           <e p="simpleColor.vert" t="Include" />
           <e p="simplePoint.frag" t="Include" />
