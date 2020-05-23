@@ -9,11 +9,11 @@ open Sanchez.FunCAD.Primitive
 let generateGeometry shaderMap (scene: Scene) =
     
     let centerPoint =
-        Point.create 0. 0. 0.
+        Point.create 0m<mm> 0m<mm> 0m<mm>
         |> Point.rasterize shaderMap Color.MediumVioletRed 4.f
     
     let centerBox =
-        Box.create (Vector.create 0. 0. 0.) 1. 1. 1.
+        Box.create (Vector.create 0m<mm> 0m<mm> 0m<mm>) 1m<mm> 1m<mm> 1m<mm>
         |> Box.rasterize shaderMap Color.Firebrick
         
     scene

@@ -2,10 +2,11 @@
 
 open Sanchez.Data.Positional
 open Sanchez.ThreeWin
+open Sanchez.FunCAD
 
 type Point =
     {
-        Position: Vector<float>
+        Position: Vector<decimal<mm>>
     }
 
 module Point =
@@ -19,7 +20,7 @@ module Point =
             [
                 point.Position
             ]
-            |> List.map (Vector.map float32)
+            |> List.map (Vector.map (decimal >> float32))
         let pointColorize _ = color
         let pointSize _ = size
             

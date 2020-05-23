@@ -29,6 +29,7 @@
       <e p="Sanchez.FunCAD" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Library.fs" t="Include" />
+        <e p="Measurements.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Primitive" t="Include">
           <e p="Box.fs" t="Include" />

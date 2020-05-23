@@ -3,11 +3,12 @@
 open OpenToolkit.Mathematics
 open Sanchez.Data.Positional
 open Sanchez.ThreeWin
+open Sanchez.FunCAD
 
 type Box =
     {
-        Position: Vector<float>
-        Size: Vector<float>
+        Position: Vector<decimal<mm>>
+        Size: Vector<decimal<mm>>
     }
     
 module Box =
@@ -18,9 +19,9 @@ module Box =
         }
         
     let rasterize shaders color (box: Box) =
-        let halfWidth = Vector.create (box.Size.X / 2.) 0. 0.
-        let halfHeight = Vector.create 0. (box.Size.Y / 2.) 0.
-        let halfDepth = Vector.create 0. 0. (box.Size.Z / 2.)
+        let halfWidth = Vector.create (box.Size.X / 2m) 0m<mm> 0m<mm>
+        let halfHeight = Vector.create 0m<mm> (box.Size.Y / 2m) 0m<mm>
+        let halfDepth = Vector.create 0m<mm> 0m<mm> (box.Size.Z / 2m)
         
         let boxVerts =
             [
@@ -34,7 +35,7 @@ module Box =
                 halfWidth + halfHeight + halfDepth; // back top right
                 - halfWidth + halfHeight + halfDepth; // back top left
             ]
-            |> List.map (Vector.map float32)
+            |> List.map (Vector.map (decimal >> float32))
         let boxIndices =
             [
                 (0, 1, 2); (0, 3, 2)   // front face
@@ -46,7 +47,7 @@ module Box =
             ]
         let boxColorizer _ = color
         
-        let pos = box.Position |> Vector.map float32
+        let pos = box.Position |> Vector.map (decimal >> float32)
         
         Vertexor.createColoredObject shaders ShaderSimple boxColorizer boxVerts boxIndices
         |> Vertexor.applyStaticTransformation (Matrix4.CreateTranslation(pos.X, pos.Y, pos.Z))
