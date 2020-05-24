@@ -219,8 +219,51 @@ module Vertexor =
             GL.UniformMatrix4(viewLocation, true, ref cam.View)
             GL.UniformMatrix4(projectionLocation, true, ref cam.Projection)
             
-            GL.DrawArrays(PrimitiveType.Points, 0, vertices.Length)
+            GL.DrawArrays(PrimitiveType.Points, 0, indices.Length)
 //            GL.DrawElements(PrimitiveType.Points, vertices.Length, DrawElementsType.UnsignedInt, 0)
         
+        (vertexArrayId, render) |> Vertexor
+        
+    let createColoredLine (ShaderMap shaders) (colorLookup: Vector<float32> -> Color) (vectors: Vector<float32> list) =
+        let colorToFloats (c: Color) = ((c.R |> float32) / 255.f, (c.G |> float32) / 255.f, (c.B |> float32) / 255.f)
+        let vertices =
+            vectors
+            |> Seq.map (fun x ->
+                let (r, g, b) = x |> colorLookup |> colorToFloats
+                let pSize = 1.f
+                [| x.X; x.Y; x.Z; r; g; b; pSize |])
+            |> Seq.fold (Array.append) [||]
+        let indices =
+            Array.create (vectors.Length) (0 |> uint32)
+            |> Array.mapi (fun i _ -> uint32 i)
+            
+        let (vertexArrayId, _, _) = generateArrayAndElementArrayBuffers vertices indices
+        
+        let shader = shaders |> Map.find "simplePoint"
+        let positionLocation = Shaders.getAttributeLocation shader "aPos"
+        let colorLocation = Shaders.getAttributeLocation shader "aColor"
+        let pointSizeLocation = Shaders.getAttributeLocation shader "aPointSize"
+        let transformLocation = Shaders.getUniformLocation shader "transform"
+        let viewLocation = Shaders.getUniformLocation shader "view"
+        let projectionLocation = Shaders.getUniformLocation shader "projection"
+        
+        GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 7 * sizeof<float32>, 0)
+        GL.EnableVertexAttribArray(positionLocation)
+        
+        GL.VertexAttribPointer(colorLocation, 3, VertexAttribPointerType.Float, false, 7 * sizeof<float32>, 3 * sizeof<float32>)
+        GL.EnableVertexAttribArray(colorLocation)
+        
+        GL.VertexAttribPointer(pointSizeLocation, 1, VertexAttribPointerType.Float, false, 7 * sizeof<float32>, 6 * sizeof<float32>)
+        GL.EnableVertexAttribArray(pointSizeLocation)
+        
+        let render (cam: RenderedCamera) (mat: Matrix4) =
+            Shaders.useShader shader
+            GL.BindVertexArray vertexArrayId
+            GL.UniformMatrix4(transformLocation, true, ref mat)
+            GL.UniformMatrix4(viewLocation, true, ref cam.View)
+            GL.UniformMatrix4(projectionLocation, true, ref cam.Projection)
+            
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, indices.Length)
+            
         (vertexArrayId, render) |> Vertexor
             

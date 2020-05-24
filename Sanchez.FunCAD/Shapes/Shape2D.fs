@@ -15,7 +15,14 @@ module Shape2D =
             Shape2D.Points = points
         }
         
-    let rasterize shaders colorizer sizer (s: Shape2D) =
+    let rasterize shaders colorizer (s: Shape2D) =
+        s.Points
+        |> List.map (fun x ->
+            Vector.create x.X 0m<mm> x.Y
+            |> Vector.map (decimal >> float32))
+        |> Vertexor.createColoredLine shaders colorizer
+        
+    let rasterizePoints shaders colorizer sizer (s: Shape2D) =
         s.Points
         |> List.map (fun x ->
             Vector.create x.X 0m<mm> x.Y

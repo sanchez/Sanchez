@@ -21,8 +21,14 @@ module Curve =
         seq { s .. stepSize .. e }
         |> Seq.map curve.DescribedBy
         
-    let inline rasterize shaders colorizer sizer stepSize (c: Curve<_>) =
+    let inline rasterize shaders colorizer stepSize (c: Curve<_>) =
         resolve stepSize c
         |> Seq.map (Vector.map (decimal >> float32))
+        |> Seq.toList
+        |> Vertexor.createColoredLine shaders colorizer
+        
+    let inline rasterizePoints shaders colorizer sizer stepSize (c: Curve<_>) =
+        resolve stepSize c
+        |> Seq.map (Vector.map (decimal>> float32))
         |> Seq.toList
         |> Vertexor.createColoredVertices shaders colorizer sizer

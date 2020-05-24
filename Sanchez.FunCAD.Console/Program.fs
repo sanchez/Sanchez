@@ -21,7 +21,7 @@ let generatePipe shaderMap =
         |> Seq.toList
         |> Shape2D.create
         
-    let rastShape = Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) (fun _ -> 1.f) shape
+    let rastShape = Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) shape
     
     scene
     |> Scene.addToScene rastShape
@@ -41,8 +41,8 @@ let generateCurve shaderMap =
     let arc =
         Curve.create arcCreator 0.<rads> (Math.PI * 1.<rads> / 2.)
     
-    let simpleArc = Curve.rasterize shaderMap colorizer sizer 0.1<rads> arc
-    let advancedArc = Curve.rasterize shaderMap (fun _ -> Color.SkyBlue) (fun _ -> 1.f) 0.01<rads> arc
+    let simpleArc = Curve.rasterize shaderMap colorizer 0.1<rads> arc
+    let advancedArc = Curve.rasterize shaderMap (fun _ -> Color.SkyBlue) 0.01<rads> arc
     
     
     scene
@@ -60,7 +60,7 @@ let generateGeometry shaderMap (scene: Scene) =
         |> Box.rasterize shaderMap Color.Firebrick
         
     scene
-    |> Scene.addToScene centerPoint
+//    |> Scene.addToScene centerPoint
     |> Scene.addToScene centerBox
     |> Scene.addChildScene (generateCurve shaderMap)
     |> Scene.addChildScene (generatePipe shaderMap)

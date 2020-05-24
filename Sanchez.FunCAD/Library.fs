@@ -16,7 +16,7 @@ module FunCAD =
         
         use win = ThreeWin.createWindow<FunCADKeys> title 800 600 Color.White cToken
         
-        let (cameraUpdate, cameraRender, _) = ControlledOrbitalCamera.create 1. 4.f win
+        let (cameraUpdate, cameraRender, _) = ControlledOrbitalCamera.create 2. 4.f win
         
         let scene = Scene.create()
         

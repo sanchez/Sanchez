@@ -23,8 +23,8 @@ type ThreeWinMouseButton =
 
 type ThreeWin<'TKey when 'TKey : comparison>(title, width, height, clearColor: Color) =
     let windowSettings = GameWindowSettings.Default
-    do windowSettings.RenderFrequency <- 60.
-    do windowSettings.UpdateFrequency <- 60.
+    do windowSettings.RenderFrequency <- 165.
+    do windowSettings.UpdateFrequency <- 165.
     
     let nativeSettings = NativeWindowSettings.Default
     do nativeSettings.Flags <- ContextFlags.ForwardCompatible
