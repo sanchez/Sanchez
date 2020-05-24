@@ -15,6 +15,13 @@ module Curve =
     let create f s e =
         { Curve.DescribedBy = f; Starting = s; Ending = e }
         
+    let offsetCurve v (c: Curve<_>) =
+        {
+            Curve.DescribedBy = (fun t -> (c.DescribedBy t) + v)
+            Starting = c.Starting
+            Ending = c.Ending
+        }
+        
     let inline resolve stepSize curve =
         let s = curve.Starting
         let e = curve.Ending

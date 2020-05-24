@@ -41,8 +41,11 @@ let generateCurve shaderMap =
     let arc =
         Curve.create arcCreator 0.<rads> (Math.PI * 1.<rads> / 2.)
     
-    let simpleArc = Curve.rasterize shaderMap colorizer 0.1<rads> arc
-    let advancedArc = Curve.rasterize shaderMap (fun _ -> Color.SkyBlue) 0.01<rads> arc
+    let simpleArc = Curve.rasterize shaderMap colorizer 0.2<rads> arc
+    let advancedArc =
+        arc
+        |> Curve.offsetCurve (Vector.create 0m<mm> 1m<mm> 0m<mm>)
+        |> Curve.rasterize shaderMap (fun _ -> Color.SkyBlue) 0.01<rads>
     
     
     scene
