@@ -39,6 +39,7 @@
         <e p="Scene.fs" t="Include" />
         <e p="Shapes" t="Include">
           <e p="Curve.fs" t="Include" />
+          <e p="Shape2D.fs" t="Include" />
         </e>
       </e>
       <e p="Sanchez.FunCAD.Console" t="IncludeRecursive">

@@ -7,6 +7,25 @@ open Sanchez.FunCAD
 open Sanchez.FunCAD.Primitive
 open Sanchez.FunCAD.Shapes
 
+let generatePipe shaderMap =
+    let scene = Scene.create()
+    
+    let pipeRadius = 10.<mm>
+    let shape =
+        seq { 0. .. 0.1 .. (Math.PI * 2.) }
+        |> Seq.map (fun t ->
+            let x = pipeRadius * Math.Sin t
+            let y = pipeRadius * Math.Cos t
+            PointVector.create x y
+            |> PointVector.map (decimal >> (*) 1m<mm>))
+        |> Seq.toList
+        |> Shape2D.create
+        
+    let rastShape = Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) (fun _ -> 1.f) shape
+    
+    scene
+    |> Scene.addToScene rastShape
+
 let generateCurve shaderMap =
     let scene = Scene.create()
     let dist = 3.
@@ -44,6 +63,7 @@ let generateGeometry shaderMap (scene: Scene) =
     |> Scene.addToScene centerPoint
     |> Scene.addToScene centerBox
     |> Scene.addChildScene (generateCurve shaderMap)
+    |> Scene.addChildScene (generatePipe shaderMap)
     |> ignore
 
 [<EntryPoint>]
