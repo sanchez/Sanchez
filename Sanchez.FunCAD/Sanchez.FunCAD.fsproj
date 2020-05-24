@@ -8,6 +8,7 @@
         <Compile Include="Measurements.fs" />
         <Compile Include="Scene.fs" />
         <Compile Include="Library.fs" />
+        <Compile Include="Shapes\Curve.fs" />
         <Compile Include="Primitive\Box.fs" />
         <Compile Include="Primitive\Point.fs" />
     </ItemGroup>

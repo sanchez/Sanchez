@@ -3,9 +3,12 @@
 open OpenToolkit.Mathematics
 open Sanchez.ThreeWin
 
-type Scene =
+type SceneObjects =
+    | SceneObject of Vertexor
+    | SceneGroup of Scene
+and Scene =
     {
-        mutable SceneObjects: Vertexor list
+        mutable SceneObjects: SceneObjects list
     }
     
 module Scene =
@@ -13,10 +16,15 @@ module Scene =
         { Scene.SceneObjects = [] }
         
     let addToScene a scene =
-        scene.SceneObjects <- a::scene.SceneObjects
+        scene.SceneObjects <- (a |> SceneObject)::scene.SceneObjects
         scene
         
-    let renderScene renderedCam scene =
+    let addChildScene a scene =
+        scene.SceneObjects <- (a |> SceneGroup)::scene.SceneObjects
+        scene
+        
+    let rec renderScene renderedCam scene =
         scene.SceneObjects
-        |> List.iter (fun x ->
-            Vertexor.renderVertexor x renderedCam Matrix4.Identity)
+        |> List.iter (function
+            | SceneObject x -> Vertexor.renderVertexor x renderedCam Matrix4.Identity
+            | SceneGroup scene -> renderScene renderedCam scene)
