@@ -17,6 +17,10 @@ module Plane =
             Normal = r +* s
         }
         
+    let projectToPlane (pt: PointVector<float>) (pl: Plane<float>) =
+        let mapped = (Vector.create pt.X pt.Y 0.) +* pl.Normal
+        mapped + pl.BasePoint
+        
     let pointOnPlane (origin: Vector<float32>) (dir: Vector<float32>) (pl: Plane<float32>) =
         let normDir = dir |> Vector.map float |> Vector.normalize |> Vector.map float32
         let diff = normDir .* pl.Normal

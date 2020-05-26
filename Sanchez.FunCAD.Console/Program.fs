@@ -10,9 +10,9 @@ open Sanchez.FunCAD.Shapes
 let generatePipe shaderMap =
     let scene = Scene.create()
     
-    let pipeRadius = 10.<mm>
+    let pipeRadius = 0.3<mm>
     let shape =
-        seq { 0. .. 0.1 .. (Math.PI * 2.) }
+        Seq.append (seq { 0. .. 0.5 .. (Math.PI * 2.) }) (seq { yield (Math.PI * 2.) })
         |> Seq.map (fun t ->
             let x = pipeRadius * Math.Sin t
             let y = pipeRadius * Math.Cos t
@@ -21,10 +21,23 @@ let generatePipe shaderMap =
         |> Seq.toList
         |> Shape2D.create
         
-    let rastShape = Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) shape
-    
+    let pipeCreator (t: float<mm>) =
+        let x = Math.Sin(t |> float)
+        let y = 0.
+        let z = t |> float
+        Vector.create x y z
+        |> Vector.map (decimal >> ((*) 1m<mm>))
+        
+    let pipe =
+        Curve.create pipeCreator 0.<mm> 50.<mm>
+        |> Curve.resolve 0.2<mm>
+        |> Seq.toArray
+        |> Shape2D.extrudeAlongPoints shape
+        |> Shape3D.create
+        
     scene
-    |> Scene.addToScene rastShape
+    |> Scene.addToScene (Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) shape)
+    |> Scene.addToScene (Shape3D.rasterize shaderMap (fun _ -> Color.Chocolate) pipe)
 
 let generateCurve shaderMap =
     let scene = Scene.create()
