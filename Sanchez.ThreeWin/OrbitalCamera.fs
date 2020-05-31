@@ -29,7 +29,7 @@ module OrbitalCamera =
     let eyePosition (cam: OrbitalCamera) = cam.Position + cam.EyeOffset
         
     let renderCamera (cam: OrbitalCamera) widthScale =
-        let projection = Matrix4.CreatePerspectiveFieldOfView(System.Math.PI / 4. |> float32, widthScale, 0.1f, 100.f)
+        let projection = Matrix4.CreatePerspectiveFieldOfView(System.Math.PI / 4. |> float32, widthScale, 0.1f, 10000.f)
         let lookingAt = cam.Position
         let eyePosition = cam.Position + cam.EyeOffset
         let view = Matrix4.LookAt(

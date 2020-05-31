@@ -40,6 +40,7 @@
         <e p="Shapes" t="Include">
           <e p="Curve.fs" t="Include" />
           <e p="Line3D.fs" t="Include" />
+          <e p="Plane3D.fs" t="Include" />
           <e p="Shape2D.fs" t="Include" />
           <e p="Shape3D.fs" t="Include" />
         </e>

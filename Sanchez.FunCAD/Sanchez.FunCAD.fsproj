@@ -12,6 +12,7 @@
         <Compile Include="Shapes\Shape2D.fs" />
         <Compile Include="Shapes\Shape3D.fs" />
         <Compile Include="Shapes\Line3D.fs" />
+        <Compile Include="Shapes\Plane3D.fs" />
         <Compile Include="Primitive\Box.fs" />
         <Compile Include="Primitive\Point.fs" />
     </ItemGroup>

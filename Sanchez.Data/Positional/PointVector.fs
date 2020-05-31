@@ -26,3 +26,8 @@ module PointVector =
         
     let map f (a: PointVector<_>) =
         { PointVector.X = f a.X; Y = f a.Y }
+        
+[<AutoOpen>]
+module PointVectorHelpers =
+    let (|PointVectorTuple|) pv =
+        (pv.X, pv.Y)

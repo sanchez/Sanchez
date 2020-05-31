@@ -7,6 +7,20 @@ open Sanchez.FunCAD
 open Sanchez.FunCAD.Primitive
 open Sanchez.FunCAD.Shapes
 
+let generateLandForm shaderMap =
+    let scene = Scene.create()
+    
+    let planeCreator (PointVectorTuple (x, y)) =
+        Math.Sin((x |> decimal |> float) / 3.) * Math.Cos((y |> decimal |> float) / 3.)
+        |> decimal
+        |> (*) 2m<mm>
+        
+    let plane =
+        Plane3D.create planeCreator (PointVector.create -10m<mm> -10m<mm>) (PointVector.create 10m<mm> 10m<mm>)
+    
+    scene
+    |> Scene.addToScene (Plane3D.rasterize shaderMap (fun _ -> Color.Chartreuse) 1m<mm> plane)
+
 let generatePipe shaderMap =
     let scene = Scene.create()
     
@@ -78,13 +92,14 @@ let generateGeometry shaderMap (scene: Scene) =
     scene
 //    |> Scene.addToScene centerPoint
     |> Scene.addToScene centerBox
-    |> Scene.addChildScene (generateCurve shaderMap)
-    |> Scene.addChildScene (generatePipe shaderMap)
+    |> Scene.addChildScene (generateLandForm shaderMap)
+//    |> Scene.addChildScene (generateCurve shaderMap)
+//    |> Scene.addChildScene (generatePipe shaderMap)
     |> ignore
 
 [<EntryPoint>]
 let main _ =
-    
-    FunCAD.initialize "FunCAD Demo" generateGeometry
+    let cameraPos = Vector.create 100.f 100.f 100.f
+    FunCAD.initialize "FunCAD Demo" cameraPos generateGeometry
     
     0 // return an integer exit code

@@ -10,13 +10,15 @@ type FunCADKeys =
     | Escape
 
 module FunCAD =
-    let initialize title onLoad =
+    let initialize title initialCamPos onLoad =
         let cTokenSource = new CancellationTokenSource()
         let cToken = cTokenSource.Token
         
         use win = ThreeWin.createWindow<FunCADKeys> title 800 600 Color.White cToken
         
-        let (cameraUpdate, cameraRender, _) = ControlledOrbitalCamera.create 2. 4.f win
+        let (cameraUpdate, cameraRender, cam) = ControlledOrbitalCamera.create 2. 4.f win
+        
+        OrbitalCamera.setEyeOffset initialCamPos cam |> ignore
         
         let scene = Scene.create()
         
