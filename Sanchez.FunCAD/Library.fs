@@ -43,9 +43,10 @@ module FunCAD =
         win.SetOnUpdate(fun timeElapsed ->
             cameraUpdate timeElapsed)
         
+        let emptyLightManager = LightManager.create()
         win.SetBackgroundRender(fun widthScale ->
             let renderCam = cameraRender widthScale
-            Matrix4.Identity |> Vertexor.renderVertexor background renderCam)
+            Matrix4.Identity |> Vertexor.renderVertexor background emptyLightManager renderCam)
         
         win.SetOnRender(fun widthScale ->
             let renderCam = cameraRender widthScale

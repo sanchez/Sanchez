@@ -40,6 +40,7 @@ module OrbitalCamera =
         
         {
             RenderedCamera.Projection = projection
+            Position = eyePosition
             View = view
         }
         

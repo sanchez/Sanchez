@@ -13,6 +13,7 @@ type Camera =
 
 type RenderedCamera =
     {
+        Position: Vector<float32>
         Projection: Matrix4
         View: Matrix4
     }
@@ -43,5 +44,6 @@ module Camera =
         
         {
             RenderedCamera.Projection = projection
+            Position = cam.Position
             View = view
         }

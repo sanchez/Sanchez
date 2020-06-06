@@ -77,6 +77,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Camera.fs" t="Include" />
         <e p="ControlledOrbitalCamera.fs" t="Include" />
+        <e p="LightManager.fs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="OrbitalCamera.fs" t="Include" />
         <e p="Sanchez.ThreeWin.fsproj" t="IncludeRecursive" />

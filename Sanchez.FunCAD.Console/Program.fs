@@ -6,6 +6,11 @@ open Sanchez.Data.Positional
 open Sanchez.FunCAD
 open Sanchez.FunCAD.Primitive
 open Sanchez.FunCAD.Shapes
+open Sanchez.ThreeWin
+
+let genericLight pos =
+    (pos, LightCurve.create 0.1f 0.1f 0.2f, LightColor.create Color.White Color.White Color.White)
+    |> PointLight
 
 let generateLandForm shaderMap =
     let scene = Scene.create()
@@ -20,6 +25,7 @@ let generateLandForm shaderMap =
     
     scene
     |> Scene.addToScene (Plane3D.rasterize shaderMap (fun _ -> Color.Chartreuse) 1m<mm> plane)
+    |> Scene.addLight (genericLight (Vector.create 0.f 10.f 0.f))
 
 let generatePipe shaderMap =
     let scene = Scene.create()
@@ -52,6 +58,7 @@ let generatePipe shaderMap =
     scene
     |> Scene.addToScene (Shape2D.rasterize shaderMap (fun _ -> Color.Crimson) shape)
     |> Scene.addToScene (Shape3D.rasterize shaderMap (fun _ -> Color.Chocolate) pipe)
+    |> Scene.addLight (genericLight (Vector.create 0.f 10.f 0.f))
 
 let generateCurve shaderMap =
     let scene = Scene.create()
@@ -94,7 +101,7 @@ let generateGeometry shaderMap (scene: Scene) =
     |> Scene.addToScene centerBox
     |> Scene.addChildScene (generateLandForm shaderMap)
 //    |> Scene.addChildScene (generateCurve shaderMap)
-//    |> Scene.addChildScene (generatePipe shaderMap)
+    |> Scene.addChildScene (generatePipe shaderMap)
     |> ignore
 
 [<EntryPoint>]

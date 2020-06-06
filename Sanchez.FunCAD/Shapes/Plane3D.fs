@@ -67,13 +67,13 @@ module Plane3D =
         let convertedPoints =
             points
             |> Seq.map (Vector.map (decimal >> float32))
-            |> Seq.toList
+            |> Seq.toArray
         let findPointPos p = Array.findIndex ((=) p) points
         
         let indices =
             faces
             |> Seq.map (fun (a, b, c) ->
                 (a |> findPointPos, b |> findPointPos, c |> findPointPos))
-            |> Seq.toList
+            |> Seq.toArray
             
         Vertexor.createColoredObject shaders ShaderSimple colorizer convertedPoints indices
